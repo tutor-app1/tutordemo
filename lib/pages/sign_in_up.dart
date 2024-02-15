@@ -335,7 +335,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 focusNode: _model
                                                     .emailAddressFocusNode,
                                                 autofocus: true,
-                                                autofillHints: [
+                                                autofillHints: const [
                                                   AutofillHints.email
                                                 ],
                                                 obscureText: false,
@@ -426,7 +426,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     _model.passwordController,
                                                 focusNode:
                                                     _model.passwordFocusNode,
-                                                autofillHints: [
+                                                autofillHints: const [
                                                   AutofillHints.password
                                                 ],
                                                 obscureText:
@@ -528,7 +528,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
-                                          Align(
+                                          /* Align(
                                             alignment:
                                                 const AlignmentDirectional(
                                                     0, 0),
@@ -591,7 +591,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     'buttonOnActionTriggerAnimation']!,
                                               ),
                                             ),
-                                          ),
+                                          ),*/
                                           Theme(
                                             data: ThemeData(
                                               checkboxTheme:
@@ -754,15 +754,12 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   ),
                                                 ),
                                               ),
-                                              Align(
+                                              const Align(
                                                 alignment:
-                                                    const AlignmentDirectional(
-                                                        0, 0),
+                                                    AlignmentDirectional(0, 0),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0, 0, 0, 16),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 0, 16),
                                                   child: Wrap(
                                                     spacing: 16,
                                                     runSpacing: 0,
@@ -778,7 +775,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         VerticalDirection.down,
                                                     clipBehavior: Clip.none,
                                                     children: [
-                                                      Padding(
+                                                      /* Padding(
                                                         padding:
                                                             const EdgeInsetsDirectional
                                                                 .fromSTEB(
@@ -851,7 +848,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                     .primaryBackground,
                                                           ),
                                                         ),
-                                                      ),
+                                                      ),*/
                                                     ],
                                                   ),
                                                 ),
@@ -984,15 +981,12 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   ),
                                                 ),
                                               ),
-                                              Align(
+                                              const Align(
                                                 alignment:
-                                                    const AlignmentDirectional(
-                                                        0, 0),
+                                                    AlignmentDirectional(0, 0),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0, 0, 0, 16),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 0, 16),
                                                   child: Wrap(
                                                     spacing: 16,
                                                     runSpacing: 0,
@@ -1008,7 +1002,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         VerticalDirection.down,
                                                     clipBehavior: Clip.none,
                                                     children: [
-                                                      Padding(
+                                                      /* Padding(
                                                         padding:
                                                             const EdgeInsetsDirectional
                                                                 .fromSTEB(
@@ -1081,7 +1075,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                     .primaryBackground,
                                                           ),
                                                         ),
-                                                      ),
+                                                      ),*/
                                                     ],
                                                   ),
                                                 ),
@@ -1098,7 +1092,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     .passwordCreateController,
                                                 focusNode: _model
                                                     .passwordCreateFocusNode,
-                                                autofillHints: [
+                                                autofillHints: const [
                                                   AutofillHints.password
                                                 ],
                                                 obscureText: !_model
@@ -1309,11 +1303,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
-                                          Align(
+                                          const Align(
                                             alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
+                                                AlignmentDirectional(0, 0),
+                                            /*child: Padding(
                                               padding:
                                                   const EdgeInsetsDirectional
                                                       .fromSTEB(0, 0, 0, 16),
@@ -1386,7 +1379,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       BorderRadius.circular(40),
                                                 ),
                                               ),
-                                            ),
+                                            ),*/
                                           ),
                                         ],
                                       ).animateOnPageLoad(animationsMap[
