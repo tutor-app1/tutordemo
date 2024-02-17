@@ -51,12 +51,14 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
 
   /// Initialization and disposal methods.
 
+  @override
   void initState(BuildContext context) {
     passwordVisibility = false;
     passwordCreateVisibility = false;
     passwordConfirmVisibility = false;
   }
 
+  @override
   void dispose() {
     unfocusNode.dispose();
     emailAddressFocusNode?.dispose();
