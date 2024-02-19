@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "29521760363",
+    "firebase_url": "https://tutor-app-aa096-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tutor-app-aa096",
+    "storage_bucket": "tutor-app-aa096.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29521760363:android:a3d1a8bc67f795972ba12e",
+        "android_client_info": {
+          "package_name": "com.flutterapp.tutorapptrials"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
