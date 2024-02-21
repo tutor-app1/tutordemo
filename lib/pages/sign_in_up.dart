@@ -549,8 +549,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  authManager
-                                                      .prepareAuthEvent();
+                                                  /*authManager
+                                                      .prepareAuthEvent();*/
 
                                                   final user = await authManager
                                                       .signInWithEmail(
@@ -797,8 +797,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                 0, 0, 0, 16),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
-                                                            authManager
-                                                                .prepareAuthEvent();
+                                                            /*authManager
+                                                                .prepareAuthEvent();*/
                                                             final user =
                                                                 await authManager
                                                                     .signInWithGoogle(
@@ -1027,8 +1027,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                 0, 0, 0, 16),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
-                                                            authManager
-                                                                .prepareAuthEvent();
+                                                            /*authManager
+                                                                .prepareAuthEvent();*/
                                                             final user =
                                                                 await authManager
                                                                     .signInWithGoogle(
@@ -1331,8 +1331,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  authManager
-                                                      .prepareAuthEvent();
+                                                  /*authManager
+                                                      .prepareAuthEvent();*/
                                                   if (_model
                                                           .passwordCreateController
                                                           .text !=
