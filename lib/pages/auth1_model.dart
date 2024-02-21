@@ -1,18 +1,19 @@
 /* import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart'; */
-import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'sign_in_up.dart' show Auth1Widget;
-import 'package:flutter/material.dart';
+import '/flutter_flow/flutter_flow_widgets.dart'; 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; */
+import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'sign_in_up.dart' show Auth1Widget;
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Auth1Model extends FlutterFlowModel<Auth1Widget> {
   ///  Local state fields for this page.
@@ -90,6 +91,7 @@ class AuthManager {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
+  // sign in with email and password
   Future<User?> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -109,6 +111,7 @@ class AuthManager {
     }
   }
 
+  // sign in with Google
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
@@ -135,10 +138,12 @@ class AuthManager {
     }
   }
 
+  // sign out
   Future signOut() async {
     await _auth.signOut();
   }
 
+  // create account with email and password
   Future<UserCredential?> createAccountWithEmail(
       String email, String password) async {
     try {
@@ -147,6 +152,17 @@ class AuthManager {
         email: email,
         password: password,
       );
+
+      // Create a new document for the user in Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+        // Add any additional user information here
+        'email': email,
+        // ...
+      });
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -156,7 +172,7 @@ class AuthManager {
       }
       return null;
     } catch (e) {
-      throw AuthException('An unknown error occurred.');
+      throw AuthException(e.toString());
     }
   }
 }

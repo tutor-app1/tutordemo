@@ -1370,21 +1370,28 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     return;
                                                   }
 
-                                                  final user = await authManager
-                                                      .createAccountWithEmail(
-                                                    _model
-                                                        .emailAddressCreateController
-                                                        .text,
-                                                    _model
-                                                        .passwordCreateController
-                                                        .text,
-                                                  );
-                                                  if (user == null) {
-                                                    return;
+                                                  try {
+                                                    final user = await authManager
+                                                        .createAccountWithEmail(
+                                                      _model
+                                                          .emailAddressCreateController
+                                                          .text,
+                                                      _model
+                                                          .passwordCreateController
+                                                          .text,
+                                                    );
+                                                    if (user == null) {
+                                                      return;
+                                                    }
+                                                  } on AuthException catch (e) {
+                                                    // Handle the error here, e.g., show a dialog with the error message
+                                                    print(
+                                                        'Error: ${e.message}');
+                                                    return; // Return here to avoid navigating when an error occurs
                                                   }
 
                                                   Navigator.pushNamed(
-                                                      context, 'landing_page');
+                                                      context, '/landing_page');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
