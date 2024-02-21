@@ -8,13 +8,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 /*import 'firebase_options.dart';*/
 
 import 'auth1_model.dart';
 export 'auth1_model.dart';
+
+AuthManager authManager = AuthManager();
 
 class Auth1Widget extends StatefulWidget {
   const Auth1Widget({super.key});
@@ -26,6 +30,12 @@ class Auth1Widget extends StatefulWidget {
 class _Auth1WidgetState extends State<Auth1Widget>
     with TickerProviderStateMixin {
   late Auth1Model _model;
+
+  Future<User?> prepareAuthEvent() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    return user;
+  }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -530,7 +540,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
-                                          /* Align(
+                                          Align(
                                             alignment:
                                                 const AlignmentDirectional(
                                                     0, 0),
@@ -540,8 +550,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  GoRouter.of(context)
-                                                      .prepareAuthEvent();
+                                                  GoRouter.of(context);
+                                                  prepareAuthEvent();
 
                                                   final user = await authManager
                                                       .signInWithEmail(
@@ -556,8 +566,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     return;
                                                   }
 
-                                                  context.goNamedAuth(
-                                                      'Auth1', context.mounted);
+                                                  // ignore: use_build_context_synchronously
+                                                  Navigator.pushNamed(
+                                                      context, 'auth');
+                                                  ('auth', context.mounted);
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -593,7 +605,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     'buttonOnActionTriggerAnimation']!,
                                               ),
                                             ),
-                                          ),*/
+                                          ),
                                           Theme(
                                             data: ThemeData(
                                               checkboxTheme:
@@ -756,12 +768,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   ),
                                                 ),
                                               ),
-                                              const Align(
+                                              Align(
                                                 alignment:
-                                                    AlignmentDirectional(0, 0),
+                                                    const AlignmentDirectional(
+                                                        0, 0),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 16),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(
+                                                          0, 0, 0, 16),
                                                   child: Wrap(
                                                     spacing: 16,
                                                     runSpacing: 0,
@@ -777,15 +792,16 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         VerticalDirection.down,
                                                     clipBehavior: Clip.none,
                                                     children: [
-                                                      /* Padding(
+                                                      Padding(
                                                         padding:
                                                             const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                 0, 0, 0, 16),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
-                                                            GoRouter.of(context)
-                                                                .prepareAuthEvent();
+                                                            GoRouter.of(
+                                                                context);
+                                                            prepareAuthEvent();
                                                             final user =
                                                                 await authManager
                                                                     .signInWithGoogle(
@@ -794,10 +810,14 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               return;
                                                             }
 
-                                                            context.goNamedAuth(
-                                                                'Auth1',
-                                                                context
-                                                                    .mounted);
+                                                            // ignore: use_build_context_synchronously
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                'auth');
+                                                            (
+                                                              'auth',
+                                                              context.mounted
+                                                            );
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -850,7 +870,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                     .primaryBackground,
                                                           ),
                                                         ),
-                                                      ),*/
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -883,7 +903,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 focusNode: _model
                                                     .emailAddressCreateFocusNode,
                                                 autofocus: true,
-                                                autofillHints: [
+                                                autofillHints: const [
                                                   AutofillHints.email
                                                 ],
                                                 obscureText: false,
@@ -1204,7 +1224,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     .passwordConfirmController,
                                                 focusNode: _model
                                                     .passwordConfirmFocusNode,
-                                                autofillHints: [
+                                                autofillHints: const [
                                                   AutofillHints.password
                                                 ],
                                                 obscureText: !_model
