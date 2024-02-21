@@ -135,6 +135,12 @@ class AuthManager {
       return null;
     }
   }
+
+  Future<User?> prepareAuthEvent() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    return user;
+  }
 }
     
   /// Additional helper methods are added here.
