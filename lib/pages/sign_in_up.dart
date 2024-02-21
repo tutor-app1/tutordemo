@@ -13,6 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 /*import 'firebase_options.dart';*/
 
 import 'auth1_model.dart';
@@ -30,6 +32,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
   late Auth1Model _model;
 
   AuthManager authManager = AuthManager();
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    clientId: 'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0',
+  );
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
