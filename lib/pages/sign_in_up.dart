@@ -552,22 +552,29 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   /*authManager
                                                       .prepareAuthEvent();*/
 
-                                                  final user = await authManager
-                                                      .signInWithEmail(
-                                                    context,
-                                                    _model
-                                                        .emailAddressController
-                                                        .text,
-                                                    _model.passwordController
-                                                        .text,
-                                                  );
-                                                  if (user == null) {
-                                                    return;
+                                                  // signing in with email
+                                                  try {
+                                                    final user =
+                                                        await authManager
+                                                            .signInWithEmail(
+                                                      _model
+                                                          .emailAddressController
+                                                          .text,
+                                                      _model.passwordController
+                                                          .text,
+                                                    );
+                                                    if (user == null) {
+                                                      // Handle the case where the user is null
+                                                      return;
+                                                    }
+                                                  } on AuthException catch (e) {
+                                                    // Handle the error here, e.g., show a dialog with the error message
+                                                    print(e.message);
                                                   }
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, 'landing_page');
+                                                      context, '/landing_page');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -799,12 +806,18 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                           onPressed: () async {
                                                             /*authManager
                                                                 .prepareAuthEvent();*/
-                                                            final user =
-                                                                await authManager
-                                                                    .signInWithGoogle(
-                                                                        context);
-                                                            if (user == null) {
-                                                              return;
+                                                            try {
+                                                              final user =
+                                                                  await authManager
+                                                                      .signInWithGoogle();
+                                                              if (user ==
+                                                                  null) {
+                                                                // Handle the case where the user is null
+                                                                return;
+                                                              }
+                                                            } on AuthException catch (e) {
+                                                              // Handle the error here, e.g., show a dialog with the error message
+                                                              print(e.message);
                                                             }
 
                                                             // ignore: use_build_context_synchronously
@@ -1029,18 +1042,24 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                           onPressed: () async {
                                                             /*authManager
                                                                 .prepareAuthEvent();*/
-                                                            final user =
-                                                                await authManager
-                                                                    .signInWithGoogle(
-                                                                        context);
-                                                            if (user == null) {
-                                                              return;
+                                                            try {
+                                                              final user =
+                                                                  await authManager
+                                                                      .signInWithGoogle();
+                                                              if (user ==
+                                                                  null) {
+                                                                // Handle the case where the user is null
+                                                                return;
+                                                              }
+                                                            } on AuthException catch (e) {
+                                                              // Handle the error here, e.g., show a dialog with the error message
+                                                              print(e.message);
                                                             }
 
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                'landing_page');
+                                                                '/landing_page');
                                                           },
                                                           text:
                                                               'Continue with Google',

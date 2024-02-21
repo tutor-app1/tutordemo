@@ -81,12 +81,16 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
 }
 
 /// Action blocks are added here.
+class AuthException implements Exception {
+  final String message;
+  AuthException(this.message);
+}
+
 class AuthManager {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  Future<User?> signInWithEmail(
-      BuildContext context, String email, String password) async {
+  Future<User?> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -95,20 +99,18 @@ class AuthManager {
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        throw AuthException('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        throw AuthException('Wrong password provided for that user.');
       }
       return null;
     } catch (e) {
-      print(e);
-      return null;
+      throw AuthException('An unknown error occurred.');
     }
   }
 
-  Future<User?> signInWithGoogle(BuildContext context) async {
+  Future<User?> signInWithGoogle() async {
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
       if (googleSignInAccount == null) {
@@ -123,23 +125,18 @@ class AuthManager {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      final FirebaseAuth auth = FirebaseAuth.instance;
       final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      print(e);
-      return null;
+      throw AuthException(e.message ?? 'An unknown error occurred.');
     } catch (e) {
-      print(e);
-      return null;
+      throw AuthException('An unknown error occurred.');
     }
   }
 
-  Future<User?> prepareAuthEvent() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    return user;
+  Future signOut() async {
+    await _auth.signOut();
   }
 
   Future<UserCredential?> createAccountWithEmail(
@@ -153,14 +150,13 @@ class AuthManager {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        throw AuthException('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        throw AuthException('The account already exists for that email.');
       }
       return null;
     } catch (e) {
-      print(e);
-      return null;
+      throw AuthException('An unknown error occurred.');
     }
   }
 }
