@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     projectId: 'tutor-app-aa096',
     databaseURL: 'https://tutor-app-aa096-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'tutor-app-aa096.appspot.com',
+    iosClientId: '29521760363-15dlip3jrn1jpbenobeeqal07f86nna7.apps.googleusercontent.com',
     iosBundleId: 'com.flutterapp.tutorapptrials',
   );
 
@@ -80,6 +81,7 @@ class DefaultFirebaseOptions {
     projectId: 'tutor-app-aa096',
     databaseURL: 'https://tutor-app-aa096-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'tutor-app-aa096.appspot.com',
+    iosClientId: '29521760363-g7qspo1s3lblmaqttobgpamehilmbgu1.apps.googleusercontent.com',
     iosBundleId: 'com.flutterapp.tutorapptrials.RunnerTests',
   );
 }
