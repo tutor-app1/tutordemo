@@ -823,7 +823,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                'landing_page');
+                                                                '/landing_page');
                                                           },
                                                           text:
                                                               'Continue with Google',
