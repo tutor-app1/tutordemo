@@ -689,7 +689,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Design Template Screens',
+                                                  'Integration',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .headlineSmall,
@@ -698,7 +698,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 4, 0, 0),
                                                   child: Text(
-                                                    'Create template screen for task todo app.',
+                                                    'Focusing on integratioion by parts',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelMedium,
@@ -802,7 +802,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Theme Collection',
+                                              'Digestive System',
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .headlineSmall,
@@ -811,7 +811,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 4, 0, 0),
                                               child: Text(
-                                                'Create themes for use by our users.',
+                                                'Having  a look at the enzyme substrate complex',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .labelMedium,
