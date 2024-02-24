@@ -6,8 +6,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-/*import 'firebase_options.dart';*/
-
 import 'auth1_model.dart';
 export 'auth1_model.dart';
 
@@ -565,7 +563,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '/studentUI_page');
+                                                      context, '/tutorui');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
