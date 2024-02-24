@@ -1,15 +1,9 @@
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'tutor_u_i_model.dart';
-export 'tutor_u_i_model.dart';
+import 'tutorui_model.dart';
+export 'tutorui_model.dart';
 
 class TutorUIWidget extends StatefulWidget {
   const TutorUIWidget({super.key});
@@ -158,7 +152,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushNamed('profile');
+                        Navigator.pushNamed(context, '/landing_page');
                       },
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -665,7 +659,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.pushNamed('null');
+                                          Navigator.pushNamed(
+                                              context, '/landing_page');
                                         },
                                         child: Container(
                                           width: double.infinity,
