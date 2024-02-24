@@ -1382,7 +1382,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   }
 
                                                   Navigator.pushNamed(
-                                                      context, '/landing_page');
+                                                      context, '/studentUI_page');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
