@@ -1,11 +1,15 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'landing_page.dart' show Onboarding1Widget;
+import 'studentUI_page.dart' show StudentUIpageWidget;
 import 'package:flutter/material.dart';
 
-class Onboarding1Model extends FlutterFlowModel<Onboarding1Widget> {
+class StudentUIpageModel extends FlutterFlowModel<StudentUIpageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
 
   /// Initialization and disposal methods.
 
@@ -15,6 +19,8 @@ class Onboarding1Model extends FlutterFlowModel<Onboarding1Widget> {
   @override
   void dispose() {
     unfocusNode.dispose();
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
   }
 
   /// Action blocks are added here.

@@ -1,18 +1,9 @@
-/* import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart'; */
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 /*import 'firebase_options.dart';*/
@@ -574,7 +565,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '/landing_page');
+                                                      context, '/studentUI_page');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -823,7 +814,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/landing_page');
+                                                                '/studentUI_page');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -1059,7 +1050,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/landing_page');
+                                                                '/studentUI_page');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -1391,7 +1382,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   }
 
                                                   Navigator.pushNamed(
-                                                      context, '/landing_page');
+                                                      context, '/studentUI_page');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
