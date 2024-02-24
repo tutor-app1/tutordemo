@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/landing_page.dart';
 import 'pages/sign_in_up.dart';
+import 'pages/studentUI_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing_page': (context) => const Onboarding1Widget(),
           '/auth': (context) => const Auth1Widget(),
+          '/studentUI_page': (context) => const StudentUIpageWidget(),
         });
   }
 }
