@@ -90,6 +90,7 @@ class AuthException implements Exception {
 class AuthManager {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // sign in with email and password
   Future<User?> signInWithEmail(String email, String password) async {
@@ -153,28 +154,30 @@ class AuthManager {
         password: password,
       );
 
+      // Check if user creation was successful
+    if (userCredential.user != null) {
       // Create a new document for the user in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set({
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
         // Add any additional user information here
         'email': email,
         // ...
       });
 
       return userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw AuthException('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw AuthException('The account already exists for that email.');
-      }
-      return null;
-    } catch (e) {
-      throw AuthException(e.toString());
+    }  else {
+      throw AuthException('User creation failed.');
     }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      throw AuthException('The password provided is too weak.');
+    } else if (e.code == 'email-already-in-use') {
+      throw AuthException('The account already exists for that email.');
+    }
+    return null;
+  } catch (e) {
+    throw AuthException(e.toString());
   }
+}
 }
     
   /// Additional helper methods are added here.
