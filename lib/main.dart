@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'pages/landing_page.dart';
 import 'pages/sign_in_up.dart';
-import 'pages/studentUI_page.dart';
-import 'pages/tutorui.dart';
+import 'pages/student_UI.dart';
+import 'pages/tutor_UI.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

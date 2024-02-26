@@ -1,5 +1,5 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'studentUI_page.dart' show StudentUIpageWidget;
+import 'student_UI.dart' show StudentUIpageWidget;
 import 'package:flutter/material.dart';
 
 class StudentUIpageModel extends FlutterFlowModel<StudentUIpageWidget> {

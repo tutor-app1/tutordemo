@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
-import 'studentUI_page_model.dart';
-export 'studentUI_page_model.dart';
+import 'student_UI_model.dart';
+export 'student_UI_model.dart';
 
 class StudentUIpageWidget extends StatefulWidget {
   const StudentUIpageWidget({super.key});
