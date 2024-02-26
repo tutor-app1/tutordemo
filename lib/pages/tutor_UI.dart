@@ -2,8 +2,8 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'tutorui_model.dart';
-export 'tutorui_model.dart';
+import 'tutor_UI_model.dart';
+export 'tutor_UI_model.dart';
 
 class TutorUIWidget extends StatefulWidget {
   const TutorUIWidget({super.key});
