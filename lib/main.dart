@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing_page': (context) => const Onboarding1Widget(),
           '/auth': (context) => const Auth1Widget(),
-          '/studentUI_page': (context) => const StudentUIpageWidget(),
-          '/tutorui': (context) => const TutorUIWidget(),
+          '/student_UI': (context) => const StudentUIpageWidget(),
+          '/tutor_UI': (context) => const TutorUIWidget(),
         });
   }
 }

@@ -563,7 +563,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '/tutorui');
+                                                      context, '_/tutor_UI');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -812,7 +812,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/studentUI_page');
+                                                                '/student_UI');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -1048,7 +1048,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/studentUI_page');
+                                                                '/student_UI');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -1380,7 +1380,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   }
 
                                                   Navigator.pushNamed(
-                                                      context, '/studentUI_page');
+                                                      context, '/student_UI');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
