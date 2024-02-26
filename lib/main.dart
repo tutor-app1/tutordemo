@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
           '/auth': (context) => const Auth1Widget(),
           '/student_UI': (context) => const StudentUIpageWidget(),
           '/tutor_UI': (context) => const TutorUIWidget(),
+          // '/student_UI_model': (context) => const StudentUIModelWidget(),
         });
   }
 }

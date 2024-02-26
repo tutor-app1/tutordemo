@@ -61,15 +61,36 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     width: 2,
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    'https://picsum.photos/seed/626/600',
-                    width: 400,
-                    height: 300,
-                    fit: BoxFit.cover,
+                
+                // child: ClipRRect(
+                //   borderRadius: BorderRadius.circular(20),
+                //   child: Image.network(
+                //     'https://picsum.photos/seed/626/600',
+                //     width: 400,
+                //     height: 300,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                //Replaced code
+
+
+                child: InkWell(
+                onTap: () =>
+                  Navigator.pushNamed(context, '/auth'),
+                  //Redirects to /auth since student_UI_model and tutor_UI_model
+                  //have not yet been configured
+              
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      'https://picsum.photos/seed/626/600',
+                      width: 400,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                //Formatting sacrifices were restored
               ),
             ),
             title: Text(
