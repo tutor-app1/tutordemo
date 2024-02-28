@@ -1,16 +1,6 @@
-// import '/flutter_flow/flutter_flow_icon_button.dart';
-// import '/flutter_flow/flutter_flow_theme.dart';
-// import '/flutter_flow/flutter_flow_util.dart';
-// import '/flutter_flow/flutter_flow_widgets.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:provider/provider.dart';
-
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-//import 'package:flutter_animate/flutter_animate.dart';
+// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'tutorprofile_model.dart';
 export 'tutorprofile_model.dart';
@@ -78,7 +68,7 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
@@ -90,7 +80,7 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
+                padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -98,12 +88,13 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
                           child: Text(
                             'Dr. Will Hobbiton',
                             style: FlutterFlowTheme.of(context).headlineMedium,
@@ -113,12 +104,12 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                           'Primary Care, Intentional Medicine',
                           style: FlutterFlowTheme.of(context).bodyMedium,
                         ),
-                        Padding(
+                        const Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0)),
 // rating bar goes here [check btm for code]
                         Align(
-                          alignment: AlignmentDirectional(-1, 0),
+                          alignment: const AlignmentDirectional(-1, 0),
                           child: Text(
                             'EDUCATION',
                             style:
@@ -139,8 +130,9 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 0, 12, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            8, 0, 12, 0),
                                     child: Text(
                                       'M. PHIL',
                                       style: FlutterFlowTheme.of(context)
@@ -170,8 +162,9 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 12, 0, 12),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 12, 0, 12),
                                     child: Icon(
                                       Icons.star_rate,
                                       color:
@@ -180,8 +173,9 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8, 0, 12, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            8, 0, 12, 0),
                                     child: Text(
                                       'REVIEWS',
                                       style: FlutterFlowTheme.of(context)
@@ -199,7 +193,8 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
                             onPressed: () {
                               print('Button pressed ...');
@@ -208,10 +203,10 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                             options: FFButtonOptions(
                               width: double.infinity,
                               height: 48,
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              iconPadding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
@@ -219,7 +214,7 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                                     fontFamily: 'Inter',
                                     color: Colors.white,
                                   ),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.transparent,
                                 width: 1,
                               ),
@@ -228,7 +223,8 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
                             onPressed: () {
                               print('Button pressed ...');
@@ -242,10 +238,10 @@ class _TutorprofileWidgetState extends State<TutorprofileWidget> {
                             options: FFButtonOptions(
                               width: double.infinity,
                               height: 48,
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              iconPadding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                               textStyle: FlutterFlowTheme.of(context).bodyLarge,
