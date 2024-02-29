@@ -1,8 +1,8 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'student_UI.dart' show StudentUIpageWidget;
+import 'student_UI.dart' show StudentUIWidget;
 import 'package:flutter/material.dart';
 
-class StudentUIpageModel extends FlutterFlowModel<StudentUIpageWidget> {
+class StudentUIpageModel extends FlutterFlowModel<StudentUIWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

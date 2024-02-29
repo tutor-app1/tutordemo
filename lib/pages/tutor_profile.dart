@@ -2,25 +2,25 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'tutorprofile_model.dart';
-export 'tutorprofile_model.dart';
+import 'tutor_profile_model.dart';
+export 'tutor_profile_model.dart';
 
-class TutorprofileWidget extends StatefulWidget {
-  const TutorprofileWidget({super.key});
+class TutorProfileWidget extends StatefulWidget {
+  const TutorProfileWidget({super.key});
 
   @override
-  State<TutorprofileWidget> createState() => _TutorprofileWidgetState();
+  State<TutorProfileWidget> createState() => _TutorProfileWidgetState();
 }
 
-class _TutorprofileWidgetState extends State<TutorprofileWidget> {
-  late TutorprofileModel _model;
+class _TutorProfileWidgetState extends State<TutorProfileWidget> {
+  late TutorProfileModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TutorprofileModel());
+    _model = createModel(context, () => TutorProfileModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }

@@ -3,6 +3,7 @@ import 'pages/landing_page.dart';
 import 'pages/sign_in_up.dart';
 import 'pages/student_UI.dart';
 import 'pages/tutor_UI.dart';
+import 'pages/tutor_profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -30,9 +31,11 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing_page': (context) => const Onboarding1Widget(),
           '/auth': (context) => const Auth1Widget(),
-          '/student_UI': (context) => const StudentUIpageWidget(),
+          '/student_UI': (context) => const StudentUIWidget(),
           '/tutor_UI': (context) => const TutorUIWidget(),
-          // '/student_UI_model': (context) => const StudentUIModelWidget(),
+          '/tutor_profile': (context) => const TutorProfileWidget(),
+          //'/student_profile': (context) => const TutorProfileWidget(),
+
         });
   }
 }

@@ -4,14 +4,14 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
 
-class StudentUIpageWidget extends StatefulWidget {
-  const StudentUIpageWidget({super.key});
+class StudentUIWidget extends StatefulWidget {
+  const StudentUIWidget({super.key});
 
   @override
-  State<StudentUIpageWidget> createState() => _StudentUIpageWidgetState();
+  State<StudentUIWidget> createState() => _StudentUIpageWidgetState();
 }
 
-class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
+class _StudentUIpageWidgetState extends State<StudentUIWidget> {
   late StudentUIpageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -74,10 +74,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                 //Replaced code
 
                 child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, '/auth'),
-                  //Redirects to /auth since student_UI_model and tutor_UI_model
-                  //have not yet been configured
-
+                  onTap: () => Navigator.pushNamed(context, '/tutor_profile'),
+                  //Redirects to /tutor_profile by default
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
@@ -88,7 +86,6 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     ),
                   ),
                 ),
-                //Formatting sacrifices were restored
               ),
             ),
             title: Text(

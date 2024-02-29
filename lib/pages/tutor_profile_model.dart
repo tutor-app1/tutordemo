@@ -4,10 +4,10 @@
 // import '/flutter_flow/flutter_flow_widgets.dart';
 
 // old code
-// import 'tutorprofile_widget.dart' show TutorprofileWidget;
+// import 'tutorprofile_widget.dart' show TutorProfileWidget;
 // old code end
 
-import 'tutorprofile.dart' show TutorprofileWidget;
+import 'tutor_profile.dart' show TutorProfileWidget;
 // import 'package:flutter/material.dart';
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 //import 'package:flutter_animate/flutter_animate.dart';
 
-class TutorprofileModel extends FlutterFlowModel<TutorprofileWidget> {
+class TutorProfileModel extends FlutterFlowModel<TutorProfileWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
