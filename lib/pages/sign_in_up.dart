@@ -554,6 +554,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     if (user == null) {
                                                       // Handle the case where the user is null
+                                                      
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
