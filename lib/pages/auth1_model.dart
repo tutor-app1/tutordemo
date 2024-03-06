@@ -26,11 +26,14 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
   bool? checkboxListTileValue1;
   // State field(s) for CheckboxListTile widget.
   bool? checkboxListTileValue2;
+   // State field(s) for username widget.
+  FocusNode? usernameFocusNode;
+  TextEditingController? usernameController;
+  String? Function(BuildContext, String?)? usernameValidator;
   // State field(s) for emailAddress_Create widget.
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateController;
-  String? Function(BuildContext, String?)?
-      emailAddressCreateControllerValidator;
+  String? Function(BuildContext, String?)? emailAddressCreateControllerValidator;
   // State field(s) for password_Create widget.
   FocusNode? passwordCreateFocusNode;
   TextEditingController? passwordCreateController;
@@ -59,6 +62,9 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
 
     passwordFocusNode?.dispose();
     passwordController?.dispose();
+
+    usernameFocusNode?.dispose();
+    usernameController?.dispose();
 
     emailAddressCreateFocusNode?.dispose();
     emailAddressCreateController?.dispose();
@@ -136,7 +142,7 @@ class AuthManager {
 
   // create account with email and password
   Future<UserCredential?> createAccountWithEmail(
-      String email, String password) async {
+      String username, String email, String password) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -149,9 +155,12 @@ class AuthManager {
       // Create a new document for the user in Firestore
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         // Add any additional user information here
+        'username': username,
         'email': email,
         // ...
       });
+
+      // await userCredential.user?.updateDisplayName(username);
 
       return userCredential;
     }  else {
