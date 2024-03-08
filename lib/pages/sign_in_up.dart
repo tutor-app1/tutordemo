@@ -538,9 +538,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  /*authManager
-                                                      .prepareAuthEvent();*/
-
                                                   // signing in with email
                                                   try {
                                                     final user =
@@ -554,17 +551,34 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     if (user == null) {
                                                       // Handle the case where the user is null
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                            content: Text(
+                                                              'Error: User is null',
+                                                            ),
+                                                          ),);
                                                       
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
                                                     // Handle the error here, e.g., show a dialog with the error message
                                                     print(e.message);
+                                                    // snackbar for email sign in error
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
                                                   }
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '_/tutor_UI');
+                                                      context, '/tutor_UI');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -710,7 +724,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () {
-                                                  print('Button pressed ...');
+                                                  print('Button pressed forgot password ...');
                                                 },
                                                 text: 'Forgot Password',
                                                 options: FFButtonOptions(
@@ -808,6 +822,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
                                                               print(e.message);
+                                                              // snackbar for google sign in error
+                                                              ScaffoldMessenger.of(
+                                                                      context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                    content: Text(
+                                                                      'Error: ${e.message}',
+                                                                    ),
+                                                                  ),);
                                                             }
 
                                                             // ignore: use_build_context_synchronously
@@ -1353,6 +1376,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
                                                               print(e.message);
+                                                              // snackbar for google sign in error
+                                                              ScaffoldMessenger.of(
+                                                                  context)
+                                                                  .showSnackBar(
+                                                                  SnackBar(
+                                                                    content: Text(
+                                                                      'Error: ${e.message}',
+                                                                    ),
+                                                                  ),);
                                                             }
 
                                                             // ignore: use_build_context_synchronously
@@ -1466,6 +1498,14 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     // Handle the error here, e.g., show a dialog with the error message
                                                     print(
                                                         'Error: ${e.message}');
+                                                        // snackbar for sign up error
+                                                        ScaffoldMessenger.of(
+                                                            context).showSnackBar( 
+                                                            SnackBar(
+                                                              content: Text(
+                                                                'Error: ${e.message}',
+                                                              ),
+                                                            ),);  
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
 
