@@ -1,13 +1,3 @@
-/* import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart'; 
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart'; */
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'sign_in_up.dart' show Auth1Widget;
 import 'package:flutter/material.dart';
@@ -36,6 +26,10 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
   bool? checkboxListTileValue1;
   // State field(s) for CheckboxListTile widget.
   bool? checkboxListTileValue2;
+  // State field(s) for username widget.
+  FocusNode? usernameFocusNode;
+  TextEditingController? usernameController;
+  String? Function(BuildContext, String?)? usernameValidator;
   // State field(s) for emailAddress_Create widget.
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateController;
@@ -69,6 +63,9 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
 
     passwordFocusNode?.dispose();
     passwordController?.dispose();
+
+    usernameFocusNode?.dispose();
+    usernameController?.dispose();
 
     emailAddressCreateFocusNode?.dispose();
     emailAddressCreateController?.dispose();
@@ -146,7 +143,7 @@ class AuthManager {
 
   // create account with email and password
   Future<UserCredential?> createAccountWithEmail(
-      String email, String password) async {
+      String username, String email, String password) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -159,9 +156,12 @@ class AuthManager {
         // Create a new document for the user in Firestore
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
           // Add any additional user information here
+          'username': username,
           'email': email,
           // ...
         });
+
+        // await userCredential.user?.updateDisplayName(username);
 
         return userCredential;
       } else {
@@ -191,6 +191,5 @@ class AuthManager {
       throw AuthException('An unknown error occurred.');
     }
   }
-}
-    
+}    
   /// Additional helper methods are added here.

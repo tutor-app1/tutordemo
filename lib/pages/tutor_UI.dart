@@ -2,8 +2,8 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'tutorui_model.dart';
-export 'tutorui_model.dart';
+import 'tutor_UI_model.dart';
+export 'tutor_UI_model.dart';
 
 class TutorUIWidget extends StatefulWidget {
   const TutorUIWidget({super.key});
@@ -33,8 +33,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(30, 0),
-          end: Offset(0, 0),
+          begin: const Offset(30, 0),
+          end: const Offset(0, 0),
         ),
       ],
     ),
@@ -52,8 +52,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(50, 0),
-          end: Offset(0, 0),
+          begin: const Offset(50, 0),
+          end: const Offset(0, 0),
         ),
       ],
     ),
@@ -71,8 +71,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 30),
-          end: Offset(0, 0),
+          begin: const Offset(0, 30),
+          end: const Offset(0, 0),
         ),
       ],
     ),
@@ -90,8 +90,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 40),
-          end: Offset(0, 0),
+          begin: const Offset(0, 40),
+          end: const Offset(0, 0),
         ),
       ],
     ),
@@ -142,7 +142,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 44, 16, 12),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 44, 16, 12),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -161,7 +161,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                           borderRadius: BorderRadius.circular(40),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(2),
+                          padding: const EdgeInsets.all(2),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(40),
                             child: Image.network(
@@ -175,7 +175,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +186,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                             style: FlutterFlowTheme.of(context).titleLarge,
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 4, 0, 0),
                             child: Text(
                               'Welcome Tutor name !',
                               style: FlutterFlowTheme.of(context).labelMedium,
@@ -198,13 +200,13 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                 child: Container(
                   width: double.infinity,
                   height: 50,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         blurRadius: 4,
                         color: Color(0x34090F13),
@@ -214,7 +216,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                     child: TextFormField(
                       controller: _model.textController,
                       focusNode: _model.textFieldFocusNode,
@@ -226,8 +228,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                         focusedBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(24, 12, 12, 12),
+                        contentPadding: const EdgeInsetsDirectional.fromSTEB(
+                            24, 12, 12, 12),
                         prefixIcon: Icon(
                           Icons.search_sharp,
                           color: FlutterFlowTheme.of(context).secondaryText,
@@ -241,7 +243,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
                 child: Text(
                   'Subjects \n',
                   style: FlutterFlowTheme.of(context).headlineSmall,
@@ -260,14 +262,15 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                   scrollDirection: Axis.horizontal,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 12, 12, 12),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16, 12, 12, 12),
                       child: Container(
                         width: 230,
                         height: 50,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               blurRadius: 4,
                               color: Color(0x34090F13),
@@ -284,7 +287,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                               height: 140,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).secondary,
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(0),
                                   bottomRight: Radius.circular(0),
                                   topLeft: Radius.circular(12),
@@ -292,7 +295,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
@@ -303,11 +306,12 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                       width: 36,
                                       height: 36,
                                       decoration: BoxDecoration(
-                                        color: Color(0x98FFFFFF),
+                                        color: const Color(0x98FFFFFF),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      alignment: AlignmentDirectional(0, 0),
-                                      child: Icon(
+                                      alignment:
+                                          const AlignmentDirectional(0, 0),
+                                      child: const Icon(
                                         Icons.desktop_windows,
                                         color: Colors.white,
                                         size: 20,
@@ -336,8 +340,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                               ),
                             ),
                             Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 12, 12, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12, 12, 12, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -346,16 +350,17 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   Container(
                                     width: 150,
                                     child: Stack(
-                                      alignment: AlignmentDirectional(-1, 0),
+                                      alignment:
+                                          const AlignmentDirectional(-1, 0),
                                       children: [
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.91, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.91, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -365,13 +370,13 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.62, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.62, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -381,13 +386,13 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.35, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.35, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -400,8 +405,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 8, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 8, 0),
                                     child: Text(
                                       '30%',
                                       style: FlutterFlowTheme.of(context)
@@ -417,14 +423,15 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                           animationsMap['containerOnPageLoadAnimation1']!),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 12, 16, 12),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 12, 16, 12),
                       child: Container(
                         width: 230,
                         height: 50,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               blurRadius: 4,
                               color: Color(0x34090F13),
@@ -441,7 +448,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                               height: 140,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).tertiary,
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(0),
                                   bottomRight: Radius.circular(0),
                                   topLeft: Radius.circular(12),
@@ -449,7 +456,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
@@ -460,11 +467,12 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                       width: 36,
                                       height: 36,
                                       decoration: BoxDecoration(
-                                        color: Color(0x98FFFFFF),
+                                        color: const Color(0x98FFFFFF),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      alignment: AlignmentDirectional(0, 0),
-                                      child: Icon(
+                                      alignment:
+                                          const AlignmentDirectional(0, 0),
+                                      child: const Icon(
                                         Icons.design_services_outlined,
                                         color: Colors.white,
                                         size: 20,
@@ -493,8 +501,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                               ),
                             ),
                             Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 12, 12, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12, 12, 12, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -503,16 +511,17 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   Container(
                                     width: 150,
                                     child: Stack(
-                                      alignment: AlignmentDirectional(-1, 0),
+                                      alignment:
+                                          const AlignmentDirectional(-1, 0),
                                       children: [
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.91, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.91, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -522,13 +531,13 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.62, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.62, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -538,13 +547,13 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.35, 0),
+                                          alignment: const AlignmentDirectional(
+                                              -0.35, 0),
                                           child: Container(
                                             width: 28,
                                             height: 28,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -557,8 +566,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 8, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 8, 0),
                                     child: Text(
                                       '30%',
                                       style: FlutterFlowTheme.of(context)
@@ -577,27 +587,27 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
                 child: Text(
                   'My Classes',
                   style: FlutterFlowTheme.of(context).headlineSmall,
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                 child: Container(
                   width: double.infinity,
                   height: 400,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         blurRadius: 6,
                         color: Color(0x1B090F13),
                         offset: Offset(0, -2),
                       )
                     ],
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(0),
                       bottomRight: Radius.circular(0),
                       topLeft: Radius.circular(16),
@@ -605,22 +615,22 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                     child: Column(
                       children: [
                         Align(
-                          alignment: Alignment(0, 0),
+                          alignment: const Alignment(0, 0),
                           child: TabBar(
                             isScrollable: true,
                             labelColor: FlutterFlowTheme.of(context).primary,
                             unselectedLabelColor:
                                 FlutterFlowTheme.of(context).secondaryText,
                             labelStyle: FlutterFlowTheme.of(context).bodyMedium,
-                            unselectedLabelStyle: TextStyle(),
+                            unselectedLabelStyle: const TextStyle(),
                             indicatorColor:
                                 FlutterFlowTheme.of(context).primary,
                             indicatorWeight: 2,
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 text: 'Today',
                               ),
@@ -642,7 +652,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                             controller: _model.tabBarController,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16, 12, 16, 12),
                                 child: ListView(
                                   padding: EdgeInsets.zero,
@@ -651,8 +661,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   scrollDirection: Axis.vertical,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 12),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 0, 0, 12),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -677,7 +688,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(12),
+                                            padding: const EdgeInsets.all(12),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
@@ -690,8 +701,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                       .headlineSmall,
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 4, 0, 0),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(0, 4, 0, 0),
                                                   child: Text(
                                                     'Focusing on integratioion by parts',
                                                     style: FlutterFlowTheme.of(
@@ -722,9 +734,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                     Expanded(
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
-                                                                    8, 0, 0, 0),
+                                                                8, 0, 0, 0),
                                                         child: Text(
                                                           'Tuesday, 10:00am',
                                                           style: FlutterFlowTheme
@@ -753,7 +765,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                                 .circular(32),
                                                       ),
                                                       alignment:
-                                                          AlignmentDirectional(
+                                                          const AlignmentDirectional(
                                                               0, 0),
                                                       child: Text(
                                                         'In Progress',
@@ -790,7 +802,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(12),
+                                        padding: const EdgeInsets.all(12),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -803,8 +815,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                       .headlineSmall,
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 0, 0),
                                               child: Text(
                                                 'Having  a look at the enzyme substrate complex',
                                                 style:
@@ -833,9 +846,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                8, 0, 0, 0),
+                                                            8, 0, 0, 0),
                                                     child: Text(
                                                       'Tuesday, 10:00am',
                                                       style:
@@ -864,7 +877,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                             32),
                                                   ),
                                                   alignment:
-                                                      AlignmentDirectional(
+                                                      const AlignmentDirectional(
                                                           0, 0),
                                                   child: Text(
                                                     'In Progress',
@@ -888,7 +901,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16, 12, 16, 12),
                                 child: ListView(
                                   padding: EdgeInsets.zero,
@@ -897,8 +910,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   scrollDirection: Axis.vertical,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 12),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 0, 0, 12),
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -913,7 +927,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             crossAxisAlignment:
@@ -926,8 +940,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                         .headlineSmall,
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 4, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 4, 0, 0),
                                                 child: Text(
                                                   'Create template screen for task todo app.',
                                                   style: FlutterFlowTheme.of(
@@ -956,9 +971,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                   Expanded(
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  8, 0, 0, 0),
+                                                              8, 0, 0, 0),
                                                       child: Text(
                                                         'Tuesday, 10:00am',
                                                         style:
@@ -988,7 +1003,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                               32),
                                                     ),
                                                     alignment:
-                                                        AlignmentDirectional(
+                                                        const AlignmentDirectional(
                                                             0, 0),
                                                     child: Text(
                                                       'In Progress',
@@ -1021,7 +1036,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(12),
+                                        padding: const EdgeInsets.all(12),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -1034,8 +1049,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                       .headlineSmall,
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 0, 0),
                                               child: Text(
                                                 'Create template screen for task todo app.',
                                                 style:
@@ -1064,9 +1080,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                8, 0, 0, 0),
+                                                            8, 0, 0, 0),
                                                     child: Text(
                                                       'Tuesday, 10:00am',
                                                       style:
@@ -1095,7 +1111,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                             32),
                                                   ),
                                                   alignment:
-                                                      AlignmentDirectional(
+                                                      const AlignmentDirectional(
                                                           0, 0),
                                                   child: Text(
                                                     'In Progress',
@@ -1118,7 +1134,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16, 12, 16, 12),
                                 child: ListView(
                                   padding: EdgeInsets.zero,
@@ -1127,8 +1143,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   scrollDirection: Axis.vertical,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 12),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 0, 0, 12),
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -1143,7 +1160,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             crossAxisAlignment:
@@ -1161,8 +1178,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                     ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 4, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 4, 0, 0),
                                                 child: Text(
                                                   'Create template screen for task todo app.',
                                                   style: FlutterFlowTheme.of(
@@ -1197,9 +1215,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                   Expanded(
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  8, 0, 0, 0),
+                                                              8, 0, 0, 0),
                                                       child: Text(
                                                         'Tuesday, 10:00am',
                                                         style:
@@ -1228,7 +1246,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                               32),
                                                     ),
                                                     alignment:
-                                                        AlignmentDirectional(
+                                                        const AlignmentDirectional(
                                                             0, 0),
                                                     child: Text(
                                                       'Complete',
@@ -1258,7 +1276,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(12),
+                                        padding: const EdgeInsets.all(12),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -1276,8 +1294,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                   ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 0, 0),
                                               child: Text(
                                                 'Create template screen for task todo app.',
                                                 style:
@@ -1312,9 +1331,9 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                8, 0, 0, 0),
+                                                            8, 0, 0, 0),
                                                     child: Text(
                                                       'Tuesday, 10:00am',
                                                       style:
@@ -1343,7 +1362,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                                             32),
                                                   ),
                                                   alignment:
-                                                      AlignmentDirectional(
+                                                      const AlignmentDirectional(
                                                           0, 0),
                                                   child: Text(
                                                     'Complete',

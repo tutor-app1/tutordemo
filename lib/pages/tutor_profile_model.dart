@@ -1,15 +1,16 @@
+import 'tutor_profile.dart' show TutorProfileWidget;
+// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'studentUI_page.dart' show StudentUIpageWidget;
 import 'package:flutter/material.dart';
 
-class StudentUIpageModel extends FlutterFlowModel<StudentUIpageWidget> {
+
+class TutorProfileModel extends FlutterFlowModel<TutorProfileWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode;
-  TextEditingController? textController;
-  String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for RatingBar widget.
+  double? ratingBarValue;
 
   /// Initialization and disposal methods.
 
@@ -19,8 +20,6 @@ class StudentUIpageModel extends FlutterFlowModel<StudentUIpageWidget> {
   @override
   void dispose() {
     unfocusNode.dispose();
-    textFieldFocusNode?.dispose();
-    textController?.dispose();
   }
 
   /// Action blocks are added here.

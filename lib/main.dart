@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'pages/landing_page.dart';
 import 'pages/sign_in_up.dart';
-import 'pages/studentUI_page.dart';
-import 'pages/tutorui.dart';
+import 'pages/student_UI.dart';
+import 'pages/tutor_UI.dart';
+import 'pages/tutor_profile.dart';
+import 'pages/selection.dart';
 import 'pages/forgotpassword.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -31,8 +33,10 @@ class MyApp extends StatelessWidget {
         routes: {
           '/landing_page': (context) => const Onboarding1Widget(),
           '/auth': (context) => const Auth1Widget(),
-          '/studentUI_page': (context) => const StudentUIpageWidget(),
-          '/tutorui': (context) => const TutorUIWidget(),
+          '/student_UI': (context) => const StudentUIWidget(),
+          '/tutor_UI': (context) => const TutorUIWidget(),
+          '/tutor_profile': (context) => const TutorProfileWidget(),
+          '/selection_ui': (context) => const SelectionWidget(),
           '/forgotpassword': (context) => const ForgotpasswordWidget(),
         });
   }

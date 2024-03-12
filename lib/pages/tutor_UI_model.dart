@@ -1,5 +1,5 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'tutorui.dart' show TutorUIWidget;
+import 'tutor_UI.dart' show TutorUIWidget;
 import 'package:flutter/material.dart';
 
 class TutorUIModel extends FlutterFlowModel<TutorUIWidget> {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
-import 'studentUI_page_model.dart';
-export 'studentUI_page_model.dart';
+import 'student_UI_model.dart';
+export 'student_UI_model.dart';
 
-class StudentUIpageWidget extends StatefulWidget {
-  const StudentUIpageWidget({super.key});
+class StudentUIWidget extends StatefulWidget {
+  const StudentUIWidget({super.key});
 
   @override
-  State<StudentUIpageWidget> createState() => _StudentUIpageWidgetState();
+  State<StudentUIWidget> createState() => _StudentUIpageWidgetState();
 }
 
-class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
+class _StudentUIpageWidgetState extends State<StudentUIWidget> {
   late StudentUIpageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -44,12 +44,12 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             automaticallyImplyLeading: false,
             leading: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12, 6, 0, 6),
+              padding: const EdgeInsetsDirectional.fromSTEB(12, 6, 0, 6),
               child: Container(
                 width: 70,
                 height: 70,
@@ -61,13 +61,29 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     width: 2,
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    'https://picsum.photos/seed/626/600',
-                    width: 400,
-                    height: 300,
-                    fit: BoxFit.cover,
+
+                // child: ClipRRect(
+                //   borderRadius: BorderRadius.circular(20),
+                //   child: Image.network(
+                //     'https://picsum.photos/seed/626/600',
+                //     width: 400,
+                //     height: 300,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                //Replaced code
+
+                child: InkWell(
+                  onTap: () => Navigator.pushNamed(context, '/tutor_profile'),
+                  //Redirects to /tutor_profile by default
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      'https://picsum.photos/seed/626/600',
+                      width: 400,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -78,7 +94,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
             ),
             actions: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                 child: FlutterFlowIconButton(
                   borderColor: Colors.transparent,
                   borderRadius: 20,
@@ -112,7 +128,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Container(
                           width: 300,
                           child: TextFormField(
@@ -155,7 +171,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               contentPadding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      20, 0, 0, 0),
                               suffixIcon: Icon(
                                 Icons.search_rounded,
                                 color:
@@ -171,21 +188,21 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: FFButtonWidget(
                         onPressed: () {
-                          print('Button pressed ...');
+                          print('Button pressed ...'); //search button
                         },
                         text: '',
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.filter_list_alt,
                           size: 15,
                         ),
                         options: FFButtonOptions(
                           width: 52,
                           height: 50,
-                          padding: EdgeInsets.all(14),
-                          iconPadding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(14),
+                          iconPadding: const EdgeInsets.all(0),
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
@@ -204,7 +221,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
                   child: Text(
                     'Find Tutor',
                     style: FlutterFlowTheme.of(context).titleLarge.override(
@@ -214,7 +231,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                   ),
                 ),
                 ListView(
-                  padding: EdgeInsets.fromLTRB(
+                  padding: const EdgeInsets.fromLTRB(
                     0,
                     8,
                     0,
@@ -225,7 +242,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                   children: [
                     Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
                           bottomRight: Radius.circular(0),
@@ -235,7 +252,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                         shape: BoxShape.rectangle,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16, 12, 16, 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -262,8 +280,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -278,9 +296,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.tab,
                                             color: FlutterFlowTheme.of(context)
@@ -289,9 +306,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 16, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 16, 0),
                                           child: Text(
                                             'Subjects',
                                             style: FlutterFlowTheme.of(context)
@@ -304,9 +320,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.apartment,
                                             color: FlutterFlowTheme.of(context)
@@ -321,7 +336,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(height: 4)),
+                                  ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
                             ),
@@ -331,7 +346,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     ),
                     Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
                           bottomRight: Radius.circular(0),
@@ -341,7 +356,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                         shape: BoxShape.rectangle,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16, 12, 16, 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -368,8 +384,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -384,9 +400,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.tab,
                                             color: FlutterFlowTheme.of(context)
@@ -395,9 +410,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 16, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 16, 0),
                                           child: Text(
                                             'Subjects',
                                             style: FlutterFlowTheme.of(context)
@@ -410,9 +424,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.apartment,
                                             color: FlutterFlowTheme.of(context)
@@ -427,7 +440,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(height: 4)),
+                                  ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
                             ),
@@ -437,7 +450,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     ),
                     Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
                           bottomRight: Radius.circular(0),
@@ -447,7 +460,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                         shape: BoxShape.rectangle,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16, 12, 16, 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -474,8 +488,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -490,9 +504,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.tab,
                                             color: FlutterFlowTheme.of(context)
@@ -501,9 +514,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 16, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 16, 0),
                                           child: Text(
                                             'Subjects',
                                             style: FlutterFlowTheme.of(context)
@@ -516,9 +528,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.apartment,
                                             color: FlutterFlowTheme.of(context)
@@ -533,7 +544,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(height: 4)),
+                                  ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
                             ),
@@ -543,7 +554,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                     ),
                     Container(
                       width: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
                           bottomRight: Radius.circular(0),
@@ -553,7 +564,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                         shape: BoxShape.rectangle,
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16, 12, 16, 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -580,8 +592,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -596,9 +608,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.tab,
                                             color: FlutterFlowTheme.of(context)
@@ -607,9 +618,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 16, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 16, 0),
                                           child: Text(
                                             'Subjects',
                                             style: FlutterFlowTheme.of(context)
@@ -622,9 +632,8 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 4, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
                                           child: Icon(
                                             Icons.apartment,
                                             color: FlutterFlowTheme.of(context)
@@ -639,7 +648,7 @@ class _StudentUIpageWidgetState extends State<StudentUIpageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(height: 4)),
+                                  ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
                             ),

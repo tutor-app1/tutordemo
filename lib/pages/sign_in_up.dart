@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'auth1_model.dart';
@@ -539,9 +538,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  /*authManager
-                                                      .prepareAuthEvent();*/
-
                                                   // signing in with email
                                                   try {
                                                     final user =
@@ -555,16 +551,36 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     if (user == null) {
                                                       // Handle the case where the user is null
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Error: User not found. Please check your email and password.',
+                                                          ),
+                                                        ),
+                                                      );
+
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
                                                     // Handle the error here, e.g., show a dialog with the error message
-                                                    print(e.message);
+                                                    //print(e.message);
+                                                    // snackbar for email sign in error
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
                                                   }
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '/tutorui');
+                                                      context, '/selection_ui');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -798,8 +814,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                 0, 0, 0, 16),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
-                                                            /*authManager
-                                                                .prepareAuthEvent();*/
                                                             try {
                                                               final user =
                                                                   await authManager
@@ -807,17 +821,37 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               if (user ==
                                                                   null) {
                                                                 // Handle the case where the user is null
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      'Error: User not found. Please check your email and password.',
+                                                                    ),
+                                                                  ),
+                                                                );
                                                                 return;
                                                               }
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
                                                               print(e.message);
+                                                              // snackbar for google sign in error
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    'Error: ${e.message}',
+                                                                  ),
+                                                                ),
+                                                              );
                                                             }
 
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/studentUI_page');
+                                                                '/selection_ui');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -892,6 +926,96 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: TextFormField(
+                                                controller:
+                                                    _model.usernameController,
+                                                focusNode:
+                                                    _model.usernameFocusNode,
+                                                autofocus: true,
+                                                autofillHints: const [
+                                                  AutofillHints.username
+                                                ],
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Username',
+                                                  labelStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall,
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      color: Color(0xFFE0E3E7),
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  filled: true,
+                                                  fillColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryBackground,
+                                                  contentPadding:
+                                                      const EdgeInsets.all(24),
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                validator: _model
+                                                    .usernameValidator
+                                                    .asValidator(context),
+                                              ),
+                                            ),
+                                          ), //////my code for now
                                           Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .fromSTEB(0, 0, 0, 16),
@@ -981,137 +1105,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     .asValidator(context),
                                               ),
                                             ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    const AlignmentDirectional(
-                                                        0, 0),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          16, 0, 16, 24),
-                                                  child: Text(
-                                                    'Or sign up with',
-                                                    textAlign: TextAlign.center,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .titleSmall,
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    const AlignmentDirectional(
-                                                        0, 0),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0, 0, 0, 16),
-                                                  child: Wrap(
-                                                    spacing: 16,
-                                                    runSpacing: 0,
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.horizontal,
-                                                    runAlignment:
-                                                        WrapAlignment.center,
-                                                    verticalDirection:
-                                                        VerticalDirection.down,
-                                                    clipBehavior: Clip.none,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                0, 0, 0, 16),
-                                                        child: FFButtonWidget(
-                                                          onPressed: () async {
-                                                            /*authManager
-                                                                .prepareAuthEvent();*/
-                                                            try {
-                                                              final user =
-                                                                  await authManager
-                                                                      .signInWithGoogle();
-                                                              if (user ==
-                                                                  null) {
-                                                                // Handle the case where the user is null
-                                                                return;
-                                                              }
-                                                            } on AuthException catch (e) {
-                                                              // Handle the error here, e.g., show a dialog with the error message
-                                                              print(e.message);
-                                                            }
-
-                                                            // ignore: use_build_context_synchronously
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                '/studentUI_page');
-                                                          },
-                                                          text:
-                                                              'Continue with Google',
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .google,
-                                                            size: 20,
-                                                          ),
-                                                          options:
-                                                              FFButtonOptions(
-                                                            width: 230,
-                                                            height: 44,
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                    0, 0, 0, 0),
-                                                            iconPadding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                    0, 0, 0, 0),
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            textStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                            elevation: 0,
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
-                                                              width: 2,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40),
-                                                            hoverColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryBackground,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
                                           ),
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1334,6 +1327,155 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Align(
+                                                alignment:
+                                                    const AlignmentDirectional(
+                                                        0, 0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(
+                                                          16, 0, 16, 24),
+                                                  child: Text(
+                                                    'Or sign up with',
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .titleSmall,
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    const AlignmentDirectional(
+                                                        0, 0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(
+                                                          0, 0, 0, 16),
+                                                  child: Wrap(
+                                                    spacing: 16,
+                                                    runSpacing: 0,
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    crossAxisAlignment:
+                                                        WrapCrossAlignment
+                                                            .center,
+                                                    direction: Axis.horizontal,
+                                                    runAlignment:
+                                                        WrapAlignment.center,
+                                                    verticalDirection:
+                                                        VerticalDirection.down,
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                0, 0, 0, 16),
+                                                        child: FFButtonWidget(
+                                                          onPressed: () async {
+                                                            try {
+                                                              final user =
+                                                                  await authManager
+                                                                      .signInWithGoogle();
+                                                              if (user ==
+                                                                  null) {
+                                                                // Handle the case where the user is null
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      'Error: User not found. Please check your email and password.',
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                                return;
+                                                              }
+                                                            } on AuthException catch (e) {
+                                                              // Handle the error here, e.g., show a dialog with the error message
+                                                              print(e.message);
+                                                              // snackbar for google sign in error
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    'Error: ${e.message}',
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+
+                                                            // ignore: use_build_context_synchronously
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/selection_ui');
+                                                          },
+                                                          text:
+                                                              'Continue with Google',
+                                                          icon: const FaIcon(
+                                                            FontAwesomeIcons
+                                                                .google,
+                                                            size: 20,
+                                                          ),
+                                                          options:
+                                                              FFButtonOptions(
+                                                            width: 230,
+                                                            height: 44,
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                    0, 0, 0, 0),
+                                                            iconPadding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                    0, 0, 0, 0),
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                            elevation: 0,
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryBackground,
+                                                              width: 2,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        40),
+                                                            hoverColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                           Align(
                                             alignment:
                                                 const AlignmentDirectional(
@@ -1344,8 +1486,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
-                                                  /*authManager
-                                                      .prepareAuthEvent();*/
                                                   if (_model
                                                           .passwordCreateController
                                                           .text !=
@@ -1367,6 +1507,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   try {
                                                     final user = await authManager
                                                         .createAccountWithEmail(
+                                                      _model.usernameController
+                                                          .text,
                                                       _model
                                                           .emailAddressCreateController
                                                           .text,
@@ -1375,17 +1517,35 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                           .text,
                                                     );
                                                     if (user == null) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Error: Please check your email and password.',
+                                                          ),
+                                                        ),
+                                                      );
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
                                                     // Handle the error here, e.g., show a dialog with the error message
                                                     print(
                                                         'Error: ${e.message}');
+                                                    // snackbar for sign up error
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
-
-                                                  Navigator.pushNamed(context,
-                                                      '/studentUI_page');
+                                                  Navigator.pushNamed(
+                                                      context, '/selection_ui');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
