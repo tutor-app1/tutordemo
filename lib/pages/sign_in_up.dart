@@ -554,19 +554,21 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       ScaffoldMessenger.of(
                                                               context)
                                                           .showSnackBar(
-                                                              const SnackBar(
-                                                            content: Text(
-                                                              'Error: User is null',
-                                                            ),
-                                                          ),);
-                                                      
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Error: User not found. Please check your email and password.',
+                                                          ),
+                                                        ),
+                                                      );
+
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
                                                     // Handle the error here, e.g., show a dialog with the error message
-                                                    print(e.message);
+                                                    //print(e.message);
                                                     // snackbar for email sign in error
-                                                    ScaffoldMessenger.of(context)
+                                                    ScaffoldMessenger.of(
+                                                            context)
                                                         .showSnackBar(
                                                       SnackBar(
                                                         content: Text(
@@ -578,7 +580,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(
-                                                      context, '/tutor_UI');
+                                                      context, '/selection_ui');
                                                 },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
@@ -724,7 +726,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () {
-                                                  print('Button pressed forgot password ...');
+                                                  print(
+                                                      'Button pressed forgot password ...');
                                                 },
                                                 text: 'Forgot Password',
                                                 options: FFButtonOptions(
@@ -808,8 +811,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                                 0, 0, 0, 16),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
-                                                            /*authManager
-                                                                .prepareAuthEvent();*/
                                                             try {
                                                               final user =
                                                                   await authManager
@@ -817,26 +818,37 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               if (user ==
                                                                   null) {
                                                                 // Handle the case where the user is null
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      'Error: User not found. Please check your email and password.',
+                                                                    ),
+                                                                  ),
+                                                                );
                                                                 return;
                                                               }
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
                                                               print(e.message);
                                                               // snackbar for google sign in error
-                                                              ScaffoldMessenger.of(
-                                                                      context)
+                                                              ScaffoldMessenger
+                                                                      .of(context)
                                                                   .showSnackBar(
-                                                                      SnackBar(
-                                                                    content: Text(
-                                                                      'Error: ${e.message}',
-                                                                    ),
-                                                                  ),);
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    'Error: ${e.message}',
+                                                                  ),
+                                                                ),
+                                                              );
                                                             }
 
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/student_UI');
+                                                                '/selection_ui');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -917,10 +929,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                             child: Container(
                                               width: double.infinity,
                                               child: TextFormField(
-                                                controller: _model
-                                                    .usernameController,
-                                                focusNode: _model
-                                                    .usernameFocusNode,
+                                                controller:
+                                                    _model.usernameController,
+                                                focusNode:
+                                                    _model.usernameFocusNode,
                                                 autofocus: true,
                                                 autofillHints: const [
                                                   AutofillHints.username
@@ -1371,26 +1383,37 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               if (user ==
                                                                   null) {
                                                                 // Handle the case where the user is null
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      'Error: User not found. Please check your email and password.',
+                                                                    ),
+                                                                  ),
+                                                                );
                                                                 return;
                                                               }
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
                                                               print(e.message);
                                                               // snackbar for google sign in error
-                                                              ScaffoldMessenger.of(
-                                                                  context)
+                                                              ScaffoldMessenger
+                                                                      .of(context)
                                                                   .showSnackBar(
-                                                                  SnackBar(
-                                                                    content: Text(
-                                                                      'Error: ${e.message}',
-                                                                    ),
-                                                                  ),);
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    'Error: ${e.message}',
+                                                                  ),
+                                                                ),
+                                                              );
                                                             }
 
                                                             // ignore: use_build_context_synchronously
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                '/student_UI');
+                                                                '/selection_ui');
                                                           },
                                                           text:
                                                               'Continue with Google',
@@ -1481,8 +1504,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   try {
                                                     final user = await authManager
                                                         .createAccountWithEmail(
-                                                      _model
-                                                          .usernameController
+                                                      _model.usernameController
                                                           .text,
                                                       _model
                                                           .emailAddressCreateController
@@ -1492,25 +1514,36 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                           .text,
                                                     );
                                                     if (user == null) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Error: Please check your email and password.',
+                                                          ),
+                                                        ),
+                                                      );
                                                       return;
                                                     }
                                                   } on AuthException catch (e) {
                                                     // Handle the error here, e.g., show a dialog with the error message
                                                     print(
                                                         'Error: ${e.message}');
-                                                        // snackbar for sign up error
-                                                        ScaffoldMessenger.of(
-                                                            context).showSnackBar( 
-                                                            SnackBar(
-                                                              content: Text(
-                                                                'Error: ${e.message}',
-                                                              ),
-                                                            ),);  
+                                                    // snackbar for sign up error
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
 
                                                   Navigator.pushNamed(
-                                                      context, '/student_UI');
+                                                      context, '/selection_ui');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(
