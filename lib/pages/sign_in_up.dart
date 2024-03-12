@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'auth1_model.dart';
@@ -709,7 +710,11 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () {
-                                                  print('Button pressed ...');
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    '/forgotpassword',
+                                                  );
+                                                  //print('Button pressed ...');
                                                 },
                                                 text: 'Forgot Password',
                                                 options: FFButtonOptions(
@@ -1379,8 +1384,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
 
-                                                  Navigator.pushNamed(
-                                                      context, '/studentUI_page');
+                                                  Navigator.pushNamed(context,
+                                                      '/studentUI_page');
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(

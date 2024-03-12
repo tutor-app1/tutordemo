@@ -155,29 +155,42 @@ class AuthManager {
       );
 
       // Check if user creation was successful
-    if (userCredential.user != null) {
-      // Create a new document for the user in Firestore
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        // Add any additional user information here
-        'email': email,
-        // ...
-      });
+      if (userCredential.user != null) {
+        // Create a new document for the user in Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          // Add any additional user information here
+          'email': email,
+          // ...
+        });
 
-      return userCredential;
-    }  else {
-      throw AuthException('User creation failed.');
+        return userCredential;
+      } else {
+        throw AuthException('User creation failed.');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        throw AuthException('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw AuthException('The account already exists for that email.');
+      }
+      return null;
+    } catch (e) {
+      throw AuthException(e.toString());
     }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
-      throw AuthException('The password provided is too weak.');
-    } else if (e.code == 'email-already-in-use') {
-      throw AuthException('The account already exists for that email.');
-    }
-    return null;
-  } catch (e) {
-    throw AuthException(e.toString());
   }
-}
+
+// reset password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw AuthException('No user found for that email.');
+      }
+    } catch (e) {
+      throw AuthException('An unknown error occurred.');
+    }
+  }
 }
     
   /// Additional helper methods are added here.
