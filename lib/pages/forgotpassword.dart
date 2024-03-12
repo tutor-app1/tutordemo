@@ -1,14 +1,21 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:tutorapptrials/pages/forgotpassword.dart';
+import 'auth1_model.dart';
 
 import 'forgotpassword_model.dart';
 export 'forgotpassword_model.dart';
+
+extension NavigationExtensions on BuildContext {
+  void safePop() {
+    if (Navigator.of(this).canPop()) {
+      Navigator.of(this).pop();
+    }
+  }
+}
 
 class ForgotpasswordWidget extends StatefulWidget {
   const ForgotpasswordWidget({super.key});
@@ -59,7 +66,7 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.of(context).pop();
           },
         ),
         actions: [],

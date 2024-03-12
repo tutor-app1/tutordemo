@@ -3,6 +3,7 @@ import 'pages/landing_page.dart';
 import 'pages/sign_in_up.dart';
 import 'pages/studentUI_page.dart';
 import 'pages/tutorui.dart';
+import 'pages/forgotpassword.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/auth': (context) => const Auth1Widget(),
           '/studentUI_page': (context) => const StudentUIpageWidget(),
           '/tutorui': (context) => const TutorUIWidget(),
+          '/forgotpassword': (context) => const ForgotpasswordWidget(),
         });
   }
 }
