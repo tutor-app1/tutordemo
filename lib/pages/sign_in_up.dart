@@ -726,8 +726,11 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       .fromSTEB(0, 0, 0, 16),
                                               child: FFButtonWidget(
                                                 onPressed: () {
-                                                  print(
-                                                      'Button pressed forgot password ...');
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    '/forgotpassword',
+                                                  );
+                                                  //print('Button pressed ...');
                                                 },
                                                 text: 'Forgot Password',
                                                 options: FFButtonOptions(
@@ -1541,7 +1544,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
-
                                                   Navigator.pushNamed(
                                                       context, '/selection_ui');
                                                 },

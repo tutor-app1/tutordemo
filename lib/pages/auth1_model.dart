@@ -26,14 +26,15 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
   bool? checkboxListTileValue1;
   // State field(s) for CheckboxListTile widget.
   bool? checkboxListTileValue2;
-   // State field(s) for username widget.
+  // State field(s) for username widget.
   FocusNode? usernameFocusNode;
   TextEditingController? usernameController;
   String? Function(BuildContext, String?)? usernameValidator;
   // State field(s) for emailAddress_Create widget.
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateController;
-  String? Function(BuildContext, String?)? emailAddressCreateControllerValidator;
+  String? Function(BuildContext, String?)?
+      emailAddressCreateControllerValidator;
   // State field(s) for password_Create widget.
   FocusNode? passwordCreateFocusNode;
   TextEditingController? passwordCreateController;
@@ -151,32 +152,44 @@ class AuthManager {
       );
 
       // Check if user creation was successful
-    if (userCredential.user != null) {
-      // Create a new document for the user in Firestore
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        // Add any additional user information here
-        'username': username,
-        'email': email,
-        // ...
-      });
+      if (userCredential.user != null) {
+        // Create a new document for the user in Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          // Add any additional user information here
+          'username': username,
+          'email': email,
+          // ...
+        });
 
-      // await userCredential.user?.updateDisplayName(username);
+        // await userCredential.user?.updateDisplayName(username);
 
-      return userCredential;
-    }  else {
-      throw AuthException('User creation failed.');
+        return userCredential;
+      } else {
+        throw AuthException('User creation failed.');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        throw AuthException('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw AuthException('The account already exists for that email.');
+      }
+      return null;
+    } catch (e) {
+      throw AuthException(e.toString());
     }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
-      throw AuthException('The password provided is too weak.');
-    } else if (e.code == 'email-already-in-use') {
-      throw AuthException('The account already exists for that email.');
-    }
-    return null;
-  } catch (e) {
-    throw AuthException(e.toString());
   }
-}
-}
-    
+
+// reset password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw AuthException('No user found for that email.');
+      }
+    } catch (e) {
+      throw AuthException('An unknown error occurred.');
+    }
+  }
+}    
   /// Additional helper methods are added here.
