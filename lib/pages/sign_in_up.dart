@@ -113,6 +113,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
     _model.passwordController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
 
+    _model.usernameController ??= TextEditingController();
+    _model.usernameFocusNode ??= FocusNode();
+
     _model.emailAddressCreateController ??= TextEditingController();
     _model.emailAddressCreateFocusNode ??= FocusNode();
 
