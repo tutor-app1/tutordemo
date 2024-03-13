@@ -542,6 +542,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               child: FFButtonWidget(
                                                 onPressed: () async {
                                                   // signing in with email
+                                                  final scaffoldMessenger =
+                                                      ScaffoldMessenger.of(
+                                                          context);
                                                   try {
                                                     final user =
                                                         await authManager
@@ -554,8 +557,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     if (user == null) {
                                                       // Handle the case where the user is null
-                                                      ScaffoldMessenger.of(
-                                                              context)
+                                                      scaffoldMessenger
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           content: Text(
@@ -570,8 +572,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     // Handle the error here, e.g., show a dialog with the error message
                                                     //print(e.message);
                                                     // snackbar for email sign in error
-                                                    ScaffoldMessenger.of(
-                                                            context)
+                                                    scaffoldMessenger
                                                         .showSnackBar(
                                                       SnackBar(
                                                         content: Text(
