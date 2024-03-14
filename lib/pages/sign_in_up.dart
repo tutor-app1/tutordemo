@@ -25,6 +25,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
     clientId: 'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0',
   );
 
+  String dropdownValue = 'student';
+  String dropdownValue2 = 'Level of Education';
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = {
@@ -118,6 +121,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
     _model.emailAddressCreateController ??= TextEditingController();
     _model.emailAddressCreateFocusNode ??= FocusNode();
+
+    _model.subjectController ??= TextEditingController();
+    _model.subjectFocusNode ??= FocusNode();
 
     _model.passwordCreateController ??= TextEditingController();
     _model.passwordCreateFocusNode ??= FocusNode();
@@ -930,6 +936,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          // username field
                                           Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .fromSTEB(0, 0, 0, 16),
@@ -1019,7 +1026,100 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     .asValidator(context),
                                               ),
                                             ),
-                                          ), //////my code for now
+                                          ),
+                                          // subjects field
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: TextFormField(
+                                                controller:
+                                                    _model.subjectController,
+                                                focusNode:
+                                                    _model.subjectFocusNode,
+                                                autofocus: true,
+                                                autofillHints: const [
+                                                  AutofillHints.username
+                                                ],
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  labelText:
+                                                      'Subjects of Interest (separate with commas)',
+                                                  labelStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall,
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      color: Color(0xFFE0E3E7),
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                  filled: true,
+                                                  fillColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryBackground,
+                                                  contentPadding:
+                                                      const EdgeInsets.all(24),
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                validator: _model
+                                                    .subjectControllerValidator
+                                                    .asValidator(context),
+                                              ),
+                                            ),
+                                          ),
+                                          // email field
                                           Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .fromSTEB(0, 0, 0, 16),
@@ -1331,6 +1431,55 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
+                                          // drop down for student or tutor
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: DropdownButton<String>(
+                                              value: dropdownValue,
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownValue = newValue!;
+                                                });
+                                              },
+                                              items: <String>[
+                                                'student',
+                                                'tutor'
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                          // drop down for education level
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: DropdownButton<String>(
+                                              value: dropdownValue2,
+                                              onChanged: (String? newValue2) {
+                                                setState(() {
+                                                  dropdownValue2 = newValue2!;
+                                                });
+                                              },
+                                              items: <String>[
+                                                'Level of Education',
+                                                'Secondary',
+                                                'College',
+                                                'University',
+                                                'Other'
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value2) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value2,
+                                                  child: Text(value2),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
@@ -1404,7 +1553,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               }
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
-                                                              print(e.message);
+                                                              //print(e.message);
                                                               // snackbar for google sign in error
                                                               ScaffoldMessenger
                                                                       .of(context)
@@ -1513,12 +1662,16 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         .createAccountWithEmail(
                                                       _model.usernameController
                                                           .text,
+                                                      _model.subjectController
+                                                          .text,
                                                       _model
                                                           .emailAddressCreateController
                                                           .text,
                                                       _model
                                                           .passwordCreateController
                                                           .text,
+                                                      dropdownValue,
+                                                      dropdownValue2,
                                                     );
                                                     if (user == null) {
                                                       ScaffoldMessenger.of(

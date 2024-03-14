@@ -30,6 +30,10 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
   FocusNode? usernameFocusNode;
   TextEditingController? usernameController;
   String? Function(BuildContext, String?)? usernameValidator;
+  // State field(s) for subject widget.
+  FocusNode? subjectFocusNode;
+  TextEditingController? subjectController;
+  String? Function(BuildContext, String?)? subjectControllerValidator;
   // State field(s) for emailAddress_Create widget.
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateController;
@@ -66,6 +70,9 @@ class Auth1Model extends FlutterFlowModel<Auth1Widget> {
 
     usernameFocusNode?.dispose();
     usernameController?.dispose();
+
+    subjectFocusNode?.dispose();
+    subjectController?.dispose();
 
     emailAddressCreateFocusNode?.dispose();
     emailAddressCreateController?.dispose();
@@ -143,7 +150,12 @@ class AuthManager {
 
   // create account with email and password
   Future<UserCredential?> createAccountWithEmail(
-      String username, String email, String password) async {
+      String username,
+      String subject,
+      String email,
+      String password,
+      String role,
+      String educationlevel) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -154,14 +166,26 @@ class AuthManager {
       // Check if user creation was successful
       if (userCredential.user != null) {
         // Create a new document for the user in Firestore
-        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        await _firestore.collection(role).doc(userCredential.user!.uid).set({
           // Add any additional user information here
           'username': username,
           'email': email,
+          'subject': subject,
+          'educationlevel': educationlevel,
           // ...
         });
 
-        // await userCredential.user?.updateDisplayName(username);
+        /* await _firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .collection(role)
+            .doc()
+            .set({
+          'subject': subject,
+          'educationlevel': educationlevel,
+        }); */
+
+        await userCredential.user?.updateDisplayName(username);
 
         return userCredential;
       } else {
