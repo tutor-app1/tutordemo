@@ -107,7 +107,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       setState(() {
-        _model.create = false;
+        final args = ModalRoute.of(context)!.settings.arguments as Map<String, bool>;
+        _model.create = args['create'];
+        //_model.create = false;
       });
     });
 

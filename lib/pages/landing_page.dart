@@ -258,7 +258,7 @@ class _Onboarding1WidgetState extends State<Onboarding1Widget>
                             const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 16),
                         child: FFButtonWidget(
                           onPressed: () =>
-                              Navigator.pushNamed(context, '/auth'),
+                              Navigator.pushNamed(context, '/auth', arguments: {'create': false}),
                           text: 'Login',
                           options: FFButtonOptions(
                             width: 230,
@@ -289,7 +289,7 @@ class _Onboarding1WidgetState extends State<Onboarding1Widget>
                             const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 16),
                         child: FFButtonWidget(
                           onPressed: () =>
-                              Navigator.pushNamed(context, '/auth'),
+                              Navigator.pushNamed(context, '/auth', arguments: {'create': true}),
                           text: 'Sign Up',
                           options: FFButtonOptions(
                             width: 230,
