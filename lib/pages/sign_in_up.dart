@@ -1560,9 +1560,9 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 .fromSTEB(0, 0, 0, 16),
                                             child: DropdownButton<String>(
                                               value: dropdownValue2,
-                                              onChanged: (String? newValue2) {
+                                              onChanged: (String? newValue) {
                                                 setState(() {
-                                                  dropdownValue2 = newValue2!;
+                                                  dropdownValue2 = newValue!;
                                                 });
                                               },
                                               items: <String>[
@@ -1571,10 +1571,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 'University',
                                                 'Other'
                                               ].map<DropdownMenuItem<String>>(
-                                                  (String value2) {
+                                                  (String value) {
                                                 return DropdownMenuItem<String>(
-                                                  value: value2,
-                                                  child: Text(value2),
+                                                  value: value,
+                                                  child: Text(value),
                                                 );
                                               }).toList(),
                                             ),
