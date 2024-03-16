@@ -591,10 +591,37 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                   }
 
-                                                  // ignore: use_build_context_synchronously
-                                                  Navigator.pushNamed(
-                                                      context, '/selection_ui');
-                                                },
+                                                  if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
+                                                    ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    'Please select either Student or Tutor not Both'
+                                                                  ),
+                                                                ),);
+                                                              
+                                                            } else if (_model.checkboxListTileValue2 == true) {
+                                                              Navigator.pushNamed(
+                                                                context,
+                                                                '/tutor_UI',
+                                                              );
+                                                            } else if (_model.checkboxListTileValue1 == true ) {
+                                                                Navigator.pushNamed(
+                                                                  context,
+                                                                  '/student_UI',
+                                                                );
+                                                            }else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    'Please select either Student or Tutor'
+                                                                  ),
+                                                                ),);
+                                                            }
+                                                          },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
                                                   width: 230,
@@ -709,7 +736,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         .headlineSmall
                                                         .override(
                                                           fontFamily:
-                                                              'Readex Pro',
+                                                              'Inter',
                                                           fontWeight:
                                                               FontWeight.w300,
                                                         ),
@@ -848,7 +875,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               }
                                                             } on AuthException catch (e) {
                                                               // Handle the error here, e.g., show a dialog with the error message
-                                                              print(e.message);
+                                                              //print(e.message);
                                                               // snackbar for google sign in error
                                                               ScaffoldMessenger
                                                                       .of(context)
@@ -861,10 +888,26 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                               );
                                                             }
 
-                                                            // ignore: use_build_context_synchronously
-                                                            Navigator.pushNamed(
+                                                            if (_model.checkboxListTileValue1 == true) {
+                                                              Navigator.pushNamed(
                                                                 context,
-                                                                '/selection_ui');
+                                                                '/student_UI',
+                                                              );
+                                                            } else if (_model.checkboxListTileValue2 == true) {
+                                                              Navigator.pushNamed(
+                                                                context,
+                                                                '/tutor_UI',
+                                                              );
+                                                            } else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    'Please select either Student or Tutor'
+                                                                  ),
+                                                                ),);
+                                                            }
                                                           },
                                                           text:
                                                               'Continue with Google',
