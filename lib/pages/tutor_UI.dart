@@ -1,6 +1,7 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'tutor_UI_model.dart';
 export 'tutor_UI_model.dart';
@@ -15,6 +16,10 @@ class TutorUIWidget extends StatefulWidget {
 class _TutorUIWidgetState extends State<TutorUIWidget>
     with TickerProviderStateMixin {
   late TutorUIModel _model;
+
+  final username = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser!.displayName
+      : '';
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -182,7 +187,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Tutor name ',
+                            '$username',
                             style: FlutterFlowTheme.of(context).titleLarge,
                           ),
                           Padding(

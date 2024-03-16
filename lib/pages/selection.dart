@@ -2,6 +2,7 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'onboarding1_model.dart';
 export 'onboarding1_model.dart';
@@ -16,6 +17,10 @@ class SelectionWidget extends StatefulWidget {
 class _SelectionWidgetState extends State<SelectionWidget>
     with TickerProviderStateMixin {
   late Onboarding1Model _model;
+
+final username = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser!.displayName
+      : '';
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -223,7 +228,7 @@ class _SelectionWidgetState extends State<SelectionWidget>
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0, 44, 0, 0),
                         child: Text(
-                          'Congratulations!',
+                          'Congratulations, $username!',
                           textAlign: TextAlign.center,
                           style: FlutterFlowTheme.of(context).displaySmall,
                         ).animateOnPageLoad(

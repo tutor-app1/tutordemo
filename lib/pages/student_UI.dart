@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
@@ -13,6 +14,10 @@ class StudentUIWidget extends StatefulWidget {
 
 class _StudentUIpageWidgetState extends State<StudentUIWidget> {
   late StudentUIpageModel _model;
+
+  final username = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser!.displayName
+      : '';
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -89,7 +94,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
               ),
             ),
             title: Text(
-              'Your name',
+              '$username',
               style: FlutterFlowTheme.of(context).headlineMedium,
             ),
             actions: [

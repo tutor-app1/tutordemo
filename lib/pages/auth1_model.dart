@@ -151,9 +151,9 @@ class AuthManager {
   // create account with email and password
   Future<UserCredential?> createAccountWithEmail(
       String username,
-      String subject,
       String email,
       String password,
+      String subject,
       String role,
       String educationlevel) async {
     try {

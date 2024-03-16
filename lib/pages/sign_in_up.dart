@@ -26,7 +26,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
   );
 
   String dropdownValue = 'student';
-  String dropdownValue2 = 'Level of Education';
+  String dropdownValue2 = 'Secondary';
+  String dropdownValue3 = 'Maths';
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -1028,7 +1029,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                             ),
                                           ),
                                           // subjects field
-                                          Padding(
+                                          /*Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .fromSTEB(0, 0, 0, 16),
                                             child: Container(
@@ -1118,7 +1119,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     .asValidator(context),
                                               ),
                                             ),
-                                          ),
+                                          ), */
                                           // email field
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1431,6 +1432,52 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
+                                          // drop down for subject
+                                          Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                                  child: Text(
+                                    'Select Subject of interest',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelMedium,
+                                  ),
+                                ),
+                                          // drop down for student or tutor
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: DropdownButton<String>(
+                                              value: dropdownValue3,
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownValue3 = newValue!;
+                                                });
+                                              },
+                                              items: <String>[
+                                                'Maths',
+                                                'English',
+                                                'Science',
+                                                'Social Studies and History',
+                                                'Physical Education',
+                                                'Art and Music',
+                                                'Information Technology',
+                                                'Regional Language (s)'
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                          Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                                  child: Text(
+                                    'Select role',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelMedium,
+                                  ),
+                                ),
                                           // drop down for student or tutor
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1454,6 +1501,14 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               }).toList(),
                                             ),
                                           ),
+                                          Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                                  child: Text(
+                                    'Select education level',
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelMedium,
+                                  ),
+                                ),
                                           // drop down for education level
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1466,7 +1521,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 });
                                               },
                                               items: <String>[
-                                                'Level of Education',
                                                 'Secondary',
                                                 'College',
                                                 'University',
@@ -1662,14 +1716,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         .createAccountWithEmail(
                                                       _model.usernameController
                                                           .text,
-                                                      _model.subjectController
-                                                          .text,
+                                                      //_model.subjectController
+                                                          //.text,
                                                       _model
                                                           .emailAddressCreateController
                                                           .text,
                                                       _model
                                                           .passwordCreateController
                                                           .text,
+                                                          dropdownValue3,
                                                       dropdownValue,
                                                       dropdownValue2,
                                                     );
