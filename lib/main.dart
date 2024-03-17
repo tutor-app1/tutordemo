@@ -4,6 +4,8 @@ import 'pages/sign_in_up.dart';
 import 'pages/student_UI.dart';
 import 'pages/tutor_UI.dart';
 import 'pages/tutor_profile.dart';
+import 'pages/student_personal_profile.dart';
+import 'pages/tutor_personal_profile.dart';
 import 'pages/selection.dart';
 import 'pages/forgotpassword.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,7 +39,9 @@ class MyApp extends StatelessWidget {
         '/tutor_UI': (context) => const TutorUIWidget(),
         '/tutor_profile': (context) => const TutorProfileWidget(),
         '/selection_ui': (context) => const SelectionWidget(),
-        '/forgotpassword': (context) => const ForgotpasswordWidget(),
+        '/forgot_password': (context) => const ForgotpasswordWidget(),
+        '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
+        '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
       }
     );
   }
