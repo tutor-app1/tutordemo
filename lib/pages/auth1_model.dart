@@ -112,7 +112,7 @@ class AuthManager {
       }
       return null;
     } catch (e) {
-      throw AuthException('An unknown error occurred.');
+      throw AuthException('An unknown error occurred when finding user.');
     }
   }
 
@@ -137,9 +137,9 @@ class AuthManager {
           await _auth.signInWithCredential(credential);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message ?? 'An unknown error occurred.');
+      throw AuthException(e.message ?? 'An  occurred.');
     } catch (e) {
-      throw AuthException('An unknown error occurred.');
+      throw AuthException('An unknown error occurred when signing in.');
     }
   }
 
@@ -212,7 +212,7 @@ class AuthManager {
         throw AuthException('No user found for that email.');
       }
     } catch (e) {
-      throw AuthException('An unknown error occurred.');
+      throw AuthException('An unknown error occurred when fectching user email.');
     }
   }
 }    

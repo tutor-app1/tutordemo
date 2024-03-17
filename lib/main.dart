@@ -28,16 +28,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Tutor App',
-        home: const Onboarding1Widget(),
-        routes: {
-          '/landing_page': (context) => const Onboarding1Widget(),
-          '/auth': (context) => const Auth1Widget(),
-          '/student_UI': (context) => const StudentUIWidget(),
-          '/tutor_UI': (context) => const TutorUIWidget(),
-          '/tutor_profile': (context) => const TutorProfileWidget(),
-          '/selection_ui': (context) => const SelectionWidget(),
-          '/forgotpassword': (context) => const ForgotpasswordWidget(),
-        });
+      title: 'Tutor App',
+      home: const Onboarding1Widget(),
+      routes: {
+        '/landing_page': (context) => const Onboarding1Widget(),
+        '/auth': (context) => const Auth1Widget(),
+        '/student_UI': (context) => const StudentUIWidget(),
+        '/tutor_UI': (context) => const TutorUIWidget(),
+        '/tutor_profile': (context) => const TutorProfileWidget(),
+        '/selection_ui': (context) => const SelectionWidget(),
+        '/forgotpassword': (context) => const ForgotpasswordWidget(),
+      }
+    );
   }
 }
