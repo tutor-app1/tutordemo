@@ -79,7 +79,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                 //Replaced code
 
                 child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, '/tutor_profile'),
+                  onTap: () => Navigator.pushNamed(context, '/student_personal_profile'),
                   //Redirects to /tutor_profile by default
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),

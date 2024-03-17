@@ -57,7 +57,7 @@ class _StudentPersonalProfileWidgetState extends State<StudentPersonalProfileWid
               size: 30,
             ),
             onPressed: () async {
-              print('clicked');
+              Navigator.pushNamed(context, '/student_UI');
             },
           ),
           actions: [],

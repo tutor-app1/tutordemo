@@ -157,7 +157,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        Navigator.pushNamed(context, '/landing_page');
+                        Navigator.pushNamed(context, '/tutor_personal_profile');
                       },
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,

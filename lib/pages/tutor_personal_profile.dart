@@ -57,7 +57,7 @@ class _TutorPersonalProfileWidgetState extends State<TutorPersonalProfileWidget>
               size: 30,
             ),
             onPressed: () async {
-              print('clicked');
+              Navigator.pushNamed(context, '/tutor_UI');
             },
           ),
           actions: [],
