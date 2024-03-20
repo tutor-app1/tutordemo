@@ -279,7 +279,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Container(
+                            /*Container(
                               width: 80,
                               height: 80,
                               decoration: BoxDecoration(
@@ -290,7 +290,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              /*child: ClipRRect(
+                              child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: Image.network(
                   tutor['imageUrl'], // Assuming 'imageUrl' is a field in your Firestore documents
@@ -298,8 +298,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                   height: 100,
                   fit: BoxFit.cover,
                 ),
-              ),*/
-                            ),
+              ),
+                            ),*/
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
