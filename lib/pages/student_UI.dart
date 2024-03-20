@@ -13,7 +13,8 @@ class StudentUIWidget extends StatefulWidget {
   State<StudentUIWidget> createState() => _StudentUIpageWidgetState();
 }
 
-class _StudentUIpageWidgetState extends State<StudentUIWidget> {
+class _StudentUIpageWidgetState extends State<StudentUIWidget>
+    with TickerProviderStateMixin {
   late StudentUIpageModel _model;
 
   final username = FirebaseAuth.instance.currentUser != null
@@ -40,6 +41,12 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
+
+    _model.tabBarController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: 0,
+    )..addListener(() => setState(() {}));
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -388,7 +395,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                       child: Column(
                         children: [
                           Align(
-                            alignment: Alignment(0, 0),
+                            alignment: const Alignment(0, 0),
                             child: TabBar(
                               isScrollable: true,
                               labelColor:
@@ -436,8 +443,11 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                                   weekStartsMonday: true,
                                   rowHeight: 40,
                                   onChange: (DateTimeRange? newSelectedDate) {
-                                    setState(() => _model.calendarSelectedDay =
-                                        newSelectedDate);
+                                    if (mounted) {
+                                      setState(() =>
+                                          _model.calendarSelectedDay =
+                                              newSelectedDate);
+                                    }
                                   },
                                   titleStyle:
                                       FlutterFlowTheme.of(context).titleLarge,
@@ -480,7 +490,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                       ),
                     ),
                   ),
-                ),*/
+                ), */
               ],
             ),
           ),
