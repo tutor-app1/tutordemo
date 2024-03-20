@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
@@ -18,6 +19,17 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
   final username = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser!.displayName
       : '';
+
+  Future<List<DocumentSnapshot>> fetchTutors(String query) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('tutor')
+        .where('username', isEqualTo: query)
+        .get();
+
+    return snapshot.docs;
+  }
+
+  List<DocumentSnapshot> searchResults = [];
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -79,7 +91,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                 //Replaced code
 
                 child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, '/student_personal_profile'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/student_personal_profile'),
                   //Redirects to /tutor_profile by default
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -139,6 +152,10 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                           child: TextFormField(
                             controller: _model.textController,
                             focusNode: _model.textFieldFocusNode,
+                            onChanged: (value) async {
+                              searchResults = await fetchTutors(value);
+                              setState(() {});
+                            },
                             autofocus: true,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -178,11 +195,11 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                               contentPadding:
                                   const EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
-                              suffixIcon: Icon(
+                              /*suffixIcon: Icon(
                                 Icons.search_rounded,
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
-                              ),
+                              ),*/
                             ),
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             cursorColor: FlutterFlowTheme.of(context).primary,
@@ -195,12 +212,15 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...'); //search button
-                        },
+                        onPressed: () async {
+                          String name = _model.textController.text;
+                          searchResults = await fetchTutors(name);
+                          setState(() {}); // Call setState to update the UI
+                        }, //search button
+
                         text: '',
                         icon: const Icon(
-                          Icons.filter_list_alt,
+                          Icons.search,
                           size: 15,
                         ),
                         options: FFButtonOptions(
@@ -235,17 +255,14 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                         ),
                   ),
                 ),
-                ListView(
-                  padding: const EdgeInsets.fromLTRB(
-                    0,
-                    8,
-                    0,
-                    44,
-                  ),
+                ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 44),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  children: [
-                    Container(
+                  itemCount: searchResults.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot tutor = searchResults[index];
+                    return Container(
                       width: 100,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -273,396 +290,197 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/287/600',
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Tutor Name',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.tab,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 16, 0),
-                                          child: Text(
-                                            'Subjects',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.apartment,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Text(
-                                          'University name',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ].divide(const SizedBox(height: 4)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                        ),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            16, 12, 16, 12),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/287/600',
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Tutor Name',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.tab,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 16, 0),
-                                          child: Text(
-                                            'Subjects',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.apartment,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Text(
-                                          'University name',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ].divide(const SizedBox(height: 4)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                        ),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            16, 12, 16, 12),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/287/600',
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Tutor Name',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.tab,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 16, 0),
-                                          child: Text(
-                                            'Subjects',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.apartment,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Text(
-                                          'University name',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ].divide(const SizedBox(height: 4)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                        ),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            16, 12, 16, 12),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/287/600',
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Tutor Name',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.tab,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 16, 0),
-                                          child: Text(
-                                            'Subjects',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 0, 4, 0),
-                                          child: Icon(
-                                            Icons.apartment,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Text(
-                                          'University name',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ].divide(const SizedBox(height: 4)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                              /*child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image.network(
+                  tutor['imageUrl'], // Assuming 'imageUrl' is a field in your Firestore documents
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
                 ),
+              ),*/
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      tutor[
+                                          'username'], // Assuming 'name' is a field in your Firestore documents
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyLarge,
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
+                                          child: Icon(
+                                            Icons.tab,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 16, 0),
+                                          child: Text(
+                                            tutor[
+                                                'subject'], // Assuming 'subjects' is a field in your Firestore documents
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 4, 0),
+                                          child: Icon(
+                                            Icons.apartment,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          tutor[
+                                              'educationlevel'], // Assuming 'university' is a field in your Firestore documents
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelSmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ].divide(const SizedBox(height: 4)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                /*Flexible(
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    child: Container(
+                      height: 350,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment(0, 0),
+                            child: TabBar(
+                              isScrollable: true,
+                              labelColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              unselectedLabelColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              unselectedLabelStyle: const TextStyle(),
+                              indicatorColor:
+                                  FlutterFlowTheme.of(context).primary,
+                              tabs: const [
+                                Tab(
+                                  text: 'Find A Tutor',
+                                ),
+                                Tab(
+                                  text: 'Sessions',
+                                ),
+                                Tab(
+                                  text: 'Message',
+                                ),
+                              ],
+                              controller: _model.tabBarController,
+                              onTap: (i) async {
+                                [() async {}, () async {}, () async {}][i]();
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              controller: _model.tabBarController,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                Container(),
+                                FlutterFlowCalendar(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  iconColor: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  weekFormat: false,
+                                  weekStartsMonday: true,
+                                  rowHeight: 40,
+                                  onChange: (DateTimeRange? newSelectedDate) {
+                                    setState(() => _model.calendarSelectedDay =
+                                        newSelectedDate);
+                                  },
+                                  titleStyle:
+                                      FlutterFlowTheme.of(context).titleLarge,
+                                  dayOfWeekStyle: FlutterFlowTheme.of(context)
+                                      .labelLarge
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        fontSize: 14,
+                                      ),
+                                  dateStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        fontSize: 12,
+                                      ),
+                                  selectedDateStyle:
+                                      FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                  inactiveDateStyle:
+                                      FlutterFlowTheme.of(context).labelSmall,
+                                ),
+                                Text(
+                                  'conversation history',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        fontSize: 32,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),*/
               ],
             ),
           ),
