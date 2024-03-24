@@ -37,10 +37,59 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
 
   List<DocumentSnapshot> searchResults = [];
 
+  List allTutors = [];
+  List resultList = [];
+
+  searchResultsList () {
+    var showResults = [];
+    if (_model.textController.text != '') {
+      for ( var tutorSnapShot in allTutors) {
+          var name = tutorSnapShot['username'].toString().toLowerCase();
+          if (name.contains(_model.textController.text.toLowerCase())) {
+            showResults.add(tutorSnapShot);
+          }
+        }
+    } 
+    else {
+        
+      showResults = List.from(allTutors);
+    }
+
+    setState(() {
+      resultList = showResults;
+    });
+  }
+
+  getTutorStream () async {
+    final tutorStream = await FirebaseFirestore.instance.collection('tutor').orderBy('username').get();
+
+    setState(() {
+      allTutors = tutorStream.docs;
+    });
+    searchResultsList();
+  }
+
+  List resultSubList = [];
+  
+  void filterResultsBySubject(String subject) {
+  var showSubResults = [];
+  for (var tutorSnapShot in allTutors) {
+    var subjects = List<String>.from(tutorSnapShot['subjects']);
+    if (subjects.contains(subject)) {
+      showSubResults.add(tutorSnapShot);
+    }
+  }
+
+  setState(() {
+    resultSubList = showSubResults;
+  });
+}
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    //getTutorStream();
     super.initState();
     _model = createModel(context, () => StudentUIpageModel());
 
@@ -61,6 +110,12 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
     _model.dispose();
 
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    getTutorStream();
+    super.didChangeDependencies();
   }
 
   @override
@@ -166,6 +221,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                             focusNode: _model.textFieldFocusNode,
                             onChanged: (value) async {
                               searchResults = await fetchTutors(value);
+                              searchResultsList();
                               setState(() {});
                             },
                             autofocus: true,
@@ -207,11 +263,11 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                               contentPadding:
                                   const EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
-                              /*suffixIcon: Icon(
+                              suffixIcon: Icon(
                                 Icons.search_rounded,
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
-                              ),*/
+                              ),
                             ),
                             style: FlutterFlowTheme.of(context).bodyMedium,
                             cursorColor: FlutterFlowTheme.of(context).primary,
@@ -232,7 +288,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
 
                         text: '',
                         icon: const Icon(
-                          Icons.search,
+                          Icons.filter_list_alt,
                           size: 15,
                         ),
                         options: FFButtonOptions(
@@ -271,9 +327,9 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 44),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: searchResults.length,
+                  itemCount: resultList.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot tutor = searchResults[index];
+                    DocumentSnapshot tutor = resultList[index];
                     return Container(
                       width: 100,
                       decoration: const BoxDecoration(
@@ -323,7 +379,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                   children: [
                                     Text(
                                       tutor[
-                                          'username'], // Assuming 'name' is a field in your Firestore documents
+                                          'username'], 
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge,
                                     ),
@@ -345,7 +401,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                               .fromSTEB(0, 0, 16, 0),
                                           child: Text(
                                             tutor[
-                                                'subject'], // Assuming 'subjects' is a field in your Firestore documents
+                                                'subject'], 
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall,
                                           ),
@@ -367,7 +423,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                         ),
                                         Text(
                                           tutor[
-                                              'educationlevel'], // Assuming 'university' is a field in your Firestore documents
+                                              'educationlevel'], 
                                           style: FlutterFlowTheme.of(context)
                                               .labelSmall,
                                         ),
