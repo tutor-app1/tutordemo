@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'auth1_model.dart';
 export 'auth1_model.dart';
@@ -22,8 +23,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
   AuthManager authManager = AuthManager();
   GoogleSignIn googleSignIn = GoogleSignIn(
-    clientId: 'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0',
-  );
+    clientId: '29521760363-mn4cplbjubvcjptgs8gjk4h49u99i1r4.apps.googleusercontent.com', 
+  ); //'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0'
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance; 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String dropdownValue = 'student';
   String dropdownValue2 = 'Secondary';
@@ -540,123 +543,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 16),
-                                              child: FFButtonWidget(
-                                                onPressed: () async {
-                                                  // signing in with email
-                                                  final scaffoldMessenger =
-                                                      ScaffoldMessenger.of(
-                                                          context);
-                                                  try {
-                                                    final user =
-                                                        await authManager
-                                                            .signInWithEmail(
-                                                      _model
-                                                          .emailAddressController
-                                                          .text,
-                                                      _model.passwordController
-                                                          .text,
-                                                    );
-                                                    if (user == null) {
-                                                      // Handle the case where the user is null
-                                                      scaffoldMessenger
-                                                          .showSnackBar(
-                                                        const SnackBar(
-                                                          content: Text(
-                                                            'Error: User not found. Please check your email and password.',
-                                                          ),
-                                                        ),
-                                                      );
-
-                                                      return;
-                                                    }
-                                                  } on AuthException catch (e) {
-                                                    // Handle the error here, e.g., show a dialog with the error message
-                                                    //print(e.message);
-                                                    // snackbar for email sign in error
-                                                    scaffoldMessenger
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Error: ${e.message}',
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-
-                                                  if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
-                                                    ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                const SnackBar(
-                                                                  content: Text(
-                                                                    'Please select either Student or Tutor not Both'
-                                                                  ),
-                                                                ),);
-                                                              
-                                                            } else if (_model.checkboxListTileValue2 == true) {
-                                                              Navigator.pushNamed(
-                                                                context,
-                                                                '/tutor_UI',
-                                                              );
-                                                            } else if (_model.checkboxListTileValue1 == true ) {
-                                                                Navigator.pushNamed(
-                                                                  context,
-                                                                  '/student_UI',
-                                                                );
-                                                            }else {
-                                                              ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                const SnackBar(
-                                                                  content: Text(
-                                                                    'Please select either Student or Tutor'
-                                                                  ),
-                                                                ),);
-                                                            }
-                                                          },
-                                                text: 'Sign In',
-                                                options: FFButtonOptions(
-                                                  width: 230,
-                                                  height: 52,
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0, 0, 0, 0),
-                                                  iconPadding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0, 0, 0, 0),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  textStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .override(
-                                                            fontFamily: 'Inter',
-                                                            color: Colors.white,
-                                                          ),
-                                                  elevation: 3,
-                                                  borderSide: const BorderSide(
-                                                    color: Colors.transparent,
-                                                    width: 1,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(40),
-                                                ),
-                                              ).animateOnActionTrigger(
-                                                animationsMap[
-                                                    'buttonOnActionTriggerAnimation']!,
-                                              ),
-                                            ),
-                                          ),
                                           Theme(
                                             data: ThemeData(
                                               checkboxTheme:
@@ -802,7 +688,155 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               ),
                                             ),
                                           ),
-                                          Column(
+                                          Align(
+                                            alignment:
+                                                const AlignmentDirectional(
+                                                    0, 0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 0, 16),
+                                              child: FFButtonWidget(
+                                                onPressed: () async {
+                                                  // signing in with email
+                                                  final scaffoldMessenger =
+                                                      ScaffoldMessenger.of(
+                                                          context);
+                                                  
+                                                  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+                                                        email: _model.emailAddressController.text,
+                                                        password: _model.passwordController.text,
+                                                      );
+
+                                                  try {
+                                                    final user =
+                                                        await authManager
+                                                            .signInWithEmail(
+                                                      _model
+                                                          .emailAddressController
+                                                          .text,
+                                                      _model.passwordController
+                                                          .text,
+                                                    );
+                                                    if (user == null) {
+                                                      // Handle the case where the user is null
+                                                      scaffoldMessenger
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            'Error: User not found. Please check your email and password.',
+                                                          ),
+                                                        ),
+                                                      );
+
+                                                      return;
+                                                    }
+                                                  } on AuthException catch (e) {
+                                                    //print(e.message);
+                                                    // snackbar for email sign in error
+                                                    scaffoldMessenger
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+
+                                                  if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
+                                                    ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    'Please select either Student or Tutor not Both'
+                                                                  ),
+                                                                ),);
+                                                              
+                                                            } else if (_model.checkboxListTileValue2 == true) {
+
+                                                            // Get a reference to the user's document in the 'students' collection
+                                                              var userDoc = _firestore.collection('student').doc(userCredential.user!.uid);
+
+                                                              // Retrieve the document
+                                                              var docSnapshot = await userDoc.get();
+                                                              if (docSnapshot.exists) {
+                                                                // If the document exists, get the data
+                                                                var data = docSnapshot.data();
+
+                                                                // Create a new document in the 'tutors' collection with the same data
+                                                                await _firestore.collection('tutor').doc(userCredential.user!.uid).set(data!);
+                                                              }
+                                                              Navigator.pushNamed(
+                                                                context,
+                                                                '/tutor_UI',
+                                                              );
+                                                            } else if (_model.checkboxListTileValue1 == true ) {
+
+                                                              // Get a reference to the user's document in the 'students' collection
+                                                              var userDoc = _firestore.collection('tutor').doc(userCredential.user!.uid);
+
+                                                              // Retrieve the document
+                                                              var docSnapshot = await userDoc.get();
+                                                              if (docSnapshot.exists) {
+                                                                // If the document exists, get the data
+                                                                var data = docSnapshot.data();
+
+                                                                // Create a new document in the 'tutors' collection with the same data
+                                                                await _firestore.collection('student').doc(userCredential.user!.uid).set(data!);
+                                                              }
+                                                                Navigator.pushNamed(
+                                                                  context,
+                                                                  '/student_UI',
+                                                                );
+                                                            }else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    'Please select either Student or Tutor'
+                                                                  ),
+                                                                ),);
+                                                            }
+                                                          },
+                                                text: 'Sign In',
+                                                options: FFButtonOptions(
+                                                  width: 230,
+                                                  height: 52,
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(0, 0, 0, 0),
+                                                  iconPadding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(0, 0, 0, 0),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            fontFamily: 'Inter',
+                                                            color: Colors.white,
+                                                          ),
+                                                  elevation: 3,
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                ),
+                                              ).animateOnActionTrigger(
+                                                animationsMap[
+                                                    'buttonOnActionTriggerAnimation']!,
+                                              ),
+                                            ),
+                                          ),
+                                          /*Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Align(
@@ -966,7 +1000,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 ),
                                               ),
                                             ],
-                                          ),
+                                          ),*/
                                         ],
                                       ).animateOnPageLoad(animationsMap[
                                           'columnOnPageLoadAnimation1']!),
@@ -1579,7 +1613,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                               }).toList(),
                                             ),
                                           ),
-                                          Column(
+                                          /*Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Align(
@@ -1727,7 +1761,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 ),
                                               ),
                                             ],
-                                          ),
+                                          ),*/
                                           Align(
                                             alignment:
                                                 const AlignmentDirectional(

@@ -331,7 +331,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                   itemBuilder: (context, index) {
                     DocumentSnapshot tutor = resultList[index];
                     return Container(
-                      width: 100,
+                      width: 50,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
@@ -361,7 +361,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: Image.network(
-                  tutor['imageUrl'], // Assuming 'imageUrl' is a field in your Firestore documents
+                  tutor['imageUrl'],
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
@@ -443,7 +443,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                     child: Container(
-                      height: 350,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                         borderRadius: const BorderRadius.only(
@@ -551,7 +551,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                       ),
                     ),
                   ),
-                ), */
+                ),*/
+
               ],
             ),
           ),
