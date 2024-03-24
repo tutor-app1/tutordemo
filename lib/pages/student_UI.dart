@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
@@ -22,6 +23,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
       : '';
 
   Future<List<DocumentSnapshot>> fetchTutors(String query) async {
+    var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('tutor')
         .where('lowercase_username', isEqualTo: query.toLowerCase())
@@ -32,7 +34,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
         .where('subject', isEqualTo: query)
         .get();
 
-    return [...snapshot.docs, ...snapshot2.docs];
+    return [...snapshot.docs.where((doc) => doc.id != currentUserUid),
+    ...snapshot2.docs.where((doc) => doc.id != currentUserUid),];
   }
 
   List<DocumentSnapshot> searchResults = [];
@@ -42,8 +45,13 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
 
   searchResultsList () {
     var showResults = [];
+    var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
     if (_model.textController.text != '') {
       for ( var tutorSnapShot in allTutors) {
+          // Skip if the tutor is the current user
+          if (tutorSnapShot.id == currentUserUid) {
+            continue;
+          }
           var name = tutorSnapShot['username'].toString().toLowerCase();
           if (name.contains(_model.textController.text.toLowerCase())) {
             showResults.add(tutorSnapShot);
@@ -61,10 +69,11 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
   }
 
   getTutorStream () async {
+    var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
     final tutorStream = await FirebaseFirestore.instance.collection('tutor').orderBy('username').get();
 
     setState(() {
-      allTutors = tutorStream.docs;
+      allTutors = tutorStream.docs.where((doc) => doc.id != currentUserUid).toList();
     });
     searchResultsList();
   }
@@ -73,6 +82,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
   
   void filterResultsBySubject(String subject) {
   var showSubResults = [];
+
   for (var tutorSnapShot in allTutors) {
     var subjects = List<String>.from(tutorSnapShot['subjects']);
     if (subjects.contains(subject)) {
@@ -277,7 +287,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                         ),
                       ),
                     ),
-                    Padding(
+                    /*Padding(
                       padding: const EdgeInsets.all(10),
                       child: FFButtonWidget(
                         onPressed: () async {
@@ -310,7 +320,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                    ),
+                    ), */
                   ],
                 ),
                 Padding(
