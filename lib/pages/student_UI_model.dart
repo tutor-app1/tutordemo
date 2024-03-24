@@ -10,17 +10,30 @@ class StudentUIpageModel extends FlutterFlowModel<StudentUIWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for TabBar widget.
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
+
+  // State field(s) for Calendar widget.
+  DateTimeRange? calendarSelectedDay;
 
   /// Initialization and disposal methods.
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    calendarSelectedDay = DateTimeRange(
+      start: DateTime.now().startOfDay,
+      end: DateTime.now().endOfDay,
+    );
+  }
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
+
+    tabBarController?.dispose();
   }
 
   /// Action blocks are added here.
