@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'auth1_model.dart';
 export 'auth1_model.dart';
@@ -25,8 +24,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
   GoogleSignIn googleSignIn = GoogleSignIn(
     clientId: '29521760363-mn4cplbjubvcjptgs8gjk4h49u99i1r4.apps.googleusercontent.com', 
   ); //'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0'
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance; 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String dropdownValue = 'student';
   String dropdownValue2 = 'Secondary';
@@ -702,11 +700,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                   final scaffoldMessenger =
                                                       ScaffoldMessenger.of(
                                                           context);
-                                                  
-                                                  /*UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-                                                        email: _model.emailAddressController.text,
-                                                        password: _model.passwordController.text,
-                                                      );*/
 
                                                   try {
                                                     final user =
