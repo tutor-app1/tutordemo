@@ -654,7 +654,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                 onPressed: () {
                                                   Navigator.pushNamed(
                                                     context,
-                                                    '/forgotpassword',
+                                                    '/forgot_password',
                                                   );
                                                   //print('Button pressed ...');
                                                 },
@@ -703,10 +703,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       ScaffoldMessenger.of(
                                                           context);
                                                   
-                                                  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+                                                  /*UserCredential userCredential = await _auth.signInWithEmailAndPassword(
                                                         email: _model.emailAddressController.text,
                                                         password: _model.passwordController.text,
-                                                      );
+                                                      );*/
 
                                                   try {
                                                     final user =
@@ -731,76 +731,54 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
                                                       return;
                                                     }
+
+                                                    if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
+                                                    scaffoldMessenger.showSnackBar( const SnackBar(content: Text('Please select either Student or Tutor not Both'),),);
+                                                              
+                                                  } else if (_model.checkboxListTileValue2 == true) {
+                                                    // Get a reference to the user's document in the 'students' collection
+                                                    var userDoc = _firestore.collection('student').doc(user.uid);
+
+                                                    // Retrieve the document
+                                                    var docSnapshot = await userDoc.get();
+                                                    if (docSnapshot.exists) {
+                                                      // If the document exists, get the data
+                                                      var data = docSnapshot.data();
+
+                                                      // Create a new document in the 'tutors' collection with the same data
+                                                      await _firestore.collection('tutor').doc(user.uid).set(data!);
+                                                    }
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      '/tutor_UI',
+                                                      );
+                                                  } else if (_model.checkboxListTileValue1 == true ) {
+
+                                                    // Get a reference to the user's document in the 'students' collection
+                                                    var userDoc = _firestore.collection('tutor').doc(user.uid);
+
+                                                    // Retrieve the document
+                                                    var docSnapshot = await userDoc.get();
+                                                    if (docSnapshot.exists) {
+                                                      // If the document exists, get the data
+                                                      var data = docSnapshot.data();
+
+                                                      // Create a new document in the 'tutors' collection with the same data
+                                                      await _firestore.collection('student').doc(user.uid).set(data!);
+                                                    }
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/student_UI',
+                                                      );
+                                                  } else {
+                                                    scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Please select either Student or Tutor'),),);
+                                                    }
                                                   } on AuthException catch (e) {
                                                     //print(e.message);
                                                     // snackbar for email sign in error
-                                                    scaffoldMessenger
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Error: ${e.message}',
-                                                        ),
-                                                      ),
-                                                    );
+                                                    scaffoldMessenger.showSnackBar(SnackBar(content: Text('Error: ${e.message}',),),);
                                                   }
-
-                                                  if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
-                                                    ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                const SnackBar(
-                                                                  content: Text(
-                                                                    'Please select either Student or Tutor not Both'
-                                                                  ),
-                                                                ),);
-                                                              
-                                                            } else if (_model.checkboxListTileValue2 == true) {
-
-                                                            // Get a reference to the user's document in the 'students' collection
-                                                              var userDoc = _firestore.collection('student').doc(userCredential.user!.uid);
-
-                                                              // Retrieve the document
-                                                              var docSnapshot = await userDoc.get();
-                                                              if (docSnapshot.exists) {
-                                                                // If the document exists, get the data
-                                                                var data = docSnapshot.data();
-
-                                                                // Create a new document in the 'tutors' collection with the same data
-                                                                await _firestore.collection('tutor').doc(userCredential.user!.uid).set(data!);
-                                                              }
-                                                              Navigator.pushNamed(
-                                                                context,
-                                                                '/tutor_UI',
-                                                              );
-                                                            } else if (_model.checkboxListTileValue1 == true ) {
-
-                                                              // Get a reference to the user's document in the 'students' collection
-                                                              var userDoc = _firestore.collection('tutor').doc(userCredential.user!.uid);
-
-                                                              // Retrieve the document
-                                                              var docSnapshot = await userDoc.get();
-                                                              if (docSnapshot.exists) {
-                                                                // If the document exists, get the data
-                                                                var data = docSnapshot.data();
-
-                                                                // Create a new document in the 'tutors' collection with the same data
-                                                                await _firestore.collection('student').doc(userCredential.user!.uid).set(data!);
-                                                              }
-                                                                Navigator.pushNamed(
-                                                                  context,
-                                                                  '/student_UI',
-                                                                );
-                                                            }else {
-                                                              ScaffoldMessenger
-                                                                      .of(context)
-                                                                  .showSnackBar(
-                                                                const SnackBar(
-                                                                  content: Text(
-                                                                    'Please select either Student or Tutor'
-                                                                  ),
-                                                                ),);
-                                                            }
-                                                          },
+                                                },
                                                 text: 'Sign In',
                                                 options: FFButtonOptions(
                                                   width: 230,
