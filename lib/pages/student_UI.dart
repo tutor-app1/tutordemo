@@ -377,7 +377,16 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                 ),
               ),
                             ),*/
+                            
                             Expanded(
+                              child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/tutor_profile',
+                                  arguments: tutor,
+                                );
+                              },
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 0, 0, 0),
@@ -441,6 +450,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                   ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
+                            ),
                             ),
                           ],
                         ),
