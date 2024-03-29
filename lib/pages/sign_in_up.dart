@@ -1360,8 +1360,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                         .createAccountWithEmail(
                                                       _model.usernameController
                                                           .text,
-                                                      //_model.subjectController
-                                                          //.text,
                                                       _model
                                                           .emailAddressCreateController
                                                           .text,
