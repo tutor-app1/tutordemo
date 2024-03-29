@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:tutorapptrials/pages/auth1_model.dart';
 
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
@@ -155,21 +155,42 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                     width: 2,
                   ),
                 ),
-
-                // child: ClipRRect(
-                //   borderRadius: BorderRadius.circular(20),
-                //   child: Image.network(
-                //     'https://picsum.photos/seed/626/600',
-                //     width: 400,
-                //     height: 300,
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
-                //Replaced code
-
                 child: InkWell(
-                  onTap: () =>
-                      Navigator.pushNamed(context, '/student_personal_profile'),
+                  onTap: () {
+                       showMenu(
+                        context: context,
+                        position: RelativeRect.fill,
+                        items: [
+                          PopupMenuItem(
+                            child: TextButton(
+                              child: const Text('Profile'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/student_personal_profile');
+                              },
+                            ),
+                          ),
+                          PopupMenuItem(
+                            child: TextButton(
+                              child: const Text('Switch to Tutor'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/tutor_UI');
+                              },
+                            ),
+                          ),
+                          PopupMenuItem(
+                            child: TextButton(
+                              child: const Text('Sign Out'),
+                              onPressed: () {
+                                AuthManager authManager = AuthManager();
+                                authManager.signOut();
+                                Navigator.pushNamed(context, '/landing_page');
+                              },
+                            ),
+                          ),
+                          // Add more PopupMenuItems for more pages later
+                        ],
+                      );
+                    },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
@@ -377,7 +398,16 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                 ),
               ),
                             ),*/
+                            
                             Expanded(
+                              child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/tutor_profile',
+                                  arguments: tutor,
+                                );
+                              },
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     12, 0, 0, 0),
@@ -441,6 +471,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                   ].divide(const SizedBox(height: 4)),
                                 ),
                               ),
+                            ),
                             ),
                           ],
                         ),

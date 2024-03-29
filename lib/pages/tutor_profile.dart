@@ -34,6 +34,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final dynamic tutor = ModalRoute.of(context)!.settings.arguments;
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -55,7 +56,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
               size: 30,
             ),
             onPressed: () async {
-              print('clicked');
+              Navigator.pop(context);
+              //print('clicked');
             },
           ),
           actions: [],
@@ -75,7 +77,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                     'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jb3RyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
                     width: double.infinity,
                     height: 330,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
               ),
@@ -96,12 +98,12 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
                           child: Text(
-                            'Dr. Will Hobbiton',
+                            '${tutor['username']}',
                             style: FlutterFlowTheme.of(context).headlineMedium,
                           ),
                         ),
                         Text(
-                          'Primary Care, Intentional Medicine',
+                          '${tutor['email']}',
                           style: FlutterFlowTheme.of(context).bodyMedium,
                         ),
                         const Padding(
@@ -111,7 +113,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                         Align(
                           alignment: const AlignmentDirectional(-1, 0),
                           child: Text(
-                            'EDUCATION',
+                            '${tutor['subject']}',
                             style:
                                 FlutterFlowTheme.of(context).bodySmall.override(
                                       fontFamily: 'Inter',
@@ -134,7 +136,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                         const EdgeInsetsDirectional.fromSTEB(
                                             8, 0, 12, 0),
                                     child: Text(
-                                      'M. PHIL',
+                                      '${tutor['educationlevel']}',
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(

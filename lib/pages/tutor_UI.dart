@@ -2,6 +2,7 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorapptrials/pages/auth1_model.dart';
 
 import 'tutor_UI_model.dart';
 export 'tutor_UI_model.dart';
@@ -140,7 +141,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).accent4,
         body: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -156,9 +157,41 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                       focusColor: Colors.transparent,
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      onTap: () async {
-                        Navigator.pushNamed(context, '/tutor_personal_profile');
-                      },
+                      onTap: () {
+                        showMenu(
+                          context: context,
+                          position: RelativeRect.fill,
+                          items: [
+                            PopupMenuItem(
+                              child: TextButton(
+                                child: const Text('Profile'),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/tutor_personal_profile');
+                                },
+                              ),
+                            ),
+                            PopupMenuItem(
+                            child: TextButton(
+                              child: const Text('Switch to Student'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/student_UI');
+                              },
+                            ),
+                          ),
+                            PopupMenuItem(
+                              child: TextButton(
+                                child: const Text('Sign Out'),
+                                onPressed: () {
+                                  AuthManager authManager = AuthManager();
+                                  authManager.signOut();
+                                  Navigator.pushNamed(context, '/landing_page');
+                                },
+                              ),
+                            ),
+                            // Add more PopupMenuItems for more pages later on 
+                          ],
+                        );
+                      }, 
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         color: FlutterFlowTheme.of(context).primary,
@@ -194,7 +227,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0, 4, 0, 0),
                             child: Text(
-                              'Welcome Tutor name !',
+                              'Welcome $username!',
                               style: FlutterFlowTheme.of(context).labelMedium,
                             ),
                           ),
