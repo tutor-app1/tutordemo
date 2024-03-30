@@ -21,6 +21,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
   final username = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser!.displayName
       : '';
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var user = FirebaseAuth.instance.currentUser;
 
   Future<List<DocumentSnapshot>> fetchTutors(String query) async {
     var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
@@ -172,8 +174,34 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                           PopupMenuItem(
                             child: TextButton(
                               child: const Text('Switch to Tutor'),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/tutor_UI');
+                              onPressed: () async {
+                                try {
+                                  if (user == null) {
+                                    throw Exception('User is not logged in');
+                                  }
+
+                                  // Get a reference to the user's document in the 'students' collection
+                                  var userDoc = _firestore.collection('student').doc(user?.uid);
+
+                                  // Retrieve the document
+                                  var docSnapshot = await userDoc.get();
+                                  if (docSnapshot.exists) {
+                                    // If the document exists, get the data
+                                    var data = docSnapshot.data();
+
+                                    // Create a new document in the 'tutors' collection with the same data
+                                    await _firestore.collection('tutor').doc(user?.uid).set(data!);
+                                  }
+
+                                  Navigator.pushNamed(context, '/tutor_UI');
+
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Failed to switch to student: $e'),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ),

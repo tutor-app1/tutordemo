@@ -747,7 +747,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       );
                                                   } else if (_model.checkboxListTileValue1 == true ) {
 
-                                                    // Get a reference to the user's document in the 'students' collection
+                                                    // Get a reference to the user's document in the 'tutors' collection
                                                     var userDoc = _firestore.collection('tutor').doc(user.uid);
 
                                                     // Retrieve the document
@@ -756,7 +756,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       // If the document exists, get the data
                                                       var data = docSnapshot.data();
 
-                                                      // Create a new document in the 'tutors' collection with the same data
+                                                      // Create a new document in the 'students' collection with the same data
                                                       await _firestore.collection('student').doc(user.uid).set(data!);
                                                     }
                                                       Navigator.pushNamed(

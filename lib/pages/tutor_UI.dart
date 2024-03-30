@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorapptrials/pages/auth1_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'tutor_UI_model.dart';
 export 'tutor_UI_model.dart';
@@ -21,6 +22,8 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
   final username = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser!.displayName
       : '';
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var user = FirebaseAuth.instance.currentUser;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -173,21 +176,46 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                             PopupMenuItem(
                             child: TextButton(
                               child: const Text('Switch to Student'),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/student_UI');
-                              },
-                            ),
-                          ),
-                            PopupMenuItem(
-                              child: TextButton(
-                                child: const Text('Sign Out'),
-                                onPressed: () {
-                                  AuthManager authManager = AuthManager();
-                                  authManager.signOut();
-                                  Navigator.pushNamed(context, '/landing_page');
+                              onPressed: () async {
+                                try {
+                                  if (user == null) {
+                                    throw Exception('User is not logged in');
+                                  }
+
+                                  // Get a reference to the user's document in the 'tutors' collection
+                                  var userDoc = _firestore.collection('tutor').doc(user?.uid);
+
+                                  // Retrieve the document
+                                  var docSnapshot = await userDoc.get();
+                                  if (docSnapshot.exists) {
+                                    // If the document exists, get the data
+                                    var data = docSnapshot.data();
+
+                                    // Create a new document in the 'students' collection with the same data
+                                    await _firestore.collection('student').doc(user?.uid).set(data!);
+                                  }
+
+                                  Navigator.pushNamed(context, '/student_UI');
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Failed to switch to student: $e'),
+                                    ),
+                                  );
+                                }
                                 },
                               ),
                             ),
+                            PopupMenuItem(
+                            child: TextButton(
+                              child: const Text('Sign Out'),
+                              onPressed: () {
+                                AuthManager authManager = AuthManager();
+                                authManager.signOut();
+                                Navigator.pushNamed(context, '/landing_page');
+                              },
+                            ),
+                          ),
                             // Add more PopupMenuItems for more pages later on 
                           ],
                         );
