@@ -175,6 +175,14 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                             ),
                             PopupMenuItem(
                             child: TextButton(
+                              child: const Text('Chats'),
+                              onPressed: () {
+                                //Navigator.pushNamed(context, '/student_personal_profile');
+                              },
+                            ),
+                          ),
+                            PopupMenuItem(
+                            child: TextButton(
                               child: const Text('Switch to Student'),
                               onPressed: () async {
                                 try {
