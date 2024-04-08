@@ -167,23 +167,41 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                           items: [
                             PopupMenuItem(
                               child: TextButton(
-                                child: const Text('Profile'),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.person), 
+                                    SizedBox(width: 8), 
+                                    Text('Profile'),
+                                  ],
+                                ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/tutor_personal_profile');
                                 },
                               ),
                             ),
                             PopupMenuItem(
-                            child: TextButton(
-                              child: const Text('Chats'),
-                              onPressed: () {
-                                //Navigator.pushNamed(context, '/student_personal_profile');
-                              },
+                              child: TextButton(
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.chat), 
+                                    SizedBox(width: 8), 
+                                    Text('Chats'),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  //Navigator.pushNamed(context, '/student_personal_profile');
+                                },
+                              ),
                             ),
-                          ),
                             PopupMenuItem(
-                            child: TextButton(
-                              child: const Text('Switch to Student'),
+                              child: TextButton(
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.swap_horiz), 
+                                    SizedBox(width: 8), 
+                                    Text('Switch to Student'),
+                                  ],
+                                ),
                               onPressed: () async {
                                 try {
                                   if (user == null) {
@@ -215,15 +233,21 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                               ),
                             ),
                             PopupMenuItem(
-                            child: TextButton(
-                              child: const Text('Sign Out'),
-                              onPressed: () {
-                                AuthManager authManager = AuthManager();
-                                authManager.signOut();
-                                Navigator.pushNamed(context, '/landing_page');
-                              },
+                              child: TextButton(
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.logout), 
+                                    SizedBox(width: 8), 
+                                    Text('Sign Out'),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  AuthManager authManager = AuthManager();
+                                  authManager.signOut();
+                                  Navigator.pushNamed(context, '/landing_page');
+                                },
+                              ),
                             ),
-                          ),
                             // Add more PopupMenuItems for more pages later on 
                           ],
                         );
