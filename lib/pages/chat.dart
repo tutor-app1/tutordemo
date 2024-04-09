@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
@@ -69,8 +70,15 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: FlutterFlowTheme.of(context).secondaryText,
       appBar: AppBar(
-        title: const Text('Chats'),
+        backgroundColor: FlutterFlowTheme.of(context).lineColor,
+        title: Text('C h a t s',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+          color: FlutterFlowTheme.of(context).secondary,
+        ),),
       ),
       body: Column(
         children: [
@@ -80,7 +88,7 @@ class _ChatWidgetState extends State<ChatWidget> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final messages = snapshot.data!.docs;
-                  print('Messages: $messages');
+                  //print('Messages: $messages');
 
                   if (messages.isEmpty) {
                     return Center(
@@ -104,7 +112,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                         future: getUsername(otherUserId),
                         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator(); // Show a loading spinner while waiting
+                            return const CircularProgressIndicator(); // Show a loading spinner while waiting
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}'); // Show an error message if something went wrong
                           } else {
@@ -124,8 +132,31 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   ),
                                 );
                               },
+                              child: Container(
+                                margin: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
                               child: ListTile(
-                                title: Text(username!), // Display the username
+                                title: Text(username!,
+                                style: TextStyle(
+                                  foreground: Paint()
+                                  ..shader = ui.Gradient.linear(
+                                    const Offset(0, 20),
+                                    const Offset(150,20),
+                                    <Color>[
+                                      FlutterFlowTheme.of(context).accent2,
+                                      FlutterFlowTheme.of(context).accent4,
+                                    ],
+                                    ),
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  //color: FlutterFlowTheme.of(context).secondaryBackground,
+                                ),), // Display the username
+                              ),
                               ),
                             );
                           }
@@ -134,7 +165,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                     },
                   );
                 } else if (snapshot.hasError) {
-                  print('Error: ${snapshot.error}');
+                  //print('Error: ${snapshot.error}');
                   return Center(
                     child: Text('An error occurred',
                       style: TextStyle(

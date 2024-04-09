@@ -40,8 +40,18 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
       if (message.isNotEmpty) {
         await Message(sender: user.uid, reciever: reciever, message: message, timestamp: timestamp).sendMessage();
         _messageController.clear();
+        scrollDown();
       }
     }
+  }
+
+  void scrollDown() {
+    final ScrollController _scrollController = ScrollController();
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeOut,
+    );
   }
 
   @override

@@ -138,11 +138,11 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).secondary,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            backgroundColor: FlutterFlowTheme.of(context).success,
             automaticallyImplyLeading: false,
             leading: Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(12, 6, 0, 6),
@@ -480,7 +480,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                       tutor[
                                           'username'], 
                                       style: FlutterFlowTheme.of(context)
-                                          .bodyLarge,
+                                          .bodyLarge.copyWith(color: FlutterFlowTheme.of(context).primaryText),
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
