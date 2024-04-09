@@ -5,8 +5,10 @@ import 'pages/student_UI.dart';
 import 'pages/tutor_UI.dart';
 import 'pages/tutor_profile.dart';
 import 'pages/student_personal_profile.dart';
+import 'pages/chat.dart';
 import 'pages/tutor_personal_profile.dart';
 import 'pages/selection.dart';
+import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -42,7 +44,16 @@ class MyApp extends StatelessWidget {
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
         '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
-      }
+        '/chat': (context) => const ChatWidget(),
+        '/chat_screen': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          return ChatScreenWidget(
+            key: const ValueKey('chat_screen'),
+            otherUserId: args['otherUserId']!,
+            conversationId: args['conversationId']!,
+          );
+        },
+      },
     );
   }
 }
