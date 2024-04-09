@@ -255,13 +255,15 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                             onPressed: () async {
                               final user = _auth.currentUser;
                               final String conversationId = await getOrCreateConversationId(user!.uid, tutorId);
+                              //print('Tutor ID: $tutorId');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ChatScreenWidget(
                                     key: const ValueKey('chat_screen'),
                                     otherUserId: tutorId,
-                                    conversationId: conversationId, 
+                                    conversationId: conversationId,
+                                    tutorId: tutorId, 
                                     ),
                                   )
                                 );

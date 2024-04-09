@@ -8,8 +8,9 @@ class ChatScreenWidget extends StatefulWidget {
 
   final String otherUserId;
   final String conversationId;
+  final String tutorId;
 
-  const ChatScreenWidget({required Key key, required this.otherUserId, required this.conversationId}) : super(key: key);
+  const ChatScreenWidget({required Key key, required this.otherUserId, required this.conversationId, required this.tutorId}) : super(key: key);
 
   @override
   State<ChatScreenWidget> createState() => _ChatScreenWidgetState();
@@ -18,6 +19,7 @@ class ChatScreenWidget extends StatefulWidget {
 class _ChatScreenWidgetState extends State<ChatScreenWidget> {
 
   final TextEditingController _messageController = TextEditingController();
+  final FocusNode _focusNode = FocusNode(); 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser!;
@@ -25,6 +27,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
   String userName = '';
   String? tutorId;
   late String conversationId;
+  Future<String>? userNameFuture;
 
   
   void _sendMessage(String otherUserId, String message) async {
@@ -45,21 +48,29 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
   void initState() {
     super.initState();
     conversationId = widget.conversationId;
+    tutorId = widget.tutorId; // Retrieve tutorId from the widget
+    //print('Tutor ID: $tutorId'); // Print the tutorId
+    userNameFuture = fetchUserName(tutorId);
+    _focusNode.requestFocus();
   }
 
   @override
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (ModalRoute.of(context)!.settings.arguments != null) {
-      final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    final Map<String, String>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+    if (arguments != null) {
       tutorId = arguments['tutorId'];
+      //print('Tutor ID: $tutorId'); // Print the tutorId
+      userNameFuture = fetchUserName(tutorId);
     }
   }
 
   Future<String> fetchUserName(String? tutorId) async {
+    //print('Tutor ID: $tutorId');
     String userName = '';
     final DocumentSnapshot userSnapshot = await _firestore.collection('tutor').doc(tutorId).get();
+    //print('Tutor document: ${userSnapshot.data()}');
 
     if (userSnapshot.exists && (userSnapshot.data() as Map).containsKey('username')) {
       userName = userSnapshot['username'];
@@ -69,6 +80,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
         userName = studentSnapshot['username'];
       }
     }
+    //print('Fetched username: $userName');
     return userName;
   }
 
@@ -79,7 +91,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(userName),
+          title: Text(snapshot.data ?? 'C h a t M e s s a g e s'),
         ),
         body: Column(
           children: [
@@ -114,26 +126,26 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                             //print('Message text: $messageText');
                             //print('Sender ID: $senderId');
 
-                            return Align(
-                              alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
-                              child: Container(
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: isCurrentUser ? Colors.blue : Colors.grey,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  messageText ?? '',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                            /*return ListTile(
-                              title: Text(messageText.toString()),
-                            );*/
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: isCurrentUser ? Colors.blue : Colors.grey,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    messageText ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
-                            );
+                              );
                           },
                         );
                       } else if (snapshot.hasError) {
@@ -162,6 +174,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                   Expanded(
                     child: TextFormField(
                       controller: _messageController,
+                      focusNode: _focusNode,
                       decoration: const InputDecoration(
                         hintText: 'Type a message',
                       ),
@@ -179,5 +192,12 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
       );
       }
     );
+  }
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 }

@@ -69,6 +69,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                                 key: const ValueKey('chat_screen'),
                                 otherUserId: otherUserId,
                                 conversationId: conversationId,
+                                tutorId: otherUserId,
                               ),
                             ),
                           );

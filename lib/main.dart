@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
             key: const ValueKey('chat_screen'),
             otherUserId: args['otherUserId']!,
             conversationId: args['conversationId']!,
+            tutorId: args['tutorId']!,
           );
         },
       },
