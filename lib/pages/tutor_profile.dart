@@ -1,5 +1,8 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorapptrials/pages/chat_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'tutor_profile_model.dart';
@@ -16,6 +19,26 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   late TutorProfileModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<String> getOrCreateConversationId(String userId, String otherUserId) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    List<String> ids = [userId, otherUserId];
+    ids.sort(); // sort so they are always in the same order
+    String conversationId = ids.join('-');
+
+    final DocumentSnapshot docSnapshot = await _firestore.collection('conversations').doc(conversationId).get();
+
+    if (!docSnapshot.exists) {
+      // If the conversation doesn't exist, create it
+      await _firestore.collection('conversations').doc(conversationId).set({
+        'users': ids,
+        // Add any other fields you need for a conversation
+      });
+    }
+
+  return conversationId;
+}
 
   @override
   void initState() {
@@ -35,6 +58,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   @override
   Widget build(BuildContext context) {
     final dynamic tutor = ModalRoute.of(context)!.settings.arguments;
+    final String tutorId = tutor.id as String;
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -228,8 +252,21 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              final user = _auth.currentUser;
+                              final String conversationId = await getOrCreateConversationId(user!.uid, tutorId);
+                              //print('Tutor ID: $tutorId');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatScreenWidget(
+                                    key: const ValueKey('chat_screen'),
+                                    otherUserId: tutorId,
+                                    conversationId: conversationId,
+                                    tutorId: tutorId, 
+                                    ),
+                                  )
+                                );
                             },
                             text: 'CHAT',
                             icon: Icon(

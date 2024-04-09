@@ -189,7 +189,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                   ],
                                 ),
                                 onPressed: () {
-                                  //Navigator.pushNamed(context, '/student_personal_profile');
+                                  Navigator.pushNamed(context, '/chat');
                                 },
                               ),
                             ),

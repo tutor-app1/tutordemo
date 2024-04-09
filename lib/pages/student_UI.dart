@@ -187,7 +187,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                 ],
                               ),
                               onPressed: () {
-                                //Navigator.pushNamed(context, '/student_personal_profile');
+                                Navigator.pushNamed(context, '/chat');
                               },
                             ),
                           ),
