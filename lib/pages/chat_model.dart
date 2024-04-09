@@ -8,10 +8,10 @@ class ChatModel {
 
   // get all conversations
   Stream<QuerySnapshot> getConversations(String userId) {
+    print('User ID: $userId');
     return _firestore
       .collection('messages')
       .where('users', arrayContains: userId)
-      .orderBy('timestamp')
       .snapshots();
   }
 
