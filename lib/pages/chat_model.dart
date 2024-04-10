@@ -12,6 +12,7 @@ class ChatModel {
     return _firestore
       .collection('messages')
       .where('users', arrayContains: userId)
+      .orderBy('timestamp', descending: true)
       .snapshots();
   }
 
@@ -62,6 +63,8 @@ class Message {
     // add the users to the conversation doc
     await _firestore.collection('messages').doc(conversationId).set({
       'users': ids,
+      'lastMessage': message,
+      'timestamp': timestamp,
     }, SetOptions(merge: true));
 
     // add the msg to firestore

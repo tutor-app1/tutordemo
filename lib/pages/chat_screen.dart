@@ -101,9 +101,39 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(snapshot.data ?? 'C h a t M e s s a g e s'),
+          title: Text(snapshot.data ?? 'C h a t M e s s a g e s',
+          style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+          color: FlutterFlowTheme.of(context).secondary,
+        ),),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                                      FlutterFlowTheme.of(context).accent2,
+                                      FlutterFlowTheme.of(context).accent4,
+                                    ],
+              ),
+            ),
+          ),
         ),
-        body: Column(
+        body: Container(
+          decoration: BoxDecoration(
+          gradient: LinearGradient(
+            stops: const [0, 0.5, 1],
+                    begin: const AlignmentDirectional(-1, -1),
+                    end: const AlignmentDirectional(1, 1),
+            colors: [
+                      FlutterFlowTheme.of(context).primary,
+                      FlutterFlowTheme.of(context).error,
+                      FlutterFlowTheme.of(context).tertiary
+                    ],
+          ),
+        ),
+        child: Column(
           children: [
             Expanded(
               child: conversationId.isEmpty
@@ -210,6 +240,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
               ),
             ),
           ],
+        ),
         ),
       );
       }

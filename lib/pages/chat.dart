@@ -17,9 +17,9 @@ class _ChatWidgetState extends State<ChatWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final ChatModel _chatModel = ChatModel();
   User? user = FirebaseAuth.instance.currentUser;
-  String? userId = FirebaseAuth.instance.currentUser!.uid;
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
 
-  Future<String> getOrCreateConversationId(String userId, String otherUserId) async {
+  Future<String> getOrCreateConversationId(String userId, String otherUserId, String lastMessage) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     List<String> ids = [userId, otherUserId];
     ids.sort(); // sort so they are always in the same order
@@ -31,6 +31,8 @@ class _ChatWidgetState extends State<ChatWidget> {
       // If the conversation doesn't exist, create it
       await _firestore.collection('conversations').doc(conversationId).set({
         'users': ids,
+        'lastMessage': lastMessage,
+        'timestamp': FieldValue.serverTimestamp(),
         // Add any other fields you need for a conversation
       });
     }
@@ -39,24 +41,24 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 
   Future<String> getUsername(String userId) async {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  DocumentSnapshot userDoc;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    DocumentSnapshot userDoc;
 
-  // Try to get the user from the 'tutor' collection
-  userDoc = await _firestore.collection('tutor').doc(userId).get();
-  if (userDoc.exists) {
-    return userDoc['username'];
+    // Try to get the user from the 'tutor' collection
+    userDoc = await _firestore.collection('tutor').doc(userId).get();
+    if (userDoc.exists) {
+      return userDoc['username'];
+    }
+
+    // If the user is not found in the 'tutor' collection, try the 'student' collection
+    userDoc = await _firestore.collection('student').doc(userId).get();
+    if (userDoc.exists) {
+      return userDoc['username'];
+    }
+
+    // If the user is not found in either collection, return a default value
+    return 'Unknown user';
   }
-
-  // If the user is not found in the 'tutor' collection, try the 'student' collection
-  userDoc = await _firestore.collection('student').doc(userId).get();
-  if (userDoc.exists) {
-    return userDoc['username'];
-  }
-
-  // If the user is not found in either collection, throw an error or return a default value
-  throw Exception('User not found');
-}
 
   @override
   void initState() {
@@ -72,13 +74,25 @@ class _ChatWidgetState extends State<ChatWidget> {
     return Scaffold(
       backgroundColor: FlutterFlowTheme.of(context).secondaryText,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).lineColor,
+        //backgroundColor: FlutterFlowTheme.of(context).lineColor,
         title: Text('C h a t s',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 30,
           color: FlutterFlowTheme.of(context).secondary,
         ),),
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                                      FlutterFlowTheme.of(context).accent2,
+                                      FlutterFlowTheme.of(context).accent4,
+                                    ],
+              ),
+            ),
+          ),
       ),
       body: Column(
         children: [
@@ -88,7 +102,6 @@ class _ChatWidgetState extends State<ChatWidget> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final messages = snapshot.data!.docs;
-                  //print('Messages: $messages');
 
                   if (messages.isEmpty) {
                     return Center(
@@ -107,6 +120,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                       final message = messages[index];
                       final users = List<String>.from(message['users']);
                       final otherUserId = users.firstWhere((id) => id != userId);
+                      final lastMessage = messages[index].get('lastMessage') ?? '';
 
                       return FutureBuilder<String>(
                         future: getUsername(otherUserId),
@@ -116,10 +130,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}'); // Show an error message if something went wrong
                           } else {
-                            final username = snapshot.data; // The username
+                            final username = snapshot.data ?? 'Unknown user'; // The username
                             return InkWell(
                               onTap: () async {
-                                final conversationId = await getOrCreateConversationId(userId!, otherUserId);
+                                final conversationId = await getOrCreateConversationId(userId!, otherUserId, lastMessage);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -140,7 +154,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                               child: ListTile(
-                                title: Text(username!,
+                                title: Column (
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                  Text (
+                                    username,
                                 style: TextStyle(
                                   foreground: Paint()
                                   ..shader = ui.Gradient.linear(
@@ -155,19 +173,39 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   //color: FlutterFlowTheme.of(context).secondaryBackground,
-                                ),), // Display the username
-                              ),
-                              ),
-                            );
-                          }
-                        },
-                      );
+                                ),
+                              ), // Display the username
+                              Text(
+                                lastMessage, // The last message
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ), 
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                DateFormat('hh:mm a').format(message['timestamp'].toDate()), // The timestamp
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ), 
+                            ),
+                            ],
+                            ),
+                          ),
+                        ),
+                        );
+                      }
                     },
                   );
+                },
+              );
                 } else if (snapshot.hasError) {
                   //print('Error: ${snapshot.error}');
                   return Center(
-                    child: Text('An error occurred',
+                    child: Text('An error occurred ${snapshot.error}',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
