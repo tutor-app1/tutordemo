@@ -141,6 +141,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                               child: Align(
                                 alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
                                 child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8, // Set the width to half of the screen width
                                   padding: const EdgeInsets.all(10),
                                   margin: const EdgeInsets.symmetric(vertical: 5),
                                   decoration: BoxDecoration(
@@ -185,13 +186,24 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                     child: TextFormField(
                       controller: _messageController,
                       focusNode: _focusNode,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Type a message',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Add padding
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30), // Add border radius
+                          borderSide: BorderSide.none, // Remove border
+                        ),
+                        filled: true, // Fill the text field
+                        fillColor: Colors.grey[200], // Set the fill color
+                      ),
+                      minLines: 1, // Minimum 1 line
+                      maxLines: null, // Unlimited lines
+                      //onFieldSubmitted: (text) => _sendMessage(widget.otherUserId, text), // Send the message when the enter button is pressed if needed for later
                       ),
                     ),
-                  ),
                   IconButton(
-                    icon: const Icon(Icons.send),
+                    icon: const Icon(Icons.send,
+                      color: Colors.green,),
                       onPressed: () => _sendMessage(widget.otherUserId, _messageController.text),
                   ),
                 ],
