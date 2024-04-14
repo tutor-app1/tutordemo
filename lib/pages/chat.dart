@@ -176,7 +176,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                                 ),
                               ), // Display the username
                               Text(
-                                lastMessage, // The last message
+                                lastMessage,
+                                overflow: TextOverflow.ellipsis,// The last message
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
