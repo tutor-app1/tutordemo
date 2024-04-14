@@ -19,10 +19,11 @@ class ChatScreenWidget extends StatefulWidget {
 class _ChatScreenWidgetState extends State<ChatScreenWidget> {
 
   final TextEditingController _messageController = TextEditingController();
-  final FocusNode _focusNode = FocusNode(); 
+  FocusNode myFocusNode = FocusNode(); 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser!;
+  final ScrollController _scrollController = ScrollController();
   
   String userName = '';
   String? tutorId;
@@ -40,16 +41,26 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
       if (message.isNotEmpty) {
         await Message(sender: user.uid, reciever: reciever, message: message, timestamp: timestamp).sendMessage();
         _messageController.clear();
-        scrollDown();
       }
     }
+
+    scrollDown();
+    
   }
 
   void scrollDown() {
     final ScrollController _scrollController = ScrollController();
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeOut,
     );
   }
@@ -61,7 +72,22 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
     tutorId = widget.tutorId; // Retrieve tutorId from the widget
     //print('Tutor ID: $tutorId'); // Print the tutorId
     userNameFuture = fetchUserName(tutorId);
-    _focusNode.requestFocus();
+    myFocusNode.requestFocus();
+
+    myFocusNode.addListener(() {
+    if (myFocusNode.hasFocus) {
+      Future.delayed(
+        const Duration(milliseconds: 500), () {
+        _scrollToBottom();
+      });
+      _scrollToBottom();
+    }
+
+    Future.delayed(
+        const Duration(milliseconds: 500), () {
+        _scrollToBottom();
+      });
+  });
   }
 
   @override
@@ -156,6 +182,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                           );
                         }
                         return ListView.builder(
+                          controller: _scrollController,
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final message = messages[index];
@@ -215,7 +242,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                   Expanded(
                     child: TextFormField(
                       controller: _messageController,
-                      focusNode: _focusNode,
+                      focusNode: myFocusNode,
                       decoration: InputDecoration(
                         hintText: 'Type a message',
                         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Add padding
@@ -250,7 +277,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
   @override
   void dispose() {
     _messageController.dispose();
-    _focusNode.dispose();
+    myFocusNode.dispose();
     super.dispose();
   }
 }
