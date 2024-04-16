@@ -159,7 +159,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).error,
+              backgroundColor: FlutterFlowTheme.of(context).primary,
               automaticallyImplyLeading: false,
               leading: Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(12, 6, 0, 6),
@@ -288,7 +288,8 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
               ),
               title: Text(
                 '$username',
-                style: FlutterFlowTheme.of(context).headlineMedium,
+                style: FlutterFlowTheme.of(context).headlineMedium.copyWith(
+                    color: FlutterFlowTheme.of(context).primaryBackground),
               ),
               actions: [
                 Padding(
@@ -340,6 +341,9 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                               autofocus: true,
                               obscureText: false,
                               decoration: InputDecoration(
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                filled: true,
                                 labelText: 'Search tutors...',
                                 labelStyle:
                                     FlutterFlowTheme.of(context).labelMedium,
