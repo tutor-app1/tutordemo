@@ -19,10 +19,11 @@ class ChatScreenWidget extends StatefulWidget {
 class _ChatScreenWidgetState extends State<ChatScreenWidget> {
 
   final TextEditingController _messageController = TextEditingController();
-  final FocusNode _focusNode = FocusNode(); 
+  FocusNode myFocusNode = FocusNode(); 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser!;
+  final ScrollController _scrollController = ScrollController();
   
   String userName = '';
   String? tutorId;
@@ -42,6 +43,26 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
         _messageController.clear();
       }
     }
+
+    scrollDown();
+    
+  }
+
+  void scrollDown() {
+    final ScrollController _scrollController = ScrollController();
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -51,7 +72,22 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
     tutorId = widget.tutorId; // Retrieve tutorId from the widget
     //print('Tutor ID: $tutorId'); // Print the tutorId
     userNameFuture = fetchUserName(tutorId);
-    _focusNode.requestFocus();
+    myFocusNode.requestFocus();
+
+    myFocusNode.addListener(() {
+    if (myFocusNode.hasFocus) {
+      Future.delayed(
+        const Duration(milliseconds: 500), () {
+        _scrollToBottom();
+      });
+      _scrollToBottom();
+    }
+
+    Future.delayed(
+        const Duration(milliseconds: 500), () {
+        _scrollToBottom();
+      });
+  });
   }
 
   @override
@@ -91,9 +127,39 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(snapshot.data ?? 'C h a t M e s s a g e s'),
+          title: Text(snapshot.data ?? 'C h a t M e s s a g e s',
+          style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+          color: FlutterFlowTheme.of(context).secondary,
+        ),),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                                      FlutterFlowTheme.of(context).accent2,
+                                      FlutterFlowTheme.of(context).accent4,
+                                    ],
+              ),
+            ),
+          ),
         ),
-        body: Column(
+        body: Container(
+          decoration: BoxDecoration(
+          gradient: LinearGradient(
+            stops: const [0, 0.5, 1],
+                    begin: const AlignmentDirectional(-1, -1),
+                    end: const AlignmentDirectional(1, 1),
+            colors: [
+                      FlutterFlowTheme.of(context).primary,
+                      FlutterFlowTheme.of(context).error,
+                      FlutterFlowTheme.of(context).tertiary
+                    ],
+          ),
+        ),
+        child: Column(
           children: [
             Expanded(
               child: conversationId.isEmpty
@@ -116,6 +182,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                           );
                         }
                         return ListView.builder(
+                          controller: _scrollController,
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final message = messages[index];
@@ -131,6 +198,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                               child: Align(
                                 alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
                                 child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8, // Set the width to half of the screen width
                                   padding: const EdgeInsets.all(10),
                                   margin: const EdgeInsets.symmetric(vertical: 5),
                                   decoration: BoxDecoration(
@@ -174,20 +242,32 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
                   Expanded(
                     child: TextFormField(
                       controller: _messageController,
-                      focusNode: _focusNode,
-                      decoration: const InputDecoration(
+                      focusNode: myFocusNode,
+                      decoration: InputDecoration(
                         hintText: 'Type a message',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Add padding
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30), // Add border radius
+                          borderSide: BorderSide.none, // Remove border
+                        ),
+                        filled: true, // Fill the text field
+                        fillColor: Colors.grey[200], // Set the fill color
+                      ),
+                      minLines: 1, // Minimum 1 line
+                      maxLines: null, // Unlimited lines
+                      //onFieldSubmitted: (text) => _sendMessage(widget.otherUserId, text), // Send the message when the enter button is pressed if needed for later
                       ),
                     ),
-                  ),
                   IconButton(
-                    icon: const Icon(Icons.send),
+                    icon: const Icon(Icons.send,
+                      color: Colors.green,),
                       onPressed: () => _sendMessage(widget.otherUserId, _messageController.text),
                   ),
                 ],
               ),
             ),
           ],
+        ),
         ),
       );
       }
@@ -197,7 +277,7 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
   @override
   void dispose() {
     _messageController.dispose();
-    _focusNode.dispose();
+    myFocusNode.dispose();
     super.dispose();
   }
 }

@@ -21,13 +21,15 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> getOrCreateConversationId(String userId, String otherUserId) async {
+  Future<String> getOrCreateConversationId(
+      String userId, String otherUserId) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     List<String> ids = [userId, otherUserId];
     ids.sort(); // sort so they are always in the same order
     String conversationId = ids.join('-');
 
-    final DocumentSnapshot docSnapshot = await _firestore.collection('conversations').doc(conversationId).get();
+    final DocumentSnapshot docSnapshot =
+        await _firestore.collection('conversations').doc(conversationId).get();
 
     if (!docSnapshot.exists) {
       // If the conversation doesn't exist, create it
@@ -37,8 +39,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
       });
     }
 
-  return conversationId;
-}
+    return conversationId;
+  }
 
   @override
   void initState() {
@@ -90,214 +92,224 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jb3RyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-                    width: double.infinity,
-                    height: 330,
-                    fit: BoxFit.fitHeight,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
-                          child: Text(
-                            '${tutor['username']}',
-                            style: FlutterFlowTheme.of(context).headlineMedium,
-                          ),
-                        ),
-                        Text(
-                          '${tutor['email']}',
-                          style: FlutterFlowTheme.of(context).bodyMedium,
-                        ),
-                        const Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0)),
-// rating bar goes here [check btm for code]
-                        Align(
-                          alignment: const AlignmentDirectional(-1, 0),
-                          child: Text(
-                            '${tutor['subject']}',
-                            style:
-                                FlutterFlowTheme.of(context).bodySmall.override(
-                                      fontFamily: 'Inter',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 12, 0),
-                                    child: Text(
-                                      '${tutor['educationlevel']}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Inter',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 100,
-                              child: VerticalDivider(
-                                thickness: 4,
-                                indent: 1,
-                                endIndent: 12,
-                                color: FlutterFlowTheme.of(context).alternate,
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 0, 12),
-                                    child: Icon(
-                                      Icons.star_rate,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 24,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 12, 0),
-                                    child: Text(
-                                      'REVIEWS',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Inter',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                          child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Book Appointment',
-                            options: FFButtonOptions(
-                              width: double.infinity,
-                              height: 48,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    color: Colors.white,
-                                  ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              final user = _auth.currentUser;
-                              final String conversationId = await getOrCreateConversationId(user!.uid, tutorId);
-                              //print('Tutor ID: $tutorId');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatScreenWidget(
-                                    key: const ValueKey('chat_screen'),
-                                    otherUserId: tutorId,
-                                    conversationId: conversationId,
-                                    tutorId: tutorId, 
-                                    ),
-                                  )
-                                );
-                            },
-                            text: 'CHAT',
-                            icon: Icon(
-                              Icons.chat,
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              size: 15,
-                            ),
-                            options: FFButtonOptions(
-                              width: double.infinity,
-                              height: 48,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              textStyle: FlutterFlowTheme.of(context).bodyLarge,
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: Image.network(
+                      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jb3RyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+                      width: double.infinity,
+                      height: 330,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 8, 0, 8),
+                            child: Text(
+                              '${tutor['username']}',
+                              style:
+                                  FlutterFlowTheme.of(context).headlineMedium,
+                            ),
+                          ),
+                          Text(
+                            '${tutor['email']}',
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                          const Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0)),
+// rating bar goes here [check btm for code]
+                          Align(
+                            alignment: const AlignmentDirectional(-1, 0),
+                            child: Text(
+                              '${tutor['subject']}',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              8, 0, 12, 0),
+                                      child: Text(
+                                        '${tutor['educationlevel']}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 100,
+                                child: VerticalDivider(
+                                  thickness: 4,
+                                  indent: 1,
+                                  endIndent: 12,
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 12, 0, 12),
+                                      child: Icon(
+                                        Icons.star_rate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              8, 0, 12, 0),
+                                      child: Text(
+                                        'REVIEWS',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                              onPressed: () {
+                                print('Button pressed ...');
+                              },
+                              text: 'Book Appointment',
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 48,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Inter',
+                                      color: Colors.white,
+                                    ),
+                                borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                final user = _auth.currentUser;
+                                final String conversationId =
+                                    await getOrCreateConversationId(
+                                        user!.uid, tutorId);
+                                //print('Tutor ID: $tutorId');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatScreenWidget(
+                                        key: const ValueKey('chat_screen'),
+                                        otherUserId: tutorId,
+                                        conversationId: conversationId,
+                                        tutorId: tutorId,
+                                      ),
+                                    ));
+                              },
+                              text: 'CHAT',
+                              icon: Icon(
+                                Icons.chat,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 15,
+                              ),
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 48,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                textStyle:
+                                    FlutterFlowTheme.of(context).bodyLarge,
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

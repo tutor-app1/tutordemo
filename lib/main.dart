@@ -12,6 +12,8 @@ import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,12 +30,45 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Future<Widget> getStartPage(User user) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final doc = await _firestore.collection('student').doc(user.uid).get();
+
+    if (doc.exists) {
+      return const StudentUIWidget();
+    } else {
+      return const TutorUIWidget();
+    }
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tutor App',
-      home: const Onboarding1Widget(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // Show a loading spinner while waiting
+          } else {
+            if (snapshot.hasData) {
+              return FutureBuilder<Widget>(
+                future: getStartPage(snapshot.data!),
+                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return snapshot.data!;
+                  }
+                },
+              );
+            } else {
+              return const Onboarding1Widget(); // If no user is signed in, show the landing page
+            }
+          }
+        },
+      ),
       routes: {
         '/landing_page': (context) => const Onboarding1Widget(),
         '/auth': (context) => const Auth1Widget(),

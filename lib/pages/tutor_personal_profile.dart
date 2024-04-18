@@ -66,6 +66,7 @@ class _TutorPersonalProfileWidgetState extends State<TutorPersonalProfileWidget>
         ),
         body: SafeArea(
           top: true,
+          child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -262,6 +263,7 @@ class _TutorPersonalProfileWidgetState extends State<TutorPersonalProfileWidget>
               ),
             ],
           ),
+        ),
         ),
       ),
     );
