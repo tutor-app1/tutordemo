@@ -72,10 +72,18 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
   Future<void> saveAvailability() async {
     final User? user = _auth.currentUser;
     if (user != null) {
+      Map<String, dynamic> daysToSave = {};
+      days.forEach((key, value) {
+        daysToSave[key] = {
+          'available': value['available'] ?? false,
+          'from': '${value['from'].hour}:${value['from'].minute}',
+          'to': '${value['to'].hour}:${value['to'].minute}',
+        };
+      });
       await FirebaseFirestore.instance
           .collection('availability')
           .doc(user.uid)
-          .set(days);
+          .set(daysToSave);
     }
   }
 
@@ -158,7 +166,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue7 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue7 = newValue);
+                                setState(() {
+                                  _model.switchValue7 = newValue;
+                                  days['Sunday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -209,7 +220,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue1 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue1 = newValue);
+                                setState(() {
+                                  _model.switchValue1 = newValue;
+                                  days['Monday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -260,7 +274,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue2 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue2 = newValue);
+                                setState(() {
+                                  _model.switchValue2 = newValue;
+                                  days['Tuesday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -312,7 +329,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue3 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue3 = newValue);
+                                setState(() {
+                                  _model.switchValue3 = newValue;
+                                  days['Wednesday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -364,7 +384,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue4 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue4 = newValue);
+                                setState(() {
+                                  _model.switchValue4 = newValue;
+                                  days['Thursday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -416,7 +439,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue5 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue5 = newValue);
+                                setState(() {
+                                  _model.switchValue5 = newValue;
+                                  days['Friday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -467,7 +493,10 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                             child: Switch(
                               value: _model.switchValue6 ??= true,
                               onChanged: (newValue) async {
-                                setState(() => _model.switchValue6 = newValue);
+                                setState(() {
+                                  _model.switchValue6 = newValue;
+                                  days['Saturday']['available'] = newValue;
+                                });
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).primaryText,
@@ -503,7 +532,18 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       ElevatedButton(
-                        onPressed: saveAvailability,
+                        onPressed: () async {
+                          final scaffoldMessenger =
+                              ScaffoldMessenger.of(context);
+                          await saveAvailability();
+                          scaffoldMessenger.showSnackBar(
+                            const SnackBar(
+                              content: Text('Availability saved',
+                                  style: TextStyle(color: Colors.green)),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
+                        },
                         child: const Text('Save Availability'),
                       )
                     ],
