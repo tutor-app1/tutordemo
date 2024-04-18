@@ -115,7 +115,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Days of the Week',
+                      'Schedule for the week',
                       style:
                           FlutterFlowTheme.of(context).headlineMedium.override(
                                 fontFamily: 'Outfit',
@@ -131,7 +131,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         size: 30,
                       ),
                       onPressed: () {
-                        print('IconButton pressed ...');
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -142,41 +142,48 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Monday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Sunday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue1 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue1 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue7 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue7 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Monday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Monday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Sunday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Sunday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Monday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Monday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child: Text(days['Sunday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Sunday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -186,42 +193,48 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Tuesday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Monday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue2 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue2 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue1 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue1 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child:
-                                Text(days['Tuesday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Tuesday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Monday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Monday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Tuesday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Tuesday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child: Text(days['Monday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Monday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -231,43 +244,49 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Wednesday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Tuesday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue3 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue3 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue2 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue2 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child:
-                                Text(days['Wednesday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Wednesday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Tuesday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Tuesday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child:
-                                Text(days['Wednesday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Wednesday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Tuesday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Tuesday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -277,42 +296,49 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Thursday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Wednesday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue4 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue4 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue3 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue3 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child:
-                                Text(days['Thursday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Thursday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child: Text(
+                                  days['Wednesday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Wednesday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Thursday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Thursday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Wednesday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Wednesday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -322,41 +348,49 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Friday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Thursday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue5 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue5 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue4 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue4 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Friday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Friday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child: Text(
+                                  days['Thursday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Thursday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Friday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Friday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Thursday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Thursday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -366,42 +400,48 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Saturday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Friday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue6 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue6 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue5 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue5 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          TextButton(
-                            child:
-                                Text(days['Saturday']['from'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Saturday', 'from'),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Friday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Friday', 'from'),
+                            ),
                           ),
-                          TextButton(
-                            child: Text(days['Saturday']['to'].format(context)),
-                            onPressed: () =>
-                                selectTime(context, 'Saturday', 'to'),
+                          Expanded(
+                            child: TextButton(
+                              child: Text(days['Friday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Friday', 'to'),
+                            ),
                           ),
                         ],
                       ),
@@ -411,41 +451,64 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Sunday',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Plus Jakarta Sans',
-                                  letterSpacing: 0,
-                                ),
+                          Expanded(
+                            child: Text(
+                              'Saturday',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Plus Jakarta Sans',
+                                    letterSpacing: 0,
+                                  ),
+                            ),
                           ),
-                          Switch(
-                            value: _model.switchValue7 ??= true,
-                            onChanged: (newValue) async {
-                              setState(() => _model.switchValue7 = newValue);
-                            },
-                            activeColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            activeTrackColor:
-                                FlutterFlowTheme.of(context).secondaryText,
-                            inactiveTrackColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            inactiveThumbColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                          Expanded(
+                            child: Switch(
+                              value: _model.switchValue6 ??= true,
+                              onChanged: (newValue) async {
+                                setState(() => _model.switchValue6 = newValue);
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              activeTrackColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                              inactiveTrackColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              inactiveThumbColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
+                            ),
                           ),
-                          ElevatedButton(
-                            onPressed: saveAvailability,
-                            child: const Text('Save Availability'),
-                          )
+                          Expanded(
+                            child: TextButton(
+                              child: Text(
+                                  days['Saturday']['from'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Saturday', 'from'),
+                            ),
+                          ),
+                          Expanded(
+                            child: TextButton(
+                              child:
+                                  Text(days['Saturday']['to'].format(context)),
+                              onPressed: () =>
+                                  selectTime(context, 'Saturday', 'to'),
+                            ),
+                          ),
                         ],
                       ),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      ElevatedButton(
+                        onPressed: saveAvailability,
+                        child: const Text('Save Availability'),
+                      )
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),
