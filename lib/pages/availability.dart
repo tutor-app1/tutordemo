@@ -164,7 +164,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue7 ??= true,
+                              value: _model.switchValue7 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue7 = newValue;
@@ -218,7 +218,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue1 ??= true,
+                              value: _model.switchValue1 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue1 = newValue;
@@ -272,7 +272,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue2 ??= true,
+                              value: _model.switchValue2 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue2 = newValue;
@@ -327,7 +327,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue3 ??= true,
+                              value: _model.switchValue3 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue3 = newValue;
@@ -382,7 +382,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue4 ??= true,
+                              value: _model.switchValue4 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue4 = newValue;
@@ -437,7 +437,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue5 ??= true,
+                              value: _model.switchValue5 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue5 = newValue;
@@ -491,7 +491,7 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
                           ),
                           Expanded(
                             child: Switch(
-                              value: _model.switchValue6 ??= true,
+                              value: _model.switchValue6 ??= false,
                               onChanged: (newValue) async {
                                 setState(() {
                                   _model.switchValue6 = newValue;

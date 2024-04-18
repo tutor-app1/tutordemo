@@ -21,13 +21,15 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> getOrCreateConversationId(String userId, String otherUserId) async {
+  Future<String> getOrCreateConversationId(
+      String userId, String otherUserId) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     List<String> ids = [userId, otherUserId];
     ids.sort(); // sort so they are always in the same order
     String conversationId = ids.join('-');
 
-    final DocumentSnapshot docSnapshot = await _firestore.collection('conversations').doc(conversationId).get();
+    final DocumentSnapshot docSnapshot =
+        await _firestore.collection('conversations').doc(conversationId).get();
 
     if (!docSnapshot.exists) {
       // If the conversation doesn't exist, create it
@@ -37,8 +39,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
       });
     }
 
-  return conversationId;
-}
+    return conversationId;
+  }
 
   @override
   void initState() {
@@ -254,19 +256,20 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           child: FFButtonWidget(
                             onPressed: () async {
                               final user = _auth.currentUser;
-                              final String conversationId = await getOrCreateConversationId(user!.uid, tutorId);
+                              final String conversationId =
+                                  await getOrCreateConversationId(
+                                      user!.uid, tutorId);
                               //print('Tutor ID: $tutorId');
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatScreenWidget(
-                                    key: const ValueKey('chat_screen'),
-                                    otherUserId: tutorId,
-                                    conversationId: conversationId,
-                                    tutorId: tutorId, 
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatScreenWidget(
+                                      key: const ValueKey('chat_screen'),
+                                      otherUserId: tutorId,
+                                      conversationId: conversationId,
+                                      tutorId: tutorId,
                                     ),
-                                  )
-                                );
+                                  ));
                             },
                             text: 'CHAT',
                             icon: Icon(
