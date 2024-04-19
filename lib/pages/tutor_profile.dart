@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorapptrials/pages/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:table_calendar/table_calendar.dart';
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'tutor_profile_model.dart';
@@ -224,8 +225,41 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              DocumentSnapshot snapshot = await FirebaseFirestore
+                                  .instance
+                                  .collection('availability')
+                                  .doc(tutorId) // replace with your tutor's ID
+                                  .get();
+
+                              // Convert availability to a map of DateTime to Color
+                              Map<DateTime, Color> availability = {};
+                              Object? data = snapshot.data();
+                              (data as Map<dynamic, dynamic>)
+                                  .forEach((key, value) {
+                                DateTime date = DateTime.parse(
+                                    key); // assuming key is a date string
+                                bool available = value['available'];
+                                availability[date] =
+                                    available ? Colors.green : Colors.grey;
+                              });
+
+                              // Show month picker dialog
+                              DateTime selectedDate = await showMonthPicker(
+                                context: context,
+                                firstDate: DateTime(DateTime.now().year - 1, 5),
+                                lastDate: DateTime(DateTime.now().year + 1, 9),
+                                initialDate: DateTime.now(),
+                                locale: const Locale("en"),
+                              );
+
+                              // Check if the selected date is available
+                              if (availability[selectedDate] == Colors.green) {
+                                print('Selected date is available');
+                              } else {
+                                print('Selected date is not available');
+                              }
+                              //print('Button pressed ...');
                             },
                             text: 'Book Appointment',
                             options: FFButtonOptions(
