@@ -43,6 +43,18 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     return conversationId;
   }
 
+  List<String> _generateTimeSlots(String from, String to) {
+    List<String> timeSlots = [];
+    DateFormat format = DateFormat("hh:mm"); // adjust the format as needed
+    DateTime startTime = format.parse(from);
+    DateTime endTime = format.parse(to);
+    while (startTime.isBefore(endTime)) {
+      timeSlots.add(DateFormat.jm().format(startTime));
+      startTime = startTime.add(const Duration(hours: 1));
+    }
+    return timeSlots;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -226,41 +238,101 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              DocumentSnapshot snapshot = await FirebaseFirestore
+                              // Fetch availability data
+                              DocumentSnapshot doc = await FirebaseFirestore
                                   .instance
                                   .collection('availability')
-                                  .doc(tutorId) // replace with your tutor's ID
-                                  .get();
+                                  .doc(tutorId)
+                                  .get(); // replace 'tutorId' with the actual tutor's ID
+                              Map<String, dynamic> data =
+                                  doc.data() as Map<String, dynamic>;
 
-                              // Convert availability to a map of DateTime to Color
-                              Map<DateTime, Color> availability = {};
-                              Object? data = snapshot.data();
-                              (data as Map<dynamic, dynamic>)
-                                  .forEach((key, value) {
-                                DateTime date = DateTime.parse(
-                                    key); // assuming key is a date string
-                                bool available = value['available'];
-                                availability[date] =
-                                    available ? Colors.green : Colors.grey;
+                              // Parse data
+                              Map<DateTime, List> events = {};
+                              data.forEach((key, value) {
+                                if (value['available']) {
+                                  DateTime date = DateTime.now().add(Duration(
+                                      days: [
+                                    'Sunday',
+                                    'Monday',
+                                    'Tuesday',
+                                    'Wednesday',
+                                    'Thursday',
+                                    'Friday',
+                                    'Saturday'
+                                  ].indexOf(key))); // convert key to DateTime
+                                  List<String> timeSlots = _generateTimeSlots(
+                                      value['from'],
+                                      value[
+                                          'to']); // generate time slots from 'from' to 'to'
+                                  events[date] = timeSlots;
+                                }
                               });
 
-                              // Show month picker dialog
-                              DateTime selectedDate = await showMonthPicker(
-                                context: context,
-                                firstDate: DateTime(DateTime.now().year - 1, 5),
-                                lastDate: DateTime(DateTime.now().year + 1, 9),
-                                initialDate: DateTime.now(),
-                                locale: const Locale("en"),
-                              );
-
-                              // Check if the selected date is available
-                              if (availability[selectedDate] == Colors.green) {
-                                print('Selected date is available');
-                              } else {
-                                print('Selected date is not available');
-                              }
-                              //print('Button pressed ...');
+                              // Show dialog
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: TableCalendar(
+                                          firstDay: DateTime.now(),
+                                          lastDay: DateTime.now()
+                                              .add(const Duration(days: 7)),
+                                          focusedDay: DateTime.now(),
+                                          eventLoader: (day) {
+                                            return events[day] ?? [];
+                                          },
+                                          calendarStyle: const CalendarStyle(
+                                              // Customize calendar style here
+                                              // Use `markersColor` to change the color of the markers
+                                              ),
+                                          onDaySelected:
+                                              (selectedDay, focusedDay) {
+                                            // Show available time slots
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text(
+                                                    'Available slots'),
+                                                content: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.2,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.2,
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        events[selectedDay]
+                                                                ?.length ??
+                                                            0,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return ListTile(
+                                                        title: Text(events[
+                                                                selectedDay]![
+                                                            index]),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: const Text('Close'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ));
                             },
+                            //print('Button pressed ...');
                             text: 'Book Appointment',
                             options: FFButtonOptions(
                               width: double.infinity,
