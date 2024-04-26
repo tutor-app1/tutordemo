@@ -272,72 +272,81 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                             'to']); // generate time slots from 'from' to 'to'
                                     events[date] = timeSlots;
                                   }
+                                  // print(events);
                                 });
 
                                 // Show dialog
                                 showDialog(
                                     context: context,
+                                    useSafeArea: false,
                                     builder: (context) => AlertDialog(
-                                          content: TableCalendar(
-                                            firstDay: DateTime.now(),
-                                            lastDay: DateTime.now()
-                                                .add(const Duration(days: 7)),
-                                            focusedDay: DateTime.now(),
-                                            eventLoader: (day) {
-                                              return events[day] ?? [];
-                                            },
-                                            calendarStyle: const CalendarStyle(
-                                                // Customize calendar style here
-                                                // Use `markersColor` to change the color of the markers
-                                                ),
-                                            onDaySelected:
-                                                (selectedDay, focusedDay) {
-                                              // Show available time slots
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                  title: const Text(
-                                                      'Available slots'),
-                                                  content: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.2,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.2,
-                                                    child: ListView.builder(
-                                                      itemCount:
-                                                          events[selectedDay]
-                                                                  ?.length ??
-                                                              0,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return ListTile(
-                                                          title: Text(events[
-                                                                  selectedDay]![
-                                                              index]),
-                                                        );
-                                                      },
-                                                    ),
+                                          content: Container(
+                                            width: double
+                                                .maxFinite, // or any specific width
+                                            height: double
+                                                .maxFinite, // or any specific height
+                                            child: TableCalendar(
+                                              firstDay: DateTime.now(),
+                                              lastDay: DateTime.now()
+                                                  .add(const Duration(days: 7)),
+                                              focusedDay: DateTime.now(),
+                                              eventLoader: (day) {
+                                                return events[day] ?? [];
+                                              },
+                                              calendarStyle: const CalendarStyle(
+                                                  // Customize calendar style here
+                                                  // Use `markersColor` to change the color of the markers
                                                   ),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child:
-                                                          const Text('Close'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
+                                              onDaySelected:
+                                                  (selectedDay, focusedDay) {
+                                                // Show available time slots
+                                                showDialog(
+                                                  useSafeArea: false,
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    title: const Text(
+                                                        'Available slots'),
+                                                    content: SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.2,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.2,
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            events[selectedDay]
+                                                                    ?.length ??
+                                                                0,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            title: Text(events[
+                                                                    selectedDay]![
+                                                                index]),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                            const Text('Close'),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                           ),
                                         ));
                               },

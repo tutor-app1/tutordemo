@@ -22,38 +22,38 @@ class _AvailabilityWidgetState extends State<AvailabilityWidget> {
   Map<String, dynamic> days = {
     'Monday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Tuesday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Wednesday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Thursday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Friday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Saturday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
     'Sunday': {
       'available': false,
-      'from': TimeOfDay.now(),
-      'to': TimeOfDay.now()
+      'from': const TimeOfDay(hour: 0, minute: 0),
+      'to': const TimeOfDay(hour: 0, minute: 0)
     },
   };
 
