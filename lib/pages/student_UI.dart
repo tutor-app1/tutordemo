@@ -33,7 +33,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
 
     QuerySnapshot snapshot2 = await FirebaseFirestore.instance
         .collection('tutor')
-        .where('subject', isEqualTo: query)
+        .where('lowercase_subject', isEqualTo: query.toLowerCase())
         .get();
 
     return [
@@ -588,119 +588,6 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                       );
                     },
                   ),
-                  /*Flexible(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: const Alignment(0, 0),
-                            child: TabBar(
-                              isScrollable: true,
-                              labelColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              unselectedLabelColor:
-                                  FlutterFlowTheme.of(context).secondaryText,
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .bodyLarge
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                              unselectedLabelStyle: const TextStyle(),
-                              indicatorColor:
-                                  FlutterFlowTheme.of(context).primary,
-                              tabs: const [
-                                Tab(
-                                  text: 'Find A Tutor',
-                                ),
-                                Tab(
-                                  text: 'Sessions',
-                                ),
-                                Tab(
-                                  text: 'Message',
-                                ),
-                              ],
-                              controller: _model.tabBarController,
-                              onTap: (i) async {
-                                [() async {}, () async {}, () async {}][i]();
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              controller: _model.tabBarController,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                Container(),
-                                FlutterFlowCalendar(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  iconColor: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  weekFormat: false,
-                                  weekStartsMonday: true,
-                                  rowHeight: 40,
-                                  onChange: (DateTimeRange? newSelectedDate) {
-                                    if (mounted) {
-                                      setState(() =>
-                                          _model.calendarSelectedDay =
-                                              newSelectedDate);
-                                    }
-                                  },
-                                  titleStyle:
-                                      FlutterFlowTheme.of(context).titleLarge,
-                                  dayOfWeekStyle: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        fontSize: 14,
-                                      ),
-                                  dateStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        fontSize: 12,
-                                      ),
-                                  selectedDateStyle:
-                                      FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .override(
-                                            fontFamily: 'Inter',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                  inactiveDateStyle:
-                                      FlutterFlowTheme.of(context).labelSmall,
-                                ),
-                                Text(
-                                  'conversation history',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        fontSize: 32,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),*/
                 ],
               ),
             ),
