@@ -43,6 +43,18 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     return conversationId;
   }
 
+  List<String> _generateTimeSlots(String from, String to) {
+    List<String> timeSlots = [];
+    DateFormat format = DateFormat("hh:mm"); // adjust the format as needed
+    DateTime startTime = format.parse(from);
+    DateTime endTime = format.parse(to);
+    while (startTime.isBefore(endTime)) {
+      timeSlots.add(DateFormat.jm().format(startTime));
+      startTime = startTime.add(const Duration(hours: 1));
+    }
+    return timeSlots;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -93,248 +105,321 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jb3RyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-                    width: double.infinity,
-                    height: 330,
-                    fit: BoxFit.fitHeight,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
-                          child: Text(
-                            '${tutor['username']}',
-                            style: FlutterFlowTheme.of(context).headlineMedium,
-                          ),
-                        ),
-                        Text(
-                          '${tutor['email']}',
-                          style: FlutterFlowTheme.of(context).bodyMedium,
-                        ),
-                        const Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0)),
-// rating bar goes here [check btm for code]
-                        Align(
-                          alignment: const AlignmentDirectional(-1, 0),
-                          child: Text(
-                            '${tutor['subject']}',
-                            style:
-                                FlutterFlowTheme.of(context).bodySmall.override(
-                                      fontFamily: 'Inter',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 12, 0),
-                                    child: Text(
-                                      '${tutor['educationlevel']}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Inter',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 100,
-                              child: VerticalDivider(
-                                thickness: 4,
-                                indent: 1,
-                                endIndent: 12,
-                                color: FlutterFlowTheme.of(context).alternate,
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 0, 12),
-                                    child: Icon(
-                                      Icons.star_rate,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 24,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 12, 0),
-                                    child: Text(
-                                      'REVIEWS',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Inter',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              DocumentSnapshot snapshot = await FirebaseFirestore
-                                  .instance
-                                  .collection('availability')
-                                  .doc(tutorId) // replace with your tutor's ID
-                                  .get();
-
-                              // Convert availability to a map of DateTime to Color
-                              Map<DateTime, Color> availability = {};
-                              Object? data = snapshot.data();
-                              (data as Map<dynamic, dynamic>)
-                                  .forEach((key, value) {
-                                DateTime date = DateTime.parse(
-                                    key); // assuming key is a date string
-                                bool available = value['available'];
-                                availability[date] =
-                                    available ? Colors.green : Colors.grey;
-                              });
-
-                              // Show month picker dialog
-                              DateTime selectedDate = await showMonthPicker(
-                                context: context,
-                                firstDate: DateTime(DateTime.now().year - 1, 5),
-                                lastDate: DateTime(DateTime.now().year + 1, 9),
-                                initialDate: DateTime.now(),
-                                locale: const Locale("en"),
-                              );
-
-                              // Check if the selected date is available
-                              if (availability[selectedDate] == Colors.green) {
-                                print('Selected date is available');
-                              } else {
-                                print('Selected date is not available');
-                              }
-                              //print('Button pressed ...');
-                            },
-                            text: 'Book Appointment',
-                            options: FFButtonOptions(
-                              width: double.infinity,
-                              height: 48,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    color: Colors.white,
-                                  ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              final user = _auth.currentUser;
-                              final String conversationId =
-                                  await getOrCreateConversationId(
-                                      user!.uid, tutorId);
-                              //print('Tutor ID: $tutorId');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChatScreenWidget(
-                                      key: const ValueKey('chat_screen'),
-                                      otherUserId: tutorId,
-                                      conversationId: conversationId,
-                                      tutorId: tutorId,
-                                    ),
-                                  ));
-                            },
-                            text: 'CHAT',
-                            icon: Icon(
-                              Icons.chat,
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              size: 15,
-                            ),
-                            options: FFButtonOptions(
-                              width: double.infinity,
-                              height: 48,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 0),
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              textStyle: FlutterFlowTheme.of(context).bodyLarge,
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: Image.network(
+                      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jb3RyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+                      width: double.infinity,
+                      height: 330,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 8, 0, 8),
+                            child: Text(
+                              '${tutor['username']}',
+                              style:
+                                  FlutterFlowTheme.of(context).headlineMedium,
+                            ),
+                          ),
+                          Text(
+                            '${tutor['email']}',
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                          const Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0)),
+// rating bar goes here [check btm for code]
+                          Align(
+                            alignment: const AlignmentDirectional(-1, 0),
+                            child: Text(
+                              '${tutor['subject']}',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              8, 0, 12, 0),
+                                      child: Text(
+                                        '${tutor['educationlevel']}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 100,
+                                child: VerticalDivider(
+                                  thickness: 4,
+                                  indent: 1,
+                                  endIndent: 12,
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 12, 0, 12),
+                                      child: Icon(
+                                        Icons.star_rate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              8, 0, 12, 0),
+                                      child: Text(
+                                        'REVIEWS',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                // Fetch availability data
+                                DocumentSnapshot doc = await FirebaseFirestore
+                                    .instance
+                                    .collection('availability')
+                                    .doc(tutorId)
+                                    .get(); // replace 'tutorId' with the actual tutor's ID
+                                Map<String, dynamic> data =
+                                    doc.data() as Map<String, dynamic>;
+
+                                // Parse data
+                                Map<DateTime, List> events = {};
+                                data.forEach((key, value) {
+                                  if (value['available']) {
+                                    DateTime date = DateTime.now().add(Duration(
+                                        days: [
+                                      'Sunday',
+                                      'Monday',
+                                      'Tuesday',
+                                      'Wednesday',
+                                      'Thursday',
+                                      'Friday',
+                                      'Saturday'
+                                    ].indexOf(key))); // convert key to DateTime
+                                    List<String> timeSlots = _generateTimeSlots(
+                                        value['from'],
+                                        value[
+                                            'to']); // generate time slots from 'from' to 'to'
+                                    events[date] = timeSlots;
+                                  }
+                                });
+
+                                // Show dialog
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: TableCalendar(
+                                            firstDay: DateTime.now(),
+                                            lastDay: DateTime.now()
+                                                .add(const Duration(days: 7)),
+                                            focusedDay: DateTime.now(),
+                                            eventLoader: (day) {
+                                              return events[day] ?? [];
+                                            },
+                                            calendarStyle: const CalendarStyle(
+                                                // Customize calendar style here
+                                                // Use `markersColor` to change the color of the markers
+                                                ),
+                                            onDaySelected:
+                                                (selectedDay, focusedDay) {
+                                              // Show available time slots
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: const Text(
+                                                      'Available slots'),
+                                                  content: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.2,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                    child: ListView.builder(
+                                                      itemCount:
+                                                          events[selectedDay]
+                                                                  ?.length ??
+                                                              0,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return ListTile(
+                                                          title: Text(events[
+                                                                  selectedDay]![
+                                                              index]),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                          const Text('Close'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ));
+                              },
+                              //print('Button pressed ...');
+                              text: 'Book Appointment',
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 48,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Inter',
+                                      color: Colors.white,
+                                    ),
+                                borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                final user = _auth.currentUser;
+                                final String conversationId =
+                                    await getOrCreateConversationId(
+                                        user!.uid, tutorId);
+                                //print('Tutor ID: $tutorId');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatScreenWidget(
+                                        key: const ValueKey('chat_screen'),
+                                        otherUserId: tutorId,
+                                        conversationId: conversationId,
+                                        tutorId: tutorId,
+                                      ),
+                                    ));
+                              },
+                              text: 'CHAT',
+                              icon: Icon(
+                                Icons.chat,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 15,
+                              ),
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 48,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                textStyle:
+                                    FlutterFlowTheme.of(context).bodyLarge,
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
