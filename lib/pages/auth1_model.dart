@@ -95,6 +95,9 @@ class AuthManager {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth auth;
+
+  AuthManager({required this.auth});
 
   // sign in with email and password
   Future<User?> signInWithEmail(String email, String password) async {

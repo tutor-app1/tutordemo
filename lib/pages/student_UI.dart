@@ -181,7 +181,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                             child: TextButton(
                               child: const Text('Sign Out'),
                               onPressed: () {
-                                AuthManager authManager = AuthManager();
+                                AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
                                 authManager.signOut();
                                 Navigator.pushNamed(context, '/landing_page');
                               },

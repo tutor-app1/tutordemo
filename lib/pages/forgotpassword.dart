@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorapptrials/pages/forgotpassword.dart';
@@ -24,7 +25,7 @@ class ForgotpasswordWidget extends StatefulWidget {
 class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
   late ForgotpasswordModel _model;
 
-  AuthManager authManager = AuthManager();
+  AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

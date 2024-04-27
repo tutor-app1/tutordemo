@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -20,7 +21,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
     with TickerProviderStateMixin {
   late Auth1Model _model;
 
-  AuthManager authManager = AuthManager();
+  AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
   GoogleSignIn googleSignIn = GoogleSignIn(
     clientId: '29521760363-mn4cplbjubvcjptgs8gjk4h49u99i1r4.apps.googleusercontent.com', 
   ); //'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0'
