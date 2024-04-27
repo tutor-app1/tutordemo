@@ -55,6 +55,49 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     return timeSlots;
   }
 
+  Future<void> getSlotsFromFirestore(
+      String tutorId, Map<DateTime, List<String>> events) async {
+    final DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('tutor_slots')
+        .doc(tutorId)
+        .get();
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    data.forEach((key, value) {
+      //print('key: $key'); // Print the key
+      //print('value: $value'); // Print the value
+      DateTime date = DateTime.parse(key);
+      List<String> slotsForDay = [];
+      for (var slot in value) {
+        if (slot['isAvailable'] == true) {
+          slotsForDay.add(slot['time']);
+        }
+      }
+      if (slotsForDay.isNotEmpty) {
+        events[date] = slotsForDay;
+      }
+    });
+  }
+
+  void saveSlotsToFirestore(
+      String tutorId, Map<DateTime, List<String>> events) {
+    final DocumentReference tutorSlot =
+        FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
+
+    events.forEach((date, slotsForDay) {
+      // Convert each slot to a map with 'time' and 'isAvailable' fields
+      List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+        return {
+          'time': slot,
+          'isAvailable': true,
+        };
+      }).toList();
+
+      tutorSlot.set({
+        date.toIso8601String(): slots,
+      }, SetOptions(merge: true));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -255,32 +298,66 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                 // Parse data
                                 Map<DateTime, List> events = {};
                                 data.forEach((key, value) {
+                                  /*print('key: $key'); // Print the key
+                                  print(
+                                      'available: ${value['available']}'); // Print the 'available' field
+                                  print(
+                                      'from: ${value['from']}'); // Print the 'from' field
+                                  print(
+                                      'to: ${value['to']}'); // Print the 'to' field */
                                   if (value['available']) {
-                                    DateTime date = DateTime.now().add(Duration(
-                                        days: [
-                                      'Sunday',
-                                      'Monday',
-                                      'Tuesday',
-                                      'Wednesday',
-                                      'Thursday',
-                                      'Friday',
-                                      'Saturday'
-                                    ].indexOf(key))); // convert key to DateTime
+                                    // Calculate the number of days until the next occurrence of the day of the week
+                                    int daysUntil(String day) {
+                                      final daysOfWeek = [
+                                        'Sunday',
+                                        'Monday',
+                                        'Tuesday',
+                                        'Wednesday',
+                                        'Thursday',
+                                        'Friday',
+                                        'Saturday'
+                                      ];
+                                      final now = DateTime.now();
+                                      final today = daysOfWeek[now.weekday % 7];
+                                      final indexToday =
+                                          daysOfWeek.indexOf(today);
+                                      final indexDay = daysOfWeek.indexOf(day);
+                                      return (indexDay - indexToday + 7) % 7;
+                                    }
+
+                                    DateTime date = DateTime.utc(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day)
+                                        .add(Duration(days: daysUntil(key)));
+                                    //print('date: $date'); // Print the date
                                     List<String> timeSlots = _generateTimeSlots(
                                         value['from'],
                                         value[
                                             'to']); // generate time slots from 'from' to 'to'
+                                    //print('timeSlots: $timeSlots'); // Print the time slots
                                     events[date] = timeSlots;
                                   }
                                   // print(events);
                                 });
+
+                                // Convert each slot to a string
+                                Map<DateTime, List<String>> stringEvents = {};
+                                events.forEach((date, slotsForDay) {
+                                  stringEvents[date] = slotsForDay
+                                      .map((slot) => slot.toString())
+                                      .toList();
+                                });
+
+                                // Save slots to Firestore
+                                saveSlotsToFirestore(tutorId, stringEvents);
 
                                 // Show dialog
                                 showDialog(
                                     context: context,
                                     useSafeArea: false,
                                     builder: (context) => AlertDialog(
-                                          content: Container(
+                                          content: SizedBox(
                                             width: double
                                                 .maxFinite, // or any specific width
                                             height: double
@@ -291,14 +368,20 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                   .add(const Duration(days: 7)),
                                               focusedDay: DateTime.now(),
                                               eventLoader: (day) {
-                                                return events[day] ?? [];
+                                                //print('Loading events for $day');
+                                                //print(events[day] ?? []);
+                                                return events[day] ??
+                                                    ['No events available'];
                                               },
                                               calendarStyle: const CalendarStyle(
                                                   // Customize calendar style here
                                                   // Use `markersColor` to change the color of the markers
                                                   ),
-                                              onDaySelected:
-                                                  (selectedDay, focusedDay) {
+                                              onDaySelected: (selectedDay,
+                                                  focusedDay) async {
+                                                // Fetch the slots for the selected day from Firestore
+                                                await getSlotsFromFirestore(
+                                                    tutorId, stringEvents);
                                                 // Show available time slots
                                                 showDialog(
                                                   useSafeArea: false,
@@ -312,12 +395,12 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
-                                                              0.2,
+                                                              0.8,
                                                       height:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.2,
+                                                              0.8,
                                                       child: ListView.builder(
                                                         itemCount:
                                                             events[selectedDay]
@@ -325,10 +408,174 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                 0,
                                                         itemBuilder:
                                                             (context, index) {
-                                                          return ListTile(
-                                                            title: Text(events[
-                                                                    selectedDay]![
-                                                                index]),
+                                                          final TextEditingController
+                                                              topicController =
+                                                              TextEditingController();
+                                                          final TextEditingController
+                                                              subtopicController =
+                                                              TextEditingController();
+                                                          return Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              Expanded(
+                                                                child: ListTile(
+                                                                  title: Text(
+                                                                      events[selectedDay]![
+                                                                          index]),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width:
+                                                                      10), // Add space
+                                                              Expanded(
+                                                                child:
+                                                                    TextField(
+                                                                  controller:
+                                                                      topicController,
+                                                                  decoration:
+                                                                      const InputDecoration(
+                                                                    labelText:
+                                                                        'Topic',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width:
+                                                                      10), // Add space
+                                                              Expanded(
+                                                                child:
+                                                                    TextField(
+                                                                  controller:
+                                                                      subtopicController,
+                                                                  decoration:
+                                                                      const InputDecoration(
+                                                                    labelText:
+                                                                        'Subtopic',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width:
+                                                                      10), // Add space
+                                                              ElevatedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  // Handle booking here
+                                                                  // You can access the topic and subtopic using topicController.text and subtopicController.text
+                                                                  final String
+                                                                      fromTime =
+                                                                      events[selectedDay]![
+                                                                          index];
+                                                                  final String
+                                                                      topic =
+                                                                      topicController
+                                                                          .text;
+                                                                  final String
+                                                                      subtopic =
+                                                                      subtopicController
+                                                                          .text;
+                                                                  final String
+                                                                      currentUserUid =
+                                                                      FirebaseAuth
+                                                                          .instance
+                                                                          .currentUser!
+                                                                          .uid;
+                                                                  final Timestamp
+                                                                      timestamp =
+                                                                      Timestamp
+                                                                          .now();
+
+                                                                  // Save to tutor_sessions collection
+                                                                  await FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'tutor_sessions')
+                                                                      .doc(
+                                                                          tutorId)
+                                                                      .set({
+                                                                    'fromTime':
+                                                                        fromTime,
+                                                                    'topic':
+                                                                        topic,
+                                                                    'subtopic':
+                                                                        subtopic,
+                                                                    'studentUid':
+                                                                        currentUserUid,
+                                                                    'timestamp':
+                                                                        timestamp,
+                                                                  });
+
+                                                                  // Save to student_sessions collection
+                                                                  await FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'student_sessions')
+                                                                      .doc(
+                                                                          currentUserUid)
+                                                                      .set({
+                                                                    'fromTime':
+                                                                        fromTime,
+                                                                    'topic':
+                                                                        topic,
+                                                                    'subtopic':
+                                                                        subtopic,
+                                                                    'tutorId':
+                                                                        tutorId,
+                                                                    'timestamp':
+                                                                        timestamp,
+                                                                  });
+
+                                                                  // Replace regular space characters in 'fromTime' with non-breaking space characters
+                                                                  String modifiedFromTime = fromTime.replaceAll(' ', '\u00A0');
+
+                                                                  // Get the reference to the 'tutor_slots' collection
+                                                                  CollectionReference
+                                                                      slotsCollection =
+                                                                      FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              'tutor_slots');
+
+                                                                  // Get the document ID of the slot with the matching 'time' field
+                                                                  String
+                                                                      slotId =
+                                                                      '';
+                                                                  QuerySnapshot
+                                                                      querySnapshot =
+                                                                      await slotsCollection
+                                                                          .where(
+                                                                              'time',
+                                                                              isEqualTo: modifiedFromTime)
+                                                                          .get();
+                                                                  if (querySnapshot
+                                                                      .docs
+                                                                      .isNotEmpty) {
+                                                                    slotId =
+                                                                        querySnapshot
+                                                                            .docs
+                                                                            .first
+                                                                            .id;
+                                                                  }
+
+                                                                  // Update the 'isAvailable' field of the slot
+                                                                  if (slotId
+                                                                      .isNotEmpty) {
+                                                                    await slotsCollection
+                                                                        .doc(
+                                                                            slotId)
+                                                                        .update({
+                                                                      'isAvailable':
+                                                                          false
+                                                                    });
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                        'Book'),
+                                                              ),
+                                                            ],
                                                           );
                                                         },
                                                       ),
