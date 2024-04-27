@@ -19,7 +19,6 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - run: |
-        git clone https://github.com/flutter/flutter.git -b stable
-        export PATH="$PATH:`pwd`/flutter/bin"
+        git clone https://github.com/flutter/flutter.git -b stable export FLUTTER_ROOT=`pwd`/flutter export PATH="$PATH:`pwd`/flutter/bin" flutter doctor -v
     - run: flutter pub get
     - run : flutter test test
