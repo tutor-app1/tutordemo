@@ -22,6 +22,9 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final TextEditingController topicController = TextEditingController();
+  final TextEditingController subtopicController = TextEditingController();
+
   Future<String> getOrCreateConversationId(
       String userId, String otherUserId) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -109,6 +112,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   @override
   void dispose() {
     _model.dispose();
+    topicController.dispose();
+    subtopicController.dispose();
 
     super.dispose();
   }
@@ -408,12 +413,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                 0,
                                                         itemBuilder:
                                                             (context, index) {
-                                                          final TextEditingController
-                                                              topicController =
-                                                              TextEditingController();
-                                                          final TextEditingController
-                                                              subtopicController =
-                                                              TextEditingController();
                                                           return Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -528,7 +527,11 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                   });
 
                                                                   // Replace regular space characters in 'fromTime' with non-breaking space characters
-                                                                  String modifiedFromTime = fromTime.replaceAll(' ', '\u00A0');
+                                                                  String
+                                                                      modifiedFromTime =
+                                                                      fromTime.replaceAll(
+                                                                          ' ',
+                                                                          '\u00A0');
 
                                                                   // Get the reference to the 'tutor_slots' collection
                                                                   CollectionReference
