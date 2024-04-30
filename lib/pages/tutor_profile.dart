@@ -84,23 +84,28 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   }
 
   void saveSlotsToFirestore(
-      String tutorId, Map<DateTime, List<String>> events) {
+      String tutorId, Map<DateTime, List<String>> events) async {
     final DocumentReference tutorSlot =
         FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
 
-    events.forEach((date, slotsForDay) {
-      // Convert each slot to a map with 'time' and 'isAvailable' fields
-      List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
-        return {
-          'time': slot,
-          'isAvailable': true,
-        };
-      }).toList();
+    // Check if the document exists
+    DocumentSnapshot snapshot = await tutorSlot.get();
+    if (!snapshot.exists) {
+      // If the document does not exist, set the document
+      events.forEach((date, slotsForDay) {
+        // Convert each slot to a map with 'time' and 'isAvailable' fields
+        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+          return {
+            'time': slot,
+            'isAvailable': true,
+          };
+        }).toList();
 
-      tutorSlot.set({
-        date.toIso8601String(): slots,
-      }, SetOptions(merge: true));
-    });
+        tutorSlot.set({
+          date.toIso8601String(): slots,
+        });
+      });
+    }
   }
 
   void bookSlot(
