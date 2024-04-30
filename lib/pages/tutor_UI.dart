@@ -817,10 +817,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            Navigator.pushNamed(
-                                                context, '/landing_page');
-                                          },
+                                          onTap: () {},
                                           child: Container(
                                             width: double.infinity,
                                             decoration: BoxDecoration(
