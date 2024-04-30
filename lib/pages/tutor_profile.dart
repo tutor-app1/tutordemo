@@ -119,7 +119,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     selectedTime = selectedTime.replaceAll('\u202F', '\u0020');
     //print('selectedTime: $selectedTime');
 
-    print('Document exists: ${snapshot.exists}');
+    //print('Document exists: ${snapshot.exists}');
     if (snapshot.exists) {
       //print('Document data: ${snapshot.data()}');
       if ((snapshot.data() as Map<String, dynamic>).containsKey(dateString)) {
