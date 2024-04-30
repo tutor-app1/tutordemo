@@ -22,8 +22,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final TextEditingController topicController = TextEditingController();
-  final TextEditingController subtopicController = TextEditingController();
+  //final TextEditingController topicController = TextEditingController();
+  //final TextEditingController subtopicController = TextEditingController();
 
   Future<String> getOrCreateConversationId(
       String userId, String otherUserId) async {
@@ -66,8 +66,10 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
         .get();
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     data.forEach((key, value) {
-      //print('key: $key'); // Print the key
-      //print('value: $value'); // Print the value
+      // Remove extra 'Z' if present
+      if (key.endsWith('ZZ')) {
+        key = key.substring(0, key.length - 1);
+      }
       DateTime date = DateTime.parse(key);
       List<String> slotsForDay = [];
       for (var slot in value) {
@@ -101,6 +103,54 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     });
   }
 
+  void bookSlot(
+      String tutorId, DateTime selectedDay, String selectedTime) async {
+    final DocumentReference tutorSlot =
+        FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
+
+    // Read the document
+    DocumentSnapshot snapshot = await tutorSlot.get();
+
+    // Get the slots for the selected day
+    String dateString = selectedDay.toUtc().toIso8601String();
+    //print('dateString: $dateString');
+
+    // Replace non-breaking space character in selectedTime
+    selectedTime = selectedTime.replaceAll('\u202F', '\u0020');
+    //print('selectedTime: $selectedTime');
+
+    print('Document exists: ${snapshot.exists}');
+    if (snapshot.exists) {
+      //print('Document data: ${snapshot.data()}');
+      if ((snapshot.data() as Map<String, dynamic>).containsKey(dateString)) {
+        String key = dateString;
+        //print('Key: $key');
+
+        // Get the slots for the day
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        List<Map<String, dynamic>> slotsForDay =
+            List<Map<String, dynamic>>.from(data[key]);
+
+        // Find the index of the selected slot
+        int index = slotsForDay.indexWhere((slot) {
+          // Replace non-breaking space character in Firestore time string
+          String slotTime = slot['time'].replaceAll('\u202F', '\u0020');
+          //print('slotTime: $slotTime');
+          return slotTime == selectedTime;
+        });
+        //print('Index of selected slot: $index');
+
+        // Update the selected slot
+        if (index != -1) {
+          slotsForDay[index]['isAvailable'] = false;
+        }
+
+        // Ensure the document exists and merge the new data with the existing data
+        tutorSlot.set({key: slotsForDay}, SetOptions(merge: true));
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -112,8 +162,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
   @override
   void dispose() {
     _model.dispose();
-    topicController.dispose();
-    subtopicController.dispose();
 
     super.dispose();
   }
@@ -413,6 +461,12 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                 0,
                                                         itemBuilder:
                                                             (context, index) {
+                                                          final TextEditingController
+                                                              topicController =
+                                                              TextEditingController();
+                                                          final TextEditingController
+                                                              subtopicController =
+                                                              TextEditingController();
                                                           return Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -491,9 +545,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                       .instance
                                                                       .collection(
                                                                           'tutor_sessions')
-                                                                      .doc(
-                                                                          tutorId)
-                                                                      .set({
+                                                                      .add({
                                                                     'fromTime':
                                                                         fromTime,
                                                                     'topic':
@@ -511,9 +563,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                       .instance
                                                                       .collection(
                                                                           'student_sessions')
-                                                                      .doc(
-                                                                          currentUserUid)
-                                                                      .set({
+                                                                      .add({
                                                                     'fromTime':
                                                                         fromTime,
                                                                     'topic':
@@ -526,53 +576,11 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                         timestamp,
                                                                   });
 
-                                                                  // Replace regular space characters in 'fromTime' with non-breaking space characters
-                                                                  String
-                                                                      modifiedFromTime =
-                                                                      fromTime.replaceAll(
-                                                                          ' ',
-                                                                          '\u00A0');
-
-                                                                  // Get the reference to the 'tutor_slots' collection
-                                                                  CollectionReference
-                                                                      slotsCollection =
-                                                                      FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              'tutor_slots');
-
-                                                                  // Get the document ID of the slot with the matching 'time' field
-                                                                  String
-                                                                      slotId =
-                                                                      '';
-                                                                  QuerySnapshot
-                                                                      querySnapshot =
-                                                                      await slotsCollection
-                                                                          .where(
-                                                                              'time',
-                                                                              isEqualTo: modifiedFromTime)
-                                                                          .get();
-                                                                  if (querySnapshot
-                                                                      .docs
-                                                                      .isNotEmpty) {
-                                                                    slotId =
-                                                                        querySnapshot
-                                                                            .docs
-                                                                            .first
-                                                                            .id;
-                                                                  }
-
-                                                                  // Update the 'isAvailable' field of the slot
-                                                                  if (slotId
-                                                                      .isNotEmpty) {
-                                                                    await slotsCollection
-                                                                        .doc(
-                                                                            slotId)
-                                                                        .update({
-                                                                      'isAvailable':
-                                                                          false
-                                                                    });
-                                                                  }
+                                                                  // Book the slot
+                                                                  bookSlot(
+                                                                      tutorId,
+                                                                      selectedDay,
+                                                                      fromTime);
                                                                 },
                                                                 child:
                                                                     const Text(
