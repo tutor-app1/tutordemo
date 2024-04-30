@@ -435,177 +435,216 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                   // Customize calendar style here
                                                   // Use `markersColor` to change the color of the markers
                                                   ),
-                                              onDaySelected: (selectedDay,
-                                                  focusedDay) async {
-                                                // Fetch the slots for the selected day from Firestore
-                                                await getSlotsFromFirestore(
-                                                    tutorId, stringEvents);
-                                                // Show available time slots
+                                              onDaySelected:
+                                                  (selectedDay, focusedDay) {
                                                 showDialog(
                                                   useSafeArea: false,
                                                   context: context,
                                                   builder: (context) =>
-                                                      AlertDialog(
-                                                    title: const Text(
-                                                        'Available slots'),
-                                                    content: SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
+                                                      StreamBuilder<
+                                                          DocumentSnapshot>(
+                                                    stream: FirebaseFirestore
+                                                        .instance
+                                                        .collection(
+                                                            'tutor_slots')
+                                                        .doc(tutorId)
+                                                        .snapshots(),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (!snapshot.hasData) {
+                                                        return const CircularProgressIndicator();
+                                                      }
+
+                                                      Map<String, dynamic>
+                                                          data =
+                                                          snapshot.data!.data()
+                                                              as Map<String,
+                                                                  dynamic>;
+                                                      List<Map<String, dynamic>>
+                                                          slotsForDay =
+                                                          (data[selectedDay
+                                                                      .toIso8601String()]
+                                                                  as List)
+                                                              .cast<
+                                                                  Map<String,
+                                                                      dynamic>>();
+                                                      List<String>
+                                                          availableSlots =
+                                                          slotsForDay
+                                                              .where((slot) =>
+                                                                  slot[
+                                                                      'isAvailable'] ==
+                                                                  true)
+                                                              .map((slot) =>
+                                                                  slot['time']
+                                                                      as String)
+                                                              .toList();
+
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            'Available slots'),
+                                                        content: SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .width *
                                                               0.8,
-                                                      height:
-                                                          MediaQuery.of(context)
+                                                          height: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .height *
                                                               0.8,
-                                                      child: ListView.builder(
-                                                        itemCount:
-                                                            events[selectedDay]
-                                                                    ?.length ??
-                                                                0,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          final TextEditingController
-                                                              topicController =
-                                                              TextEditingController();
-                                                          final TextEditingController
-                                                              subtopicController =
-                                                              TextEditingController();
-                                                          return Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              Expanded(
-                                                                child: ListTile(
-                                                                  title: Text(
-                                                                      events[selectedDay]![
-                                                                          index]),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                  width:
-                                                                      10), // Add space
-                                                              Expanded(
-                                                                child:
-                                                                    TextField(
-                                                                  controller:
-                                                                      topicController,
-                                                                  decoration:
-                                                                      const InputDecoration(
-                                                                    labelText:
-                                                                        'Topic',
+                                                          child:
+                                                              ListView.builder(
+                                                            itemCount:
+                                                                availableSlots
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              final TextEditingController
+                                                                  topicController =
+                                                                  TextEditingController();
+                                                              final TextEditingController
+                                                                  subtopicController =
+                                                                  TextEditingController();
+                                                              return Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceEvenly,
+                                                                children: [
+                                                                  Expanded(
+                                                                    child:
+                                                                        ListTile(
+                                                                      title: Text(
+                                                                          availableSlots[
+                                                                              index]),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                  width:
-                                                                      10), // Add space
-                                                              Expanded(
-                                                                child:
-                                                                    TextField(
-                                                                  controller:
-                                                                      subtopicController,
-                                                                  decoration:
-                                                                      const InputDecoration(
-                                                                    labelText:
-                                                                        'Subtopic',
+                                                                  const SizedBox(
+                                                                      width:
+                                                                          10), // Add space
+                                                                  Expanded(
+                                                                    child:
+                                                                        TextField(
+                                                                      controller:
+                                                                          topicController,
+                                                                      decoration:
+                                                                          const InputDecoration(
+                                                                        labelText:
+                                                                            'Topic',
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                  width:
-                                                                      10), // Add space
-                                                              ElevatedButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  // Handle booking here
-                                                                  // You can access the topic and subtopic using topicController.text and subtopicController.text
-                                                                  final String
-                                                                      fromTime =
-                                                                      events[selectedDay]![
-                                                                          index];
-                                                                  final String
-                                                                      topic =
-                                                                      topicController
-                                                                          .text;
-                                                                  final String
-                                                                      subtopic =
-                                                                      subtopicController
-                                                                          .text;
-                                                                  final String
-                                                                      currentUserUid =
-                                                                      FirebaseAuth
+                                                                  const SizedBox(
+                                                                      width:
+                                                                          10), // Add space
+                                                                  Expanded(
+                                                                    child:
+                                                                        TextField(
+                                                                      controller:
+                                                                          subtopicController,
+                                                                      decoration:
+                                                                          const InputDecoration(
+                                                                        labelText:
+                                                                            'Subtopic',
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width:
+                                                                          10), // Add space
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      // Handle booking here
+                                                                      // You can access the topic and subtopic using topicController.text and subtopicController.text
+                                                                      final String
+                                                                          fromTime =
+                                                                          availableSlots[
+                                                                              index];
+                                                                      final String
+                                                                          topic =
+                                                                          topicController
+                                                                              .text;
+                                                                      final String
+                                                                          subtopic =
+                                                                          subtopicController
+                                                                              .text;
+                                                                      final String
+                                                                          currentUserUid =
+                                                                          FirebaseAuth
+                                                                              .instance
+                                                                              .currentUser!
+                                                                              .uid;
+                                                                      final Timestamp
+                                                                          timestamp =
+                                                                          Timestamp
+                                                                              .now();
+
+                                                                      // Save to tutor_sessions collection
+                                                                      await FirebaseFirestore
                                                                           .instance
-                                                                          .currentUser!
-                                                                          .uid;
-                                                                  final Timestamp
-                                                                      timestamp =
-                                                                      Timestamp
-                                                                          .now();
+                                                                          .collection(
+                                                                              'tutor_sessions')
+                                                                          .add({
+                                                                        'fromTime':
+                                                                            fromTime,
+                                                                        'topic':
+                                                                            topic,
+                                                                        'subtopic':
+                                                                            subtopic,
+                                                                        'studentUid':
+                                                                            currentUserUid,
+                                                                        'timestamp':
+                                                                            timestamp,
+                                                                      });
 
-                                                                  // Save to tutor_sessions collection
-                                                                  await FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          'tutor_sessions')
-                                                                      .add({
-                                                                    'fromTime':
-                                                                        fromTime,
-                                                                    'topic':
-                                                                        topic,
-                                                                    'subtopic':
-                                                                        subtopic,
-                                                                    'studentUid':
-                                                                        currentUserUid,
-                                                                    'timestamp':
-                                                                        timestamp,
-                                                                  });
+                                                                      // Save to student_sessions collection
+                                                                      await FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              'student_sessions')
+                                                                          .add({
+                                                                        'fromTime':
+                                                                            fromTime,
+                                                                        'topic':
+                                                                            topic,
+                                                                        'subtopic':
+                                                                            subtopic,
+                                                                        'tutorId':
+                                                                            tutorId,
+                                                                        'timestamp':
+                                                                            timestamp,
+                                                                      });
 
-                                                                  // Save to student_sessions collection
-                                                                  await FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          'student_sessions')
-                                                                      .add({
-                                                                    'fromTime':
-                                                                        fromTime,
-                                                                    'topic':
-                                                                        topic,
-                                                                    'subtopic':
-                                                                        subtopic,
-                                                                    'tutorId':
-                                                                        tutorId,
-                                                                    'timestamp':
-                                                                        timestamp,
-                                                                  });
-
-                                                                  // Book the slot
-                                                                  bookSlot(
-                                                                      tutorId,
-                                                                      selectedDay,
-                                                                      fromTime);
-                                                                },
-                                                                child:
-                                                                    const Text(
+                                                                      // Book the slot
+                                                                      bookSlot(
+                                                                          tutorId,
+                                                                          selectedDay,
+                                                                          fromTime);
+                                                                    },
+                                                                    child: const Text(
                                                                         'Book'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child:
-                                                            const Text('Close'),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: const Text(
+                                                                'Close'),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
                                                   ),
                                                 );
                                               },
