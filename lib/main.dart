@@ -10,6 +10,8 @@ import 'pages/tutor_personal_profile.dart';
 import 'pages/selection.dart';
 import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
+import 'pages/review_creation.dart';
+// import 'pages/reviews_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -79,6 +81,15 @@ class MyApp extends StatelessWidget {
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
         '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
+        // '/view_reviews': (context) => const ViewReviewsWidget(),
+        '/review_creation': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          return ReviewCreationWidget(
+            key: const ValueKey('review_creation'),
+            otherUserId: args['otherUserId']!,
+            tutorId: args['tutorId']!,
+          );
+        },
         '/chat': (context) => const ChatWidget(),
         '/chat_screen': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;

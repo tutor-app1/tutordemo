@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+// import 'package:flutterflow_ui/flutterflow_ui.dart';
+// I think you need this - Sean
+
 class AvailabilityModel extends FlutterFlowModel<AvailabilityWidget> {
   ///  State fields for stateful widgets in this page.
 
