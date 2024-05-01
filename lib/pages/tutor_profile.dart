@@ -83,6 +83,36 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     });
   }
 
+  /* Future<Map<DateTime, List<String>>> getSlotsFromFirestore(String tutorId) async {
+  final DocumentReference tutorSlot =
+      FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
+
+  DocumentSnapshot snapshot = await tutorSlot.get();
+
+  Map<DateTime, List<String>> events = {};
+
+  if (snapshot.exists) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+    data.forEach((key, value) {
+      DateTime date = DateTime.parse(key);
+      List<String> slotsForDay = [];
+
+      for (var slot in value) {
+        if (slot['isAvailable'] == true) {
+          slotsForDay.add(slot['time']);
+        }
+      }
+
+      if (slotsForDay.isNotEmpty) {
+        events[date] = slotsForDay;
+      }
+    });
+  }
+
+  return events;
+} */
+
   void saveSlotsToFirestore(
       String tutorId, Map<DateTime, List<String>> events) async {
     final DocumentReference tutorSlot =
@@ -108,6 +138,46 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     }
   }
 
+  /* void saveSlotsToFirestore(
+      String tutorId, Map<DateTime, List<String>> events) async {
+    final DocumentReference tutorSlot =
+        FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
+
+    // Check if the document exists
+    DocumentSnapshot snapshot = await tutorSlot.get();
+    if (!snapshot.exists) {
+      // If the document does not exist, set the document
+      Map<String, dynamic> data = {};
+      events.forEach((date, slotsForDay) {
+        // Convert each slot to a map with 'time' and 'isAvailable' fields
+        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+          return {
+            'time': slot,
+            'isAvailable': true,
+          };
+        }).toList();
+
+        data[date.toIso8601String()] = slots;
+      });
+      tutorSlot.set(data);
+    } else {
+      // If the document exists, update it with new fields
+      events.forEach((date, slotsForDay) {
+        // Convert each slot to a map with 'time' and 'isAvailable' fields
+        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+          return {
+            'time': slot,
+            'isAvailable': true,
+          };
+        }).toList();
+
+        tutorSlot.update({
+          date.toIso8601String(): slots,
+        });
+      });
+    }
+  } */
+
   void bookSlot(
       String tutorId, DateTime selectedDay, String selectedTime) async {
     final DocumentReference tutorSlot =
@@ -118,40 +188,40 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
     // Get the slots for the selected day
     String dateString = selectedDay.toUtc().toIso8601String();
-    //print('dateString: $dateString');
 
     // Replace non-breaking space character in selectedTime
     selectedTime = selectedTime.replaceAll('\u202F', '\u0020');
-    //print('selectedTime: $selectedTime');
 
-    //print('Document exists: ${snapshot.exists}');
     if (snapshot.exists) {
-      //print('Document data: ${snapshot.data()}');
       if ((snapshot.data() as Map<String, dynamic>).containsKey(dateString)) {
         String key = dateString;
-        //print('Key: $key');
 
         // Get the slots for the day
         Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-        List<Map<String, dynamic>> slotsForDay =
-            List<Map<String, dynamic>>.from(data[key]);
 
-        // Find the index of the selected slot
-        int index = slotsForDay.indexWhere((slot) {
-          // Replace non-breaking space character in Firestore time string
-          String slotTime = slot['time'].replaceAll('\u202F', '\u0020');
-          //print('slotTime: $slotTime');
-          return slotTime == selectedTime;
-        });
-        //print('Index of selected slot: $index');
+        // Check if the data for the key is not null
+        if (data[key] != null) {
+          List<Map<String, dynamic>> slotsForDay =
+              List<Map<String, dynamic>>.from(data[key]);
 
-        // Update the selected slot
-        if (index != -1) {
-          slotsForDay[index]['isAvailable'] = false;
+          // Find the index of the selected slot
+          int index = slotsForDay.indexWhere((slot) {
+            // Replace non-breaking space character in Firestore time string
+            String slotTime = slot['time'].replaceAll('\u202F', '\u0020');
+            return slotTime == selectedTime;
+          });
+
+          // Update the selected slot
+          if (index != -1) {
+            slotsForDay[index]['isAvailable'] = false;
+          }
+
+          // Ensure the document exists and merge the new data with the existing data
+          tutorSlot.set({key: slotsForDay}, SetOptions(merge: true));
+        } else {
+          // Handle the case where the data is null
+          print('No slots available for the selected day');
         }
-
-        // Ensure the document exists and merge the new data with the existing data
-        tutorSlot.set({key: slotsForDay}, SetOptions(merge: true));
       }
     }
   }
@@ -409,6 +479,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
                                 // Save slots to Firestore
                                 saveSlotsToFirestore(tutorId, stringEvents);
+                                //print(stringEvents);
 
                                 // Show dialog
                                 showDialog(
@@ -452,6 +523,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                     builder:
                                                         (context, snapshot) {
                                                       if (!snapshot.hasData) {
+                                                        print(
+                                                            'snapshot.data: ${snapshot.data}');
                                                         return const CircularProgressIndicator();
                                                       }
 
@@ -598,6 +671,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                             currentUserUid,
                                                                         'timestamp':
                                                                             timestamp,
+                                                                        'day': selectedDay
+                                                                            .toIso8601String(),
                                                                       });
 
                                                                       // Save to student_sessions collection
@@ -616,6 +691,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                                             tutorId,
                                                                         'timestamp':
                                                                             timestamp,
+                                                                        'day': selectedDay
+                                                                            .toIso8601String(),
                                                                       });
 
                                                                       // Book the slot
