@@ -211,6 +211,21 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                 child: TextButton(
                                   child: const Row(
                                     children: [
+                                      Icon(Icons.calendar_today),
+                                      SizedBox(width: 8),
+                                      Text('Set Availability'),
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/availability');
+                                  },
+                                ),
+                              ),
+                              PopupMenuItem(
+                                child: TextButton(
+                                  child: const Row(
+                                    children: [
                                       Icon(Icons.swap_horiz),
                                       SizedBox(width: 8),
                                       Text('Switch to Student'),
@@ -802,10 +817,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            Navigator.pushNamed(
-                                                context, '/landing_page');
-                                          },
+                                          onTap: () {},
                                           child: Container(
                                             width: double.infinity,
                                             decoration: BoxDecoration(

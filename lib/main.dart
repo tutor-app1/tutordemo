@@ -10,6 +10,7 @@ import 'pages/tutor_personal_profile.dart';
 import 'pages/selection.dart';
 import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
+import 'pages/availability.dart';
 import 'pages/review_creation.dart';
 // import 'pages/reviews_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,7 +58,8 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return FutureBuilder<Widget>(
                 future: getStartPage(snapshot.data!),
-                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                builder:
+                    (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else {
@@ -79,8 +81,11 @@ class MyApp extends StatelessWidget {
         '/tutor_profile': (context) => const TutorProfileWidget(),
         '/selection_ui': (context) => const SelectionWidget(),
         '/forgot_password': (context) => const ForgotpasswordWidget(),
-        '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
-        '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
+        '/availability': (context) => const AvailabilityWidget(),
+        '/tutor_personal_profile': (context) =>
+            const TutorPersonalProfileWidget(),
+        '/student_personal_profile': (context) =>
+            const StudentPersonalProfileWidget(),
         // '/view_reviews': (context) => const ViewReviewsWidget(),
         '/review_creation': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
@@ -92,7 +97,8 @@ class MyApp extends StatelessWidget {
         },
         '/chat': (context) => const ChatWidget(),
         '/chat_screen': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          final args =
+              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return ChatScreenWidget(
             key: const ValueKey('chat_screen'),
             otherUserId: args['otherUserId']!,
