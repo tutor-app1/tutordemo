@@ -82,36 +82,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     });
   }
 
-  /* Future<Map<DateTime, List<String>>> getSlotsFromFirestore(String tutorId) async {
-  final DocumentReference tutorSlot =
-      FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
-
-  DocumentSnapshot snapshot = await tutorSlot.get();
-
-  Map<DateTime, List<String>> events = {};
-
-  if (snapshot.exists) {
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-
-    data.forEach((key, value) {
-      DateTime date = DateTime.parse(key);
-      List<String> slotsForDay = [];
-
-      for (var slot in value) {
-        if (slot['isAvailable'] == true) {
-          slotsForDay.add(slot['time']);
-        }
-      }
-
-      if (slotsForDay.isNotEmpty) {
-        events[date] = slotsForDay;
-      }
-    });
-  }
-
-  return events;
-} */
-
   void saveSlotsToFirestore(
       String tutorId, Map<DateTime, List<String>> events) async {
     final DocumentReference tutorSlot =
@@ -136,46 +106,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
       });
     }
   }
-
-  /* void saveSlotsToFirestore(
-      String tutorId, Map<DateTime, List<String>> events) async {
-    final DocumentReference tutorSlot =
-        FirebaseFirestore.instance.collection('tutor_slots').doc(tutorId);
-
-    // Check if the document exists
-    DocumentSnapshot snapshot = await tutorSlot.get();
-    if (!snapshot.exists) {
-      // If the document does not exist, set the document
-      Map<String, dynamic> data = {};
-      events.forEach((date, slotsForDay) {
-        // Convert each slot to a map with 'time' and 'isAvailable' fields
-        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
-          return {
-            'time': slot,
-            'isAvailable': true,
-          };
-        }).toList();
-
-        data[date.toIso8601String()] = slots;
-      });
-      tutorSlot.set(data);
-    } else {
-      // If the document exists, update it with new fields
-      events.forEach((date, slotsForDay) {
-        // Convert each slot to a map with 'time' and 'isAvailable' fields
-        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
-          return {
-            'time': slot,
-            'isAvailable': true,
-          };
-        }).toList();
-
-        tutorSlot.update({
-          date.toIso8601String(): slots,
-        });
-      });
-    }
-  } */
 
   void bookSlot(
       String tutorId, DateTime selectedDay, String selectedTime) async {
@@ -387,27 +317,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                         size: 24,
                                       ),
                                     ),
-//tutor_availability
-                                    /*Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              8, 0, 12, 0),
-                                      child: Text(
-                                        'REVIEWS',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Inter',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],*/
                                   ],
                                 ),
                               ),
@@ -732,8 +641,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                             ),
                                           ),
                                         ));
-                              },
-                              //print('Button pressed ...');
+                                //print('Button pressed ...');
                               },
                               text: 'Book Appointment',
                               options: FFButtonOptions(
@@ -814,7 +722,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ReviewCreationWidget(
+                                      builder: (context) =>
+                                          ReviewCreationWidget(
                                         key: const ValueKey('review_creation'),
                                         otherUserId: tutorId,
                                         tutorId: tutorId,
@@ -848,41 +757,41 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           // Padding(
                           //   padding: const EdgeInsetsDirectional.fromSTEB(
                           //       0, 0, 0, 12),
-                            // child: FFButtonWidget(
-                            //   onPressed: () async {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //           builder: (context) => ViewReviewsWidget(
-                            //             key: const ValueKey('view_reviews'),
-                            //             tutorId: tutorId,
-                            //           ),
-                            //         ));
-                            //   },
-                            //   text: 'See reviews',
-                            //   options: FFButtonOptions(
-                            //     width: double.infinity,
-                            //     height: 48,
-                            //     padding: const EdgeInsetsDirectional.fromSTEB(
-                            //         0, 0, 0, 0),
-                            //     iconPadding:
-                            //         const EdgeInsetsDirectional.fromSTEB(
-                            //             0, 0, 0, 0),
-                            //     color: FlutterFlowTheme.of(context).alternate,
-                            //     textStyle: FlutterFlowTheme.of(context)
-                            //         .titleSmall
-                            //         .override(
-                            //           fontFamily: 'Inter',
-                            //           color: Colors.black,
-                            //         ),
-                            //     borderSide: const BorderSide(
-                            //       color: Colors.transparent,
-                            //       width: 1,
-                            //     ),
-                            //     borderRadius: BorderRadius.circular(8),
-                            //   ),
-                            // ),
-                        // ),
+                          // child: FFButtonWidget(
+                          //   onPressed: () async {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => ViewReviewsWidget(
+                          //             key: const ValueKey('view_reviews'),
+                          //             tutorId: tutorId,
+                          //           ),
+                          //         ));
+                          //   },
+                          //   text: 'See reviews',
+                          //   options: FFButtonOptions(
+                          //     width: double.infinity,
+                          //     height: 48,
+                          //     padding: const EdgeInsetsDirectional.fromSTEB(
+                          //         0, 0, 0, 0),
+                          //     iconPadding:
+                          //         const EdgeInsetsDirectional.fromSTEB(
+                          //             0, 0, 0, 0),
+                          //     color: FlutterFlowTheme.of(context).alternate,
+                          //     textStyle: FlutterFlowTheme.of(context)
+                          //         .titleSmall
+                          //         .override(
+                          //           fontFamily: 'Inter',
+                          //           color: Colors.black,
+                          //         ),
+                          //     borderSide: const BorderSide(
+                          //       color: Colors.transparent,
+                          //       width: 1,
+                          //     ),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //   ),
+                          // ),
+                          // ),
                         ],
                       ),
                     ),

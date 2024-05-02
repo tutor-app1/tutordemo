@@ -274,7 +274,6 @@ class _TutorPersonalProfileWidgetState
             ),
           ),
         ),
-        ),
       ),
     );
   }
