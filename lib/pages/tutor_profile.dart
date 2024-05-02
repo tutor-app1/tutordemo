@@ -1,6 +1,8 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorapptrials/pages/chat_screen.dart';
+import 'package:tutorapptrials/pages/review_creation.dart';
+// import 'package:tutorapptrials/pages/view_reviews.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -21,9 +23,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  //final TextEditingController topicController = TextEditingController();
-  //final TextEditingController subtopicController = TextEditingController();
 
   Future<String> getOrCreateConversationId(
       String userId, String otherUserId) async {
@@ -388,7 +387,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                         size: 24,
                                       ),
                                     ),
-                                    Padding(
+//tutor_availability
+                                    /*Padding(
                                       padding:
                                           const EdgeInsetsDirectional.fromSTEB(
                                               8, 0, 12, 0),
@@ -404,6 +404,10 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                             ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                            ],*/
                                   ],
                                 ),
                               ),
@@ -730,6 +734,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                         ));
                               },
                               //print('Button pressed ...');
+                              },
                               text: 'Book Appointment',
                               options: FFButtonOptions(
                                 width: double.infinity,
@@ -801,6 +806,83 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ReviewCreationWidget(
+                                        key: const ValueKey('review_creation'),
+                                        otherUserId: tutorId,
+                                        tutorId: tutorId,
+                                      ),
+                                    ));
+                              },
+                              text: 'Create review',
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 48,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 0),
+                                iconPadding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                color: FlutterFlowTheme.of(context).alternate,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Inter',
+                                      color: Colors.black,
+                                    ),
+                                borderSide: const BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsetsDirectional.fromSTEB(
+                          //       0, 0, 0, 12),
+                            // child: FFButtonWidget(
+                            //   onPressed: () async {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //           builder: (context) => ViewReviewsWidget(
+                            //             key: const ValueKey('view_reviews'),
+                            //             tutorId: tutorId,
+                            //           ),
+                            //         ));
+                            //   },
+                            //   text: 'See reviews',
+                            //   options: FFButtonOptions(
+                            //     width: double.infinity,
+                            //     height: 48,
+                            //     padding: const EdgeInsetsDirectional.fromSTEB(
+                            //         0, 0, 0, 0),
+                            //     iconPadding:
+                            //         const EdgeInsetsDirectional.fromSTEB(
+                            //             0, 0, 0, 0),
+                            //     color: FlutterFlowTheme.of(context).alternate,
+                            //     textStyle: FlutterFlowTheme.of(context)
+                            //         .titleSmall
+                            //         .override(
+                            //           fontFamily: 'Inter',
+                            //           color: Colors.black,
+                            //         ),
+                            //     borderSide: const BorderSide(
+                            //       color: Colors.transparent,
+                            //       width: 1,
+                            //     ),
+                            //     borderRadius: BorderRadius.circular(8),
+                            //   ),
+                            // ),
+                        // ),
                         ],
                       ),
                     ),
@@ -814,6 +896,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     );
   }
 }
+
 
 
 
@@ -832,3 +915,37 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 //                             itemSize: 24,
 //                             glowColor: FlutterFlowTheme.of(context).warning,
 //                           )
+
+
+
+// Padding(
+//                             padding: const EdgeInsetsDirectional.fromSTEB(
+//                                 0, 0, 0, 12),
+//                             child: FFButtonWidget(
+//                               onPressed: () {
+//                                 print('Button pressed ...');
+//                               },
+//                               text: 'Book Appointment',
+//                               options: FFButtonOptions(
+//                                 width: double.infinity,
+//                                 height: 48,
+//                                 padding: const EdgeInsetsDirectional.fromSTEB(
+//                                     0, 0, 0, 0),
+//                                 iconPadding:
+//                                     const EdgeInsetsDirectional.fromSTEB(
+//                                         0, 0, 0, 0),
+//                                 color: FlutterFlowTheme.of(context).primary,
+//                                 textStyle: FlutterFlowTheme.of(context)
+//                                     .titleSmall
+//                                     .override(
+//                                       fontFamily: 'Inter',
+//                                       color: Colors.white,
+//                                     ),
+//                                 borderSide: const BorderSide(
+//                                   color: Colors.transparent,
+//                                   width: 1,
+//                                 ),
+//                                 borderRadius: BorderRadius.circular(8),
+//                               ),
+//                             ),
+//                           ),
