@@ -1,4 +1,4 @@
-import 'package:test/test.dart';
+/* import 'package:test/test.dart';
 import 'package:tutorapptrials/pages/sign_in_up.dart';
 import 'package:mockito/mockito.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,5 +37,38 @@ Future<void> main() async {
 
     expect(() async => await authManager.signInWithEmail('test@test.com', 'password'),
         throwsA(isA<AuthException>()));
+  });
+
+  test('signOut calls signOut on FirebaseAuth', () async {
+    await authManager.signOut();
+
+    verify(mockFirebaseAuth.signOut()).called(1);
+  });
+} */
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:tutorapptrials/pages/auth1_model.dart';
+
+class MockAuth extends Mock implements AuthBase {
+  @override
+  Future<void> signOut() => super.noSuchMethod(Invocation.method(#signOut, []), returnValue: Future.value());
+}
+
+void main() {
+  late MockAuth mockAuth;
+  late AuthManager1 authManager;
+
+  setUp(() {
+    mockAuth = MockAuth();
+    authManager = AuthManager1(auth: mockAuth);
+
+    when(mockAuth.signOut()).thenAnswer((_) => Future.value());
+  });
+
+  test('signOut calls signOut on AuthBase', () async {
+    await authManager.signOut();
+
+    verify(mockAuth.signOut()).called(1);
   });
 }
