@@ -53,6 +53,12 @@ import 'package:tutorapptrials/pages/auth1_model.dart';
 class MockAuth extends Mock implements AuthBase {
   @override
   Future<void> signOut() => super.noSuchMethod(Invocation.method(#signOut, []), returnValue: Future.value());
+
+  @override
+  Future<void> resetPassword(String email) => super.noSuchMethod(
+    Invocation.method(#resetPassword, [email]),
+    returnValue: Future.value(),
+  );
 }
 
 void main() {
@@ -70,5 +76,15 @@ void main() {
     await authManager.signOut();
 
     verify(mockAuth.signOut()).called(1);
+  });
+
+  test('resetPassword calls resetPassword on AuthBase', () async {
+    String email = 'testEmail';
+
+    when(mockAuth.resetPassword(email)).thenAnswer((_) => Future.value());
+
+    await authManager.resetPassword(email);
+
+    verify(mockAuth.resetPassword(email)).called(1);
   });
 }
