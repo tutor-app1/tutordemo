@@ -18,8 +18,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - run: |
-        git clone https://github.com/flutter/flutter.git -b stable
-        export PATH="$PATH:`pwd`/flutter/bin"
-    - run: flutter pub get
+    #- run: |
+     #   git clone https://github.com/flutter/flutter.git -b stable
+      #  export PATH="$PATH:`pwd`/flutter/bin"
+    #- run: flutter pub get
     - run : flutter test test
