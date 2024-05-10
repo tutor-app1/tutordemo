@@ -59,6 +59,14 @@ class MockAuth extends Mock implements AuthBase {
   );
 
   @override
+  Future<UserCredential?> createAccountWithEmail(String username, String email, String password, String subject, String role, String educationlevel) {
+    return super.noSuchMethod(
+      Invocation.method(#createAccountWithEmail, [username, email, password, subject, role, educationlevel]),
+      returnValue: Future.value(MockUserCredential()),
+    );
+  }
+
+  @override
   Future<void> signOut() => super.noSuchMethod(Invocation.method(#signOut, []), returnValue: Future.value());
 
   @override
@@ -69,6 +77,7 @@ class MockAuth extends Mock implements AuthBase {
 }
 
 class MockUser extends Mock implements User {}
+class MockUserCredential extends Mock implements UserCredential {}
 
 void main() {
   late MockAuth mockAuth;
@@ -98,6 +107,37 @@ void main() {
     // Verify that the result is not null
     expect(result, isNotNull);
     // Optionally, you can further test the returned User object if needed
+  });
+
+  test('createAccountWithEmail calls createAccountWithEmail on AuthBase', () async {
+    // Prepare test data
+    String username = 'testUser';
+    String email = 'testEmail';
+    String password = 'testPassword';
+    String subject = 'testSubject';
+    String role = 'testRole';
+    String educationLevel = 'testEducationLevel';
+
+    // Mocking the createAccountWithEmail method of AuthBase to return a UserCredential object
+    when(mockAuth.createAccountWithEmail(username, email, password, subject, role, educationLevel))
+        .thenAnswer((_) => Future.value(MockUserCredential()));
+
+    // Call the createAccountWithEmail method of authManager with the test data and await the result
+    final result = await authManager.createAccountWithEmail(
+      username,
+      email,
+      password,
+      subject,
+      role,
+      educationLevel,
+    );
+
+    // Verify that the createAccountWithEmail method of AuthBase was called exactly once with the test data
+    verify(mockAuth.createAccountWithEmail(username, email, password, subject, role, educationLevel)).called(1);
+
+    // Verify that the result is not null
+    expect(result, isNotNull);
+    // Optionally, you can further test the returned UserCredential object if needed
   });
 
   test('signOut calls signOut on AuthBase', () async {
