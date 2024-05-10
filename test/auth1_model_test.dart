@@ -49,8 +49,15 @@ Future<void> main() async {
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tutorapptrials/pages/auth1_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MockAuth extends Mock implements AuthBase {
+  @override
+  Future<User?> signInWithEmail(String email, String password) => super.noSuchMethod(
+    Invocation.method(#signInWithEmail, [email, password]),
+    returnValue: Future.value(MockUser()),
+  );
+
   @override
   Future<void> signOut() => super.noSuchMethod(Invocation.method(#signOut, []), returnValue: Future.value());
 
@@ -61,6 +68,8 @@ class MockAuth extends Mock implements AuthBase {
   );
 }
 
+class MockUser extends Mock implements User {}
+
 void main() {
   late MockAuth mockAuth;
   late AuthManager1 authManager;
@@ -70,6 +79,25 @@ void main() {
     authManager = AuthManager1(auth: mockAuth);
 
     when(mockAuth.signOut()).thenAnswer((_) => Future.value());
+  });
+
+  test('signInWithEmail calls signInWithEmail on AuthBase', () async {
+    // Prepare test data
+    String email = 'testEmail';
+    String password = 'testPassword';
+
+    // Mocking the signInWithEmail method of AuthBase to return a User object
+    when(mockAuth.signInWithEmail(email, password)).thenAnswer((_) => Future.value(MockUser()));
+
+    // Call the signInWithEmail method of authManager with the test email and password and await the result
+    final result = await authManager.signInWithEmail(email, password);
+
+    // Verify that the signInWithEmail method of AuthBase was called exactly once with the test email and password
+    verify(mockAuth.signInWithEmail(email, password)).called(1);
+
+    // Verify that the result is not null
+    expect(result, isNotNull);
+    // Optionally, you can further test the returned User object if needed
   });
 
   test('signOut calls signOut on AuthBase', () async {
