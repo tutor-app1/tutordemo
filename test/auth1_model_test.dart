@@ -106,7 +106,6 @@ void main() {
 
     // Verify that the result is not null
     expect(result, isNotNull);
-    // Optionally, you can further test the returned User object if needed
   });
 
   test('createAccountWithEmail calls createAccountWithEmail on AuthBase', () async {
@@ -137,7 +136,6 @@ void main() {
 
     // Verify that the result is not null
     expect(result, isNotNull);
-    // Optionally, you can further test the returned UserCredential object if needed
   });
 
   test('signOut calls signOut on AuthBase', () async {
