@@ -393,7 +393,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                     //print('timeSlots: $timeSlots'); // Print the time slots
                                     events[date] = timeSlots;
                                   }
-                                   print('events: $events');
+                                   //print('events: $events');
                                 });
 
                                 // Convert each slot to a string
@@ -406,7 +406,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
                                 // Save slots to Firestore
                                 saveSlotsToFirestore(tutorId, stringEvents);
-                                print('stringEvents: $stringEvents');
+                                //print('stringEvents: $stringEvents');
 
                                 // Show dialog
                                 showDialog(
@@ -424,8 +424,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                   .add(const Duration(days: 7)),
                                               focusedDay: DateTime.now(),
                                               eventLoader: (day) {
-                                                print('Loading events for $day');
-                                                print(events[day] ?? []);
+                                                //print('Loading events for $day');
+                                                //print(events[day] ?? []);
                                                 return events[day] ??
                                                     ['No events available'];
                                               },
@@ -450,8 +450,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                     builder:
                                                         (context, snapshot) {
                                                       if (!snapshot.hasData) {
-                                                        print(
-                                                            'snapshot.data: ${snapshot.data}');
+                                                        //print('snapshot.data: ${snapshot.data}');
                                                         return const CircularProgressIndicator();
                                                       }
 
