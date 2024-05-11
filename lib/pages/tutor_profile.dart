@@ -104,6 +104,20 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
           date.toIso8601String(): slots,
         });
       });
+    } else {
+      // If the document exists, merge the new data with the existing data
+      events.forEach((date, slotsForDay) {
+        // Convert each slot to a map with 'time' and 'isAvailable' fields
+        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+          return {
+            'time': slot,
+            'isAvailable': true,
+          };
+        }).toList();
+
+        // Ensure the document exists and merge the new data with the existing data
+        tutorSlot.set({date.toIso8601String(): slots}, SetOptions(merge: true));
+      });
     }
   }
 
@@ -379,7 +393,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                     //print('timeSlots: $timeSlots'); // Print the time slots
                                     events[date] = timeSlots;
                                   }
-                                  // print(events);
+                                   print('events: $events');
                                 });
 
                                 // Convert each slot to a string
@@ -392,7 +406,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
                                 // Save slots to Firestore
                                 saveSlotsToFirestore(tutorId, stringEvents);
-                                //print(stringEvents);
+                                print('stringEvents: $stringEvents');
 
                                 // Show dialog
                                 showDialog(
@@ -410,8 +424,8 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                                   .add(const Duration(days: 7)),
                                               focusedDay: DateTime.now(),
                                               eventLoader: (day) {
-                                                //print('Loading events for $day');
-                                                //print(events[day] ?? []);
+                                                print('Loading events for $day');
+                                                print(events[day] ?? []);
                                                 return events[day] ??
                                                     ['No events available'];
                                               },
