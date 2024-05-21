@@ -527,7 +527,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                                 Icons.tab,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                        .alternate,
                                                 size: 16,
                                               ),
                                             ),
@@ -544,7 +544,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .primary),
+                                                                .alternate),
                                               ),
                                             ),
                                           ],
@@ -560,7 +560,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                                 Icons.apartment,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                        .alternate,
                                                 size: 16,
                                               ),
                                             ),
@@ -573,7 +573,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .primary),
+                                                              .alternate),
                                             ),
                                           ],
                                         ),
