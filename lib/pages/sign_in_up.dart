@@ -20,11 +20,12 @@ class Auth1Widget extends StatefulWidget {
 class _Auth1WidgetState extends State<Auth1Widget>
     with TickerProviderStateMixin {
   late Auth1Model _model;
-
+  
   AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
   GoogleSignIn googleSignIn = GoogleSignIn(
     clientId: '29521760363-mn4cplbjubvcjptgs8gjk4h49u99i1r4.apps.googleusercontent.com', 
   ); //'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0'
+  AuthManager authManager = AuthManager();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String dropdownValue = 'student';
@@ -109,7 +110,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       setState(() {
-        final args = ModalRoute.of(context)!.settings.arguments as Map<String, bool>;
+        final args =
+            ModalRoute.of(context)!.settings.arguments as Map<String, bool>;
         _model.create = args['create'];
         //_model.create = false;
       });
@@ -620,8 +622,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     FlutterFlowTheme.of(context)
                                                         .headlineSmall
                                                         .override(
-                                                          fontFamily:
-                                                              'Inter',
+                                                          fontFamily: 'Inter',
                                                           fontWeight:
                                                               FontWeight.w300,
                                                         ),
@@ -726,51 +727,90 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       return;
                                                     }
 
-                                                    if (_model.checkboxListTileValue1 == true && _model.checkboxListTileValue2 == true) {
-                                                    scaffoldMessenger.showSnackBar( const SnackBar(content: Text('Please select either Student or Tutor not Both'),),);
-                                                              
-                                                  } else if (_model.checkboxListTileValue2 == true) {
-                                                    // Get a reference to the user's document in the 'students' collection
-                                                    var userDoc = _firestore.collection('student').doc(user.uid);
-
-                                                    // Retrieve the document
-                                                    var docSnapshot = await userDoc.get();
-                                                    if (docSnapshot.exists) {
-                                                      // If the document exists, get the data
-                                                      var data = docSnapshot.data();
-
-                                                      // Create a new document in the 'tutors' collection with the same data
-                                                      await _firestore.collection('tutor').doc(user.uid).set(data!);
-                                                    }
-                                                    Navigator.pushNamed(
-                                                      context,
-                                                      '/tutor_UI',
+                                                    if (_model.checkboxListTileValue1 ==
+                                                            true &&
+                                                        _model.checkboxListTileValue2 ==
+                                                            true) {
+                                                      scaffoldMessenger
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                              'Please select either Student or Tutor not Both'),
+                                                        ),
                                                       );
-                                                  } else if (_model.checkboxListTileValue1 == true ) {
+                                                    } else if (_model
+                                                            .checkboxListTileValue2 ==
+                                                        true) {
+                                                      // Get a reference to the user's document in the 'students' collection
+                                                      var userDoc = _firestore
+                                                          .collection('student')
+                                                          .doc(user.uid);
 
-                                                    // Get a reference to the user's document in the 'students' collection
-                                                    var userDoc = _firestore.collection('tutor').doc(user.uid);
+                                                      // Retrieve the document
+                                                      var docSnapshot =
+                                                          await userDoc.get();
+                                                      if (docSnapshot.exists) {
+                                                        // If the document exists, get the data
+                                                        var data =
+                                                            docSnapshot.data();
 
-                                                    // Retrieve the document
-                                                    var docSnapshot = await userDoc.get();
-                                                    if (docSnapshot.exists) {
-                                                      // If the document exists, get the data
-                                                      var data = docSnapshot.data();
+                                                        // Create a new document in the 'tutors' collection with the same data
+                                                        await _firestore
+                                                            .collection('tutor')
+                                                            .doc(user.uid)
+                                                            .set(data!);
+                                                      }
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/tutor_UI',
+                                                      );
+                                                    } else if (_model
+                                                            .checkboxListTileValue1 ==
+                                                        true) {
+                                                      // Get a reference to the user's document in the 'tutors' collection
+                                                      var userDoc = _firestore
+                                                          .collection('tutor')
+                                                          .doc(user.uid);
 
-                                                      // Create a new document in the 'tutors' collection with the same data
-                                                      await _firestore.collection('student').doc(user.uid).set(data!);
-                                                    }
+                                                      // Retrieve the document
+                                                      var docSnapshot =
+                                                          await userDoc.get();
+                                                      if (docSnapshot.exists) {
+                                                        // If the document exists, get the data
+                                                        var data =
+                                                            docSnapshot.data();
+
+                                                        // Create a new document in the 'students' collection with the same data
+                                                        await _firestore
+                                                            .collection(
+                                                                'student')
+                                                            .doc(user.uid)
+                                                            .set(data!);
+                                                      }
                                                       Navigator.pushNamed(
                                                         context,
                                                         '/student_UI',
                                                       );
-                                                  } else {
-                                                    scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Please select either Student or Tutor'),),);
+                                                    } else {
+                                                      scaffoldMessenger
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                              'Please select either Student or Tutor'),
+                                                        ),
+                                                      );
                                                     }
                                                   } on AuthException catch (e) {
                                                     //print(e.message);
                                                     // snackbar for email sign in error
-                                                    scaffoldMessenger.showSnackBar(SnackBar(content: Text('Error: ${e.message}',),),);
+                                                    scaffoldMessenger
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Error: ${e.message}',
+                                                        ),
+                                                      ),
+                                                    );
                                                   }
                                                 },
                                                 text: 'Sign In',
@@ -1228,13 +1268,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                           ),
                                           // drop down for subject
                                           Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                                  child: Text(
-                                    'Select Subject of interest',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelMedium,
-                                  ),
-                                ),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: Text(
+                                              'Select Subject of interest',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium,
+                                            ),
+                                          ),
                                           // drop down for student or tutor
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1265,13 +1307,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                             ),
                                           ),
                                           Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                                  child: Text(
-                                    'Select role',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelMedium,
-                                  ),
-                                ),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: Text(
+                                              'Select role',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium,
+                                            ),
+                                          ),
                                           // drop down for student or tutor
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1296,13 +1340,15 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                             ),
                                           ),
                                           Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                                  child: Text(
-                                    'Select education level',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelMedium,
-                                  ),
-                                ),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 0, 0, 16),
+                                            child: Text(
+                                              'Select education level',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium,
+                                            ),
+                                          ),
                                           // drop down for education level
                                           Padding(
                                             padding: const EdgeInsetsDirectional
@@ -1367,7 +1413,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                       _model
                                                           .passwordCreateController
                                                           .text,
-                                                          dropdownValue3,
+                                                      dropdownValue3,
                                                       dropdownValue,
                                                       dropdownValue2,
                                                     );
