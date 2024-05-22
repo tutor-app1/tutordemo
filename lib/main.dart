@@ -83,11 +83,16 @@ class MyApp extends StatelessWidget {
         '/selection_ui': (context) => const SelectionWidget(),
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/availability': (context) => const AvailabilityWidget(),
-        '/review_page': (context) => const ReviewpageWidget(),
-        '/tutor_personal_profile': (context) =>
-            const TutorPersonalProfileWidget(),
-        '/student_personal_profile': (context) =>
-            const StudentPersonalProfileWidget(),
+        '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
+        '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
+        '/chat': (context) => const ChatWidget(),
+        '/review_page': (context) {
+           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+            return ReviewPageWidget(
+              key: const ValueKey('review_page'),
+              tutorId: args['tutorId']!,
+          );
+        },
         '/review_creation': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return ReviewCreationWidget(
@@ -96,10 +101,8 @@ class MyApp extends StatelessWidget {
             tutorId: args['tutorId']!,
           );
         },
-        '/chat': (context) => const ChatWidget(),
         '/chat_screen': (context) {
-          final args =
-              ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return ChatScreenWidget(
             key: const ValueKey('chat_screen'),
             otherUserId: args['otherUserId']!,

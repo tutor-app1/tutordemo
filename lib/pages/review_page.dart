@@ -8,28 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
 import 'review_page_model.dart';
 export 'review_page_model.dart';
 
-class ReviewpageWidget extends StatefulWidget {
-  const ReviewpageWidget({super.key});
+class ReviewPageWidget extends StatefulWidget {
+    final String tutorId;
+    
+  const ReviewPageWidget(
+    {required Key key, required this.tutorId})
+      : super(key: key);
 
   @override
-  State<ReviewpageWidget> createState() => _ReviewpageWidgetState();
+  State<ReviewPageWidget> createState() => ReviewPageWidgetState();
 }
 
-class _ReviewpageWidgetState extends State<ReviewpageWidget> {
-  late ReviewpageModel _model;
-
+class ReviewPageWidgetState extends State<ReviewPageWidget> {
+  late ReviewPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ReviewpageModel() as Never);
+    _model = createModel(context, () => ReviewPageModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -66,6 +66,7 @@ class _ReviewpageWidgetState extends State<ReviewpageWidget> {
         centerTitle: false,
         elevation: 0,
       ),
+      
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(

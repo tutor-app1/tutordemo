@@ -6,6 +6,7 @@ import 'package:tutorapptrials/pages/review_creation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tutorapptrials/pages/review_page.dart';
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'tutor_profile_model.dart';
@@ -754,44 +755,44 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                               ),
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsetsDirectional.fromSTEB(
-                          //       0, 0, 0, 12),
-                          // child: FFButtonWidget(
-                          //   onPressed: () async {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => ViewReviewsWidget(
-                          //             key: const ValueKey('view_reviews'),
-                          //             tutorId: tutorId,
-                          //           ),
-                          //         ));
-                          //   },
-                          //   text: 'See reviews',
-                          //   options: FFButtonOptions(
-                          //     width: double.infinity,
-                          //     height: 48,
-                          //     padding: const EdgeInsetsDirectional.fromSTEB(
-                          //         0, 0, 0, 0),
-                          //     iconPadding:
-                          //         const EdgeInsetsDirectional.fromSTEB(
-                          //             0, 0, 0, 0),
-                          //     color: FlutterFlowTheme.of(context).alternate,
-                          //     textStyle: FlutterFlowTheme.of(context)
-                          //         .titleSmall
-                          //         .override(
-                          //           fontFamily: 'Inter',
-                          //           color: Colors.black,
-                          //         ),
-                          //     borderSide: const BorderSide(
-                          //       color: Colors.transparent,
-                          //       width: 1,
-                          //     ),
-                          //     borderRadius: BorderRadius.circular(8),
-                          //   ),
-                          // ),
-                          // ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                          child: FFButtonWidget(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReviewPageWidget(
+                                      key: const ValueKey('review_page'),
+                                      tutorId: tutorId,
+                                    ),
+                                  ));
+                            },
+                            text: 'See reviews',
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 48,
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
+                              iconPadding:
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
+                              color: FlutterFlowTheme.of(context).alternate,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    color: Colors.black,
+                                  ),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          ),
                         ],
                       ),
                     ),
