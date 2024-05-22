@@ -1,6 +1,9 @@
+import 'package:collection/collection.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import'review_system.dart';
 import 'review_creation_model.dart';
 export 'review_creation_model.dart';
 
@@ -17,6 +20,7 @@ class ReviewCreationWidget extends StatefulWidget {
 
 class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
   late ReviewCreationModel _model;
+  final ReviewsGet _reviews = ReviewsGet();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -24,14 +28,22 @@ class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ReviewCreationModel());
-
+    setReview(widget.tutorId, FirebaseAuth.instance.currentUser!.uid);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
+  void setReview(tutorID, studentID) async {
+    var existingReview = await _reviews.getReview(tutorID, studentID);
+    
+    if (existingReview != null) {
+      _model.ratingBarValue = existingReview['rating'];
+      _model.ratingDescValue = existingReview['studentfeedback'];
+    }
+  }
+  
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -73,8 +85,9 @@ class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
                 alignment: AlignmentDirectional(-0.95, -0.19),
                 child: FFButtonWidget(
                   onPressed: () {
+                    var _review = Review(stars: _model.ratingBarValue, student: FirebaseAuth.instance.currentUser!.uid, studentfeedback: _model.ratingDescValue, tutor: widget.tutorId);
+                    _review.postReview();
                     Navigator.pop(context);
-                    // Submit review to firebase here
                   },
                   text: 'Submit',
                   options: FFButtonOptions(
@@ -101,6 +114,8 @@ class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                   child: TextFormField(
+                    onChanged: (newValue) =>
+                      setState(() => _model.ratingDescValue = newValue),
                     controller: _model.textController,
                     focusNode: _model.textFieldFocusNode,
                     autofocus: true,
@@ -168,7 +183,7 @@ class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
                     color: FlutterFlowTheme.of(context).tertiary,
                   ),
                   direction: Axis.horizontal,
-                  initialRating: _model.ratingBarValue ??= 3,
+                  initialRating: _model.ratingBarValue,
                   unratedColor: FlutterFlowTheme.of(context).accent3,
                   itemCount: 5,
                   itemSize: 40,

@@ -11,7 +11,8 @@ class ReviewCreationModel extends FlutterFlowModel<ReviewCreationWidget> {
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
   // State field(s) for RatingBar widget.
-  double? ratingBarValue;
+  double ratingBarValue = 3;
+  String ratingDescValue = '';
 
   @override
   void initState(BuildContext context) {}

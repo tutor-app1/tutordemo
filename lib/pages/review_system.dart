@@ -1,37 +1,54 @@
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ReviewModel {
+class ReviewsGet {
   // Untested, closed beta
 
   // firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // get one review
-  Stream<QuerySnapshot> getReview(String tutorId, String studentId) {
-    return _firestore
-      .collection('reviews')
-      .where('tutor', arrayContains: tutorId) 
-      .where('student', arrayContains: studentId)
-      .snapshots();
+  Future<Map<String, dynamic>?> getReview(String tutorId, String studentId) async {
+    CollectionReference collection = _firestore.collection('reviews');
+    Query idMatch = collection.where("student", isEqualTo: studentId)
+    .where("tutor", isEqualTo: tutorId);
+    QuerySnapshot qSnap = await idMatch.get();
+    
+    return qSnap.docs.first.data() as Map<String, dynamic>?;
   }
 
   // get all reviews of a specific tutor
-  Stream<QuerySnapshot> getReviews(String tutorId) {
-    return _firestore
-      .collection('reviews')
-      .where('tutorID', arrayContains: tutorId)
-      .snapshots();
+  Future<Map<String, dynamic>?> getReviews(String tutorId) async {
+    CollectionReference collection = _firestore.collection('reviews');
+    Query idMatch = collection.where("tutor", isEqualTo: tutorId);
+    QuerySnapshot qSnap = await idMatch.get();
+
+    return qSnap.docs.first.data() as Map<String, dynamic>?;
   }
 }
 
+//   Stream<QuerySnapshot> getReview(String tutorId, String studentId) {
+//     return _firestore
+//       .collection('reviews')
+//       .where('tutor', arrayContains: tutorId) 
+//       .where('student', arrayContains: studentId)
+//       .snapshots();
+//   }
+
+//   // get all reviews of a specific tutor
+//   Stream<QuerySnapshot> getReviews(String tutorId) {
+//     return _firestore
+//       .collection('reviews')
+//       .where('tutorID', arrayContains: tutorId)
+//       .snapshots();
+//   }
+// }
+
 class Review {
   
-  final Int stars;
+  final double stars;
   final String student;
   final String studentfeedback;
   final String tutor;
-  final Timestamp timestamp;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -40,7 +57,6 @@ class Review {
     required this.student,
     required this.studentfeedback,
     required this.tutor,
-    required this.timestamp,
   });
 
     Map<String, dynamic> toMap() {
@@ -49,7 +65,6 @@ class Review {
       'student': student,
       'studentfeedback': studentfeedback,
       'tutor' : tutor,
-      'timestamp': timestamp,
     };
   }
 
@@ -60,16 +75,15 @@ class Review {
     ids.sort(); // sort so they are always in the same order
     String reviewId = ids.join('-');
     
-    // add the data to the review doc
+    // add the data to the firebase
     await _firestore.collection('reviews').doc(reviewId).set({
       'stars': stars,
       'student': student,
       'studentfeedback': studentfeedback,
       'tutor' : tutor,
-      'timestamp' : timestamp,
+      'timestamp' : DateTime.now(),
     }, SetOptions(merge: true));
 
-    // add the review to firestore
-    await _firestore.collection('reviews').add(toMap());
+    print('firebase shenanigans');
   }
 }
