@@ -105,6 +105,20 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
           date.toIso8601String(): slots,
         });
       });
+    } else {
+      // If the document exists, merge the new data with the existing data
+      events.forEach((date, slotsForDay) {
+        // Convert each slot to a map with 'time' and 'isAvailable' fields
+        List<Map<String, dynamic>> slots = slotsForDay.map((slot) {
+          return {
+            'time': slot,
+            'isAvailable': true,
+          };
+        }).toList();
+
+        // Ensure the document exists and merge the new data with the existing data
+        tutorSlot.set({date.toIso8601String(): slots}, SetOptions(merge: true));
+      });
     }
   }
 
