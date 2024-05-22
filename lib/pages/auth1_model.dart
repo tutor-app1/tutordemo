@@ -217,3 +217,54 @@ class AuthManager {
   }
 }    
   /// Additional helper methods are added here.
+abstract class AuthBase {
+  Future<User?> signInWithEmail(String email, String password);
+  Future<User?> signInWithGoogle();
+  Future signOut();
+  Future<UserCredential?> createAccountWithEmail(
+    String username,
+    String email,
+    String password,
+    String subject,
+    String role,
+    String educationlevel,
+  );
+  Future<void> resetPassword(String email);
+}
+
+class AuthManager1 implements AuthBase {
+  final AuthBase auth;
+
+  AuthManager1({required this.auth});
+
+  @override
+  Future<User?> signInWithEmail(String email, String password) =>
+      auth.signInWithEmail(email, password);
+
+  @override
+  Future<User?> signInWithGoogle() => auth.signInWithGoogle();
+
+  @override
+  Future signOut() => auth.signOut();
+
+  @override
+  Future<UserCredential?> createAccountWithEmail(
+    String username,
+    String email,
+    String password,
+    String subject,
+    String role,
+    String educationlevel,
+  ) =>
+      auth.createAccountWithEmail(
+        username,
+        email,
+        password,
+        subject,
+        role,
+        educationlevel,
+      );
+
+  @override
+  Future<void> resetPassword(String email) => auth.resetPassword(email);
+}
