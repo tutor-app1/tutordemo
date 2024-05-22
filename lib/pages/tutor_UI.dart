@@ -24,6 +24,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
       : '';
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var user = FirebaseAuth.instance.currentUser;
+  AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -280,7 +281,6 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                     ],
                                   ),
                                   onPressed: () {
-                                    AuthManager authManager = AuthManager();
                                     authManager.signOut();
                                     Navigator.pushNamed(
                                         context, '/landing_page');
@@ -297,14 +297,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
-                            PopupMenuItem(
-                              child: TextButton(
-                                child: const Text('Sign Out'),
-                                onPressed: () {
-                                  AuthManager authManager = AuthManager(auth: FirebaseAuth.instance);
-                                  authManager.signOut();
-                                  Navigator.pushNamed(context, '/landing_page');
-                                },
+                            
                           child: Padding(
                             padding: const EdgeInsets.all(2),
                             child: ClipRRect(

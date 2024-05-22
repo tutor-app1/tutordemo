@@ -25,7 +25,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
   GoogleSignIn googleSignIn = GoogleSignIn(
     clientId: '29521760363-mn4cplbjubvcjptgs8gjk4h49u99i1r4.apps.googleusercontent.com', 
   ); //'AIzaSyCiY8KYrPO8fIElBv7YRiwGvP_tyQ0UrM0'
-  AuthManager authManager = AuthManager();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String dropdownValue = 'student';
