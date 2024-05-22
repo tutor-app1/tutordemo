@@ -11,8 +11,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'reviewpage_model.dart';
-export 'reviewpage_model.dart';
+import 'review_page_model.dart';
+export 'review_page_model.dart';
 
 class ReviewpageWidget extends StatefulWidget {
   const ReviewpageWidget({super.key});

@@ -12,7 +12,7 @@ import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
 import 'pages/availability.dart';
 import 'pages/review_creation.dart';
-import 'pages/reviewpage.dart';
+import 'pages/review_page.dart';
 // import 'pages/reviews_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -83,12 +83,11 @@ class MyApp extends StatelessWidget {
         '/selection_ui': (context) => const SelectionWidget(),
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/availability': (context) => const AvailabilityWidget(),
-        '/reviewpage': (context) => const ReviewpageWidget(),
+        '/review_page': (context) => const ReviewpageWidget(),
         '/tutor_personal_profile': (context) =>
             const TutorPersonalProfileWidget(),
         '/student_personal_profile': (context) =>
             const StudentPersonalProfileWidget(),
-        // '/view_reviews': (context) => const ViewReviewsWidget(),
         '/review_creation': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return ReviewCreationWidget(

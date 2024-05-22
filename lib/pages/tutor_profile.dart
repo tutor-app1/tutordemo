@@ -730,7 +730,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                       ),
                                     ));
                               },
-                              text: 'Create review',
+                              text: 'Create/edit review',
                               options: FFButtonOptions(
                                 width: double.infinity,
                                 height: 48,

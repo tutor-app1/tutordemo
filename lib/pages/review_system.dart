@@ -6,42 +6,23 @@ class ReviewsGet {
   // firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // get one review
-  Future<Map<String, dynamic>?> getReview(String tutorId, String studentId) async {
-    CollectionReference collection = _firestore.collection('reviews');
-    Query idMatch = collection.where("student", isEqualTo: studentId)
-    .where("tutor", isEqualTo: tutorId);
-    QuerySnapshot qSnap = await idMatch.get();
-    
-    return qSnap.docs.first.data() as Map<String, dynamic>?;
+  // Get specific review
+  Stream<QuerySnapshot> getReview(String tutorId, String studentId) {
+    return _firestore
+      .collection('reviews')
+      .where("tutor", isEqualTo: tutorId)
+      .where("student", isEqualTo: studentId)
+      .snapshots();
   }
 
   // get all reviews of a specific tutor
-  Future<Map<String, dynamic>?> getReviews(String tutorId) async {
-    CollectionReference collection = _firestore.collection('reviews');
-    Query idMatch = collection.where("tutor", isEqualTo: tutorId);
-    QuerySnapshot qSnap = await idMatch.get();
-
-    return qSnap.docs.first.data() as Map<String, dynamic>?;
+  Stream<QuerySnapshot> getReviews(String tutorId) {
+    return _firestore
+      .collection('reviews')
+      .where('tutor', isEqualTo: tutorId)
+      .snapshots();
   }
 }
-
-//   Stream<QuerySnapshot> getReview(String tutorId, String studentId) {
-//     return _firestore
-//       .collection('reviews')
-//       .where('tutor', arrayContains: tutorId) 
-//       .where('student', arrayContains: studentId)
-//       .snapshots();
-//   }
-
-//   // get all reviews of a specific tutor
-//   Stream<QuerySnapshot> getReviews(String tutorId) {
-//     return _firestore
-//       .collection('reviews')
-//       .where('tutorID', arrayContains: tutorId)
-//       .snapshots();
-//   }
-// }
 
 class Review {
   
