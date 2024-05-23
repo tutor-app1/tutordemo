@@ -217,7 +217,6 @@ class AuthManager {
   }
 }    
   /// Additional helper methods are added here.
-
 abstract class AuthBase {
   Future<User?> signInWithEmail(String email, String password);
   Future<User?> signInWithGoogle();
