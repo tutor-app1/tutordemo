@@ -4,8 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'tutor_personal_profile.dart';
-
 import 'auth1_model.dart';
 export 'auth1_model.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'tutor_personal_profile.dart' show TutorPersonalProfileWidget;
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TutorPersonalProfileModel extends FlutterFlowModel<TutorPersonalProfileWidget> {
   ///  State fields for stateful widgets in this page.
