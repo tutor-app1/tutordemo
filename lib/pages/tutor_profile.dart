@@ -2,13 +2,12 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorapptrials/pages/chat_screen.dart';
 import 'package:tutorapptrials/pages/review_creation.dart';
-// import 'package:tutorapptrials/pages/view_reviews.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tutorapptrials/pages/review_page.dart';
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'review_system.dart';
 import 'tutor_profile_model.dart';
 export 'tutor_profile_model.dart';
 
@@ -24,6 +23,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final ReviewsGet _reviews = ReviewsGet();
 
   Future<String> getOrCreateConversationId(
       String userId, String otherUserId) async {
@@ -656,7 +656,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                             ),
                                           ),
                                         ));
-                                //print('Button pressed ...');
                               },
                               text: 'Book Appointment',
                               options: FFButtonOptions(
@@ -691,7 +690,6 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                 final String conversationId =
                                     await getOrCreateConversationId(
                                         user!.uid, tutorId);
-                                //print('Tutor ID: $tutorId');
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -805,7 +803,46 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                               ),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
+                          ), 
+                        ),
+                        Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: _reviews.getReviews(tutorId),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                                  if (documents.isNotEmpty) {
+                                    var i = 0;
+                                    double stars = 0;
+                                   
+                                    for (var document in documents) {
+                                      final data = document.data() as Map<String, dynamic>;
+                                      stars += data['stars'];
+                                      i++;
+                                    }
+                                    if (i > 0) {
+                                      _model.ratingBarValue = stars/i;
+                                    }
+                                  }
+                                }
+                                return Align(
+                                    alignment: AlignmentDirectional(-0.96, -0.85),
+                                    child: RatingBarIndicator(
+                                      rating: _model.ratingBarValue,
+                                      itemBuilder: (context, index) => Icon(
+                                        Icons.star_rounded,
+                                        color: FlutterFlowTheme.of(context).tertiary,
+                                      ),
+                                      direction: Axis.horizontal,
+                                      unratedColor: FlutterFlowTheme.of(context).accent3,
+                                      itemCount: 5,
+                                      itemSize: 40,
+                                    ),
+                                );
+                              },
+                            ),                         
                           ),
                         ],
                       ),
@@ -820,56 +857,3 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
     );
   }
 }
-
-
-
-
-// RatingBar.builder(
-//                             onRatingUpdate: (newValue) => setState(
-//                                 () => _model.ratingBarValue = newValue),
-//                             itemBuilder: (context, index) => Icon(
-//                               Icons.star_rounded,
-//                               color: FlutterFlowTheme.of(context).warning,
-//                             ),
-//                             direction: Axis.horizontal,
-//                             initialRating: _model.ratingBarValue ??= 4,
-//                             unratedColor:
-//                                 FlutterFlowTheme.of(context).alternate,
-//                             itemCount: 5,
-//                             itemSize: 24,
-//                             glowColor: FlutterFlowTheme.of(context).warning,
-//                           )
-
-
-
-// Padding(
-//                             padding: const EdgeInsetsDirectional.fromSTEB(
-//                                 0, 0, 0, 12),
-//                             child: FFButtonWidget(
-//                               onPressed: () {
-//                                 print('Button pressed ...');
-//                               },
-//                               text: 'Book Appointment',
-//                               options: FFButtonOptions(
-//                                 width: double.infinity,
-//                                 height: 48,
-//                                 padding: const EdgeInsetsDirectional.fromSTEB(
-//                                     0, 0, 0, 0),
-//                                 iconPadding:
-//                                     const EdgeInsetsDirectional.fromSTEB(
-//                                         0, 0, 0, 0),
-//                                 color: FlutterFlowTheme.of(context).primary,
-//                                 textStyle: FlutterFlowTheme.of(context)
-//                                     .titleSmall
-//                                     .override(
-//                                       fontFamily: 'Inter',
-//                                       color: Colors.white,
-//                                     ),
-//                                 borderSide: const BorderSide(
-//                                   color: Colors.transparent,
-//                                   width: 1,
-//                                 ),
-//                                 borderRadius: BorderRadius.circular(8),
-//                               ),
-//                             ),
-//                           ),

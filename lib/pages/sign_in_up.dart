@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'tutor_personal_profile.dart';
 
 import 'auth1_model.dart';
 export 'auth1_model.dart';
@@ -1395,9 +1396,8 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     return;
                                                   }
-
                                                   try {
-                                                    final user = await authManager
+                                                    var user = await authManager
                                                         .createAccountWithEmail(
                                                       _model.usernameController
                                                           .text,
@@ -1439,8 +1439,12 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     );
                                                     return; // Return here to avoid navigating when an error occurs
                                                   }
-                                                  Navigator.pushNamed(
-                                                      context, '/selection_ui');
+                                                  if (dropdownValue == 'student') { 
+                                                    Navigator.pushNamed(
+                                                      context, '/student_UI');
+                                                  } else {
+                                                    Navigator.pushNamed(context, '/tutor_UI');
+                                                  };
                                                 },
                                                 text: 'Create Account',
                                                 options: FFButtonOptions(

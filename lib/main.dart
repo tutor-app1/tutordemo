@@ -7,13 +7,11 @@ import 'pages/tutor_profile.dart';
 import 'pages/student_personal_profile.dart';
 import 'pages/chat.dart';
 import 'pages/tutor_personal_profile.dart';
-import 'pages/selection.dart';
 import 'pages/chat_screen.dart';
 import 'pages/forgotpassword.dart';
 import 'pages/availability.dart';
 import 'pages/review_creation.dart';
 import 'pages/review_page.dart';
-// import 'pages/reviews_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -80,7 +78,6 @@ class MyApp extends StatelessWidget {
         '/student_UI': (context) => const StudentUIWidget(),
         '/tutor_UI': (context) => const TutorUIWidget(),
         '/tutor_profile': (context) => const TutorProfileWidget(),
-        '/selection_ui': (context) => const SelectionWidget(),
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/availability': (context) => const AvailabilityWidget(),
         '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),

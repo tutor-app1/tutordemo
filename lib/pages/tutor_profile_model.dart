@@ -10,7 +10,7 @@ class TutorProfileModel extends FlutterFlowModel<TutorProfileWidget> {
 
   final unfocusNode = FocusNode();
   // State field(s) for RatingBar widget.
-  double? ratingBarValue;
+  double ratingBarValue = 4;
 
   /// Initialization and disposal methods.
 
