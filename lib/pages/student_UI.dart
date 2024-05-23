@@ -291,7 +291,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                 style: FlutterFlowTheme.of(context).headlineMedium.copyWith(
                     color: FlutterFlowTheme.of(context).primaryBackground),
               ),
-              actions: [
+              /*actions: [
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                   child: FlutterFlowIconButton(
@@ -308,7 +308,7 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                     },
                   ),
                 ),
-              ],
+              ],*/
               centerTitle: false,
               elevation: 0,
             ),

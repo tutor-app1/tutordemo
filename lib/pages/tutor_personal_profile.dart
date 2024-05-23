@@ -1,14 +1,15 @@
-//REPLACE WITH TUTOR PERSONAL PROFILE PAGE
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'review_system.dart';
 import 'tutor_personal_profile_model.dart';
 export 'tutor_personal_profile_model.dart';
 
 class TutorPersonalProfileWidget extends StatefulWidget {
   const TutorPersonalProfileWidget({super.key});
+  
 
   @override
   State<TutorPersonalProfileWidget> createState() =>
@@ -18,8 +19,8 @@ class TutorPersonalProfileWidget extends StatefulWidget {
 class _TutorPersonalProfileWidgetState
     extends State<TutorPersonalProfileWidget> {
   late TutorPersonalProfileModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+    final ReviewsGet _reviews = ReviewsGet();
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _TutorPersonalProfileWidgetState
               color: FlutterFlowTheme.of(context).primaryText,
               size: 30,
             ),
-            onPressed: () async {
+            onPressed: () {
               Navigator.pushNamed(context, '/tutor_UI');
             },
           ),
@@ -264,6 +265,45 @@ class _TutorPersonalProfileWidgetState
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: _reviews.getReviews(FirebaseAuth.instance.currentUser!.uid),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                                  if (documents.isNotEmpty) {
+                                    var i = 0;
+                                    double stars = 0;
+                                   
+                                    for (var document in documents) {
+                                      final data = document.data() as Map<String, dynamic>;
+                                      stars += data['stars'];
+                                      i++;
+                                    }
+                                    if (i > 0) {
+                                      _model.ratingBarValue = stars/i;
+                                    }
+                                  }
+                                }
+                                return Align(
+                                    alignment: AlignmentDirectional(-0.96, -0.85),
+                                    child: RatingBarIndicator(
+                                      rating: _model.ratingBarValue,
+                                      itemBuilder: (context, index) => Icon(
+                                        Icons.star_rounded,
+                                        color: FlutterFlowTheme.of(context).tertiary,
+                                      ),
+                                      direction: Axis.horizontal,
+                                      unratedColor: FlutterFlowTheme.of(context).accent3,
+                                      itemCount: 5,
+                                      itemSize: 40,
+                                    ),
+                                );
+                              },
+                            ),                         
                           ),
                         ],
                       ),

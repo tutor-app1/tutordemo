@@ -1,18 +1,17 @@
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ReviewModel {
+class ReviewsGet {
   // Untested, closed beta
 
   // firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // get one review
+  // Get specific review
   Stream<QuerySnapshot> getReview(String tutorId, String studentId) {
     return _firestore
       .collection('reviews')
-      .where('tutor', arrayContains: tutorId) 
-      .where('student', arrayContains: studentId)
+      .where("tutor", isEqualTo: tutorId)
+      .where("student", isEqualTo: studentId)
       .snapshots();
   }
 
@@ -20,18 +19,17 @@ class ReviewModel {
   Stream<QuerySnapshot> getReviews(String tutorId) {
     return _firestore
       .collection('reviews')
-      .where('tutorID', arrayContains: tutorId)
+      .where('tutor', isEqualTo: tutorId)
       .snapshots();
   }
 }
 
 class Review {
   
-  final Int stars;
+  final double stars;
   final String student;
   final String studentfeedback;
   final String tutor;
-  final Timestamp timestamp;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -40,7 +38,6 @@ class Review {
     required this.student,
     required this.studentfeedback,
     required this.tutor,
-    required this.timestamp,
   });
 
     Map<String, dynamic> toMap() {
@@ -49,7 +46,6 @@ class Review {
       'student': student,
       'studentfeedback': studentfeedback,
       'tutor' : tutor,
-      'timestamp': timestamp,
     };
   }
 
@@ -60,16 +56,15 @@ class Review {
     ids.sort(); // sort so they are always in the same order
     String reviewId = ids.join('-');
     
-    // add the data to the review doc
+    // add the data to the firebase
     await _firestore.collection('reviews').doc(reviewId).set({
       'stars': stars,
       'student': student,
       'studentfeedback': studentfeedback,
       'tutor' : tutor,
-      'timestamp' : timestamp,
+      'timestamp' : DateTime.now(),
     }, SetOptions(merge: true));
 
-    // add the review to firestore
-    await _firestore.collection('reviews').add(toMap());
+    print('firebase shenanigans');
   }
 }

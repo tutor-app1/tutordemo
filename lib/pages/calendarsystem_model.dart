@@ -1,5 +1,4 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingException implements Exception {
