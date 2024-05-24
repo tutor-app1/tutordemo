@@ -1,6 +1,4 @@
 import 'tutor_profile.dart' show TutorProfileWidget;
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 

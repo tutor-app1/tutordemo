@@ -9,7 +9,6 @@ export 'tutor_personal_profile_model.dart';
 
 class TutorPersonalProfileWidget extends StatefulWidget {
   const TutorPersonalProfileWidget({super.key});
-  
 
   @override
   State<TutorPersonalProfileWidget> createState() =>
@@ -60,7 +59,11 @@ class _TutorPersonalProfileWidgetState
               size: 30,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/tutor_UI');
+              Navigator.pushNamed(
+                context,
+                '/tutor_UI',
+                arguments: FirebaseAuth.instance.currentUser!.uid,
+              );
             },
           ),
           actions: [],
@@ -207,7 +210,6 @@ class _TutorPersonalProfileWidgetState
                                 0, 0, 0, 12),
                             child: FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
                               },
                               text: 'Book Appointment',
                               options: FFButtonOptions(
@@ -238,7 +240,6 @@ class _TutorPersonalProfileWidgetState
                                 0, 0, 0, 12),
                             child: FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
                               },
                               text: 'CHAT',
                               icon: Icon(
@@ -265,6 +266,41 @@ class _TutorPersonalProfileWidgetState
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 12),
+                            child: FFButtonWidget(
+                            onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/review_page',
+                                  arguments: FirebaseAuth.instance.currentUser!.uid,
+                              );
+                            },
+                            text: 'See reviews',
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 48,
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
+                              iconPadding:
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
+                              color: FlutterFlowTheme.of(context).alternate,
+                              textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    color: Colors.black,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ), 
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(

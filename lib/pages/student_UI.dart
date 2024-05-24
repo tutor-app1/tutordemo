@@ -3,7 +3,8 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tutorapptrials/pages/auth1_model.dart';
-
+import 'tutor_profile.dart';
+import 'tutor_UI.dart';
 import 'student_UI_model.dart';
 export 'student_UI_model.dart';
 
@@ -241,7 +242,6 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                         .doc(user?.uid)
                                         .set(data!);
                                   }
-
                                   Navigator.pushNamed(context, '/tutor_UI');
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -291,24 +291,6 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                 style: FlutterFlowTheme.of(context).headlineMedium.copyWith(
                     color: FlutterFlowTheme.of(context).primaryBackground),
               ),
-              /*actions: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-                  child: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 20,
-                    buttonSize: 40,
-                    icon: Icon(
-                      Icons.notifications_none,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24,
-                    ),
-                    onPressed: () {
-                      print('NotifButton pressed ...');
-                    },
-                  ),
-                ),
-              ],*/
               centerTitle: false,
               elevation: 0,
             ),
@@ -491,9 +473,9 @@ class _StudentUIpageWidgetState extends State<StudentUIWidget>
                                 child: GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(
-                                      context,
-                                      '/tutor_profile',
-                                      arguments: tutor,
+                                    context,
+                                    '/tutor_profile',
+                                        arguments: tutor,
                                     );
                                   },
                                   child: Padding(

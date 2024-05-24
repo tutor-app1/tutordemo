@@ -150,6 +150,7 @@ class _Auth1WidgetState extends State<Auth1Widget>
 
   @override
   Widget build(BuildContext context) {
+    final dynamic tutor = ModalRoute.of(context)!.settings.arguments;
     if (isiOS) {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(
@@ -649,7 +650,6 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                     context,
                                                     '/forgot_password',
                                                   );
-                                                  //print('Button pressed ...');
                                                 },
                                                 text: 'Forgot Password',
                                                 options: FFButtonOptions(
@@ -754,9 +754,10 @@ class _Auth1WidgetState extends State<Auth1Widget>
                                                             .set(data!);
                                                       }
                                                       Navigator.pushNamed(
-                                                        context,
-                                                        '/tutor_UI',
-                                                      );
+                                                              context,
+                                                              '/tutor_UI',
+                                                              arguments: tutor,
+                                                            );
                                                     } else if (_model
                                                             .checkboxListTileValue1 ==
                                                         true) {

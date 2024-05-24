@@ -2,7 +2,6 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorapptrials/pages/forgotpassword.dart';
 import 'auth1_model.dart';
-
 import 'forgotpassword_model.dart';
 export 'forgotpassword_model.dart';
 

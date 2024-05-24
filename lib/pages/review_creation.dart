@@ -92,13 +92,17 @@ class _ReviewCreationWidgetState extends State<ReviewCreationWidget> {
                     alignment: AlignmentDirectional(-0.95, -0.19),
                     child: FFButtonWidget(
                       onPressed: () {
-                        var _review = Review(
+                        Future<String> future = _reviews.fetchUserName(FirebaseAuth.instance.currentUser!.uid);
+                        future.then((String username) {
+                          var _review = Review(
                           stars: _model.rating,
-                          student: FirebaseAuth.instance.currentUser!.uid,
+                          student: username,
                           studentfeedback: _model.description,
                           tutor: widget.tutorId);
-                        _review.postReview();
-                        Navigator.pop(context);
+
+                          _review.postReview();
+                          Navigator.pop(context);
+                        });
                       },
                       text: 'Submit',
                       options: FFButtonOptions(

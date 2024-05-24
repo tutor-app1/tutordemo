@@ -22,6 +22,28 @@ class ReviewsGet {
       .where('tutor', isEqualTo: tutorId)
       .snapshots();
   }
+
+    Future<String> fetchUserName(String? tutorId) async {
+    //print('Tutor ID: $tutorId');
+    String userName = '';
+    final DocumentSnapshot userSnapshot =
+        await _firestore.collection('tutor').doc(tutorId).get();
+    //print('Tutor document: ${userSnapshot.data()}');
+
+    if (userSnapshot.exists &&
+        (userSnapshot.data() as Map).containsKey('username')) {
+      userName = userSnapshot['username'];
+    } else {
+      final DocumentSnapshot studentSnapshot =
+          await _firestore.collection('student').doc(tutorId).get();
+      if (studentSnapshot.exists &&
+          (studentSnapshot.data() as Map).containsKey('username')) {
+        userName = studentSnapshot['username'];
+      }
+    }
+    //print('Fetched username: $userName');
+    return userName;
+  }
 }
 
 class Review {
@@ -64,7 +86,5 @@ class Review {
       'tutor' : tutor,
       'timestamp' : DateTime.now(),
     }, SetOptions(merge: true));
-
-    print('firebase shenanigans');
   }
 }

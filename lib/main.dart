@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   Future<Widget> getStartPage(User user) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final doc = await _firestore.collection('student').doc(user.uid).get();
+    var doc = await _firestore.collection('student').doc(user.uid).get();
 
     if (doc.exists) {
       return const StudentUIWidget();
@@ -76,20 +76,14 @@ class MyApp extends StatelessWidget {
         '/landing_page': (context) => const Onboarding1Widget(),
         '/auth': (context) => const Auth1Widget(),
         '/student_UI': (context) => const StudentUIWidget(),
-        '/tutor_UI': (context) => const TutorUIWidget(),
-        '/tutor_profile': (context) => const TutorProfileWidget(),
         '/forgot_password': (context) => const ForgotpasswordWidget(),
         '/availability': (context) => const AvailabilityWidget(),
-        '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
         '/student_personal_profile': (context) => const StudentPersonalProfileWidget(),
         '/chat': (context) => const ChatWidget(),
-        '/review_page': (context) {
-           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-            return ReviewPageWidget(
-              key: const ValueKey('review_page'),
-              tutorId: args['tutorId']!,
-          );
-        },
+        '/tutor_UI': (context) => const TutorUIWidget(),
+        '/review_page': (context) => const ReviewPageWidget(),
+        '/tutor_profile': (context) => const TutorProfileWidget(),
+        '/tutor_personal_profile': (context) => const TutorPersonalProfileWidget(),
         '/review_creation': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
           return ReviewCreationWidget(

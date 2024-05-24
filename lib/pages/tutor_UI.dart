@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorapptrials/pages/auth1_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'tutor_UI_model.dart';
 export 'tutor_UI_model.dart';
 
@@ -188,8 +187,7 @@ class _TutorUIWidgetState extends State<TutorUIWidget>
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, '/tutor_personal_profile');
+                                        Navigator.pushNamed(context, '/tutor_personal_profile');
                                   },
                                 ),
                               ),

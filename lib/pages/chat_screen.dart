@@ -101,17 +101,14 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
     if (arguments != null) {
       tutorId = arguments['tutorId'];
-      //print('Tutor ID: $tutorId'); // Print the tutorId
       userNameFuture = fetchUserName(tutorId);
     }
   }
 
   Future<String> fetchUserName(String? tutorId) async {
-    //print('Tutor ID: $tutorId');
     String userName = '';
     final DocumentSnapshot userSnapshot =
         await _firestore.collection('tutor').doc(tutorId).get();
-    //print('Tutor document: ${userSnapshot.data()}');
 
     if (userSnapshot.exists &&
         (userSnapshot.data() as Map).containsKey('username')) {
@@ -124,7 +121,6 @@ class _ChatScreenWidgetState extends State<ChatScreenWidget> {
         userName = studentSnapshot['username'];
       }
     }
-    //print('Fetched username: $userName');
     return userName;
   }
 

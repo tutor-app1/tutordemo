@@ -1,9 +1,5 @@
-//REPLACE WITH STUDENT PERSONAL PROFILE PAGE
-
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'student_personal_profile_model.dart';
 export 'student_personal_profile_model.dart';
 
@@ -199,7 +195,6 @@ class _StudentPersonalProfileWidgetState extends State<StudentPersonalProfileWid
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
                             onPressed: () {
-                              print('Button pressed ...');
                             },
                             text: 'Book Appointment',
                             options: FFButtonOptions(
@@ -229,7 +224,6 @@ class _StudentPersonalProfileWidgetState extends State<StudentPersonalProfileWid
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                           child: FFButtonWidget(
                             onPressed: () {
-                              print('Button pressed ...');
                             },
                             text: 'CHAT',
                             icon: Icon(

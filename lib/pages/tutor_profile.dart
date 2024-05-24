@@ -1,12 +1,11 @@
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorapptrials/pages/chat_screen.dart';
-import 'package:tutorapptrials/pages/review_creation.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:tutorapptrials/pages/review_page.dart';
+import 'chat_screen.dart';
+import 'review_creation.dart';
 import 'review_system.dart';
 import 'tutor_profile_model.dart';
 export 'tutor_profile_model.dart';
@@ -737,7 +736,7 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                                       builder: (context) =>
                                           ReviewCreationWidget(
                                         key: const ValueKey('review_creation'),
-                                        otherUserId: tutorId,
+                                        otherUserId: FirebaseAuth.instance.currentUser!.uid,
                                         tutorId: tutorId,
                                       ),
                                     ));
@@ -769,16 +768,13 @@ class _TutorProfileWidgetState extends State<TutorProfileWidget> {
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0, 0, 0, 12),
-                          child: FFButtonWidget(
+                            child: FFButtonWidget(
                             onPressed: () {
-                              Navigator.push(
+                                Navigator.pushNamed(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ReviewPageWidget(
-                                      key: const ValueKey('review_page'),
-                                      tutorId: tutorId,
-                                    ),
-                                  ));
+                                  '/review_page',
+                                  arguments: FirebaseAuth.instance.currentUser!.uid,
+                              );
                             },
                             text: 'See reviews',
                             options: FFButtonOptions(
