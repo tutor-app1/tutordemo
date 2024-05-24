@@ -1,19 +1,20 @@
-# tutorapptrials
+# TutorApp
 
-A tutor app to help students learn out of class.
+Welcome to The Tutor app documentation!
+The tutor app is a web and phone app made in flutter for tutors and students so that they can teach and learn in a controlled environment over the internet.
+
+Check out the usage section for further information, including how to install the project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This app was made in flutter and is a prerequisite to running the app on your home machine
 
-A few resources to get you started if this is your first Flutter project:
+To install flutter go [here](https://docs.flutter.dev/get-started/install)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-- [Generation of dart syntax based on graphical and relational specs](https://app.flutterflow.io)
+To start the app with flutter type in your directory do
+`` flutter pub get ``
+to download all dependencies. Then
+`` flutter run `` 
+start the app
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-*Insert the instructions to get the project ready for running*
+Futher information on the [wiki](https://github.com/tutor-app1/tutordemo/wiki)
