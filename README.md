@@ -15,6 +15,6 @@ To start the app with flutter type in your directory do
 `` flutter pub get ``
 to download all dependencies. Then
 `` flutter run `` 
-start the app
+start the app.
 
 Futher information on the [wiki](https://github.com/tutor-app1/tutordemo/wiki)
