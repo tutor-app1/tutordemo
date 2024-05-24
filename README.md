@@ -1,9 +1,7 @@
 # TutorApp
 
-Welcome to The Tutor app documentation!
+Welcome to The Tutor app!
 The tutor app is a web and phone app made in flutter for tutors and students so that they can teach and learn in a controlled environment over the internet.
-
-Check out the usage section for further information, including how to install the project.
 
 ## Getting Started
 
